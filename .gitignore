@@ -1,0 +1,8 @@
+# ignore *.o
+*.o
+# ignore *.swp
+*.swp
+# ignore sbin bin
+sbin
+bin
+

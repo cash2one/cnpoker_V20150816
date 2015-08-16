@@ -1,0 +1,40 @@
+CC = g++
+CFLAGS = -g -fPIC -D_FILELINE -Wno-deprecated 
+#HOME = /mnt/Shared/moche
+HOME = /usr/local/moche_v20150728
+INC = -I $(HOME)/Common -I $(HOME)/Network -I $(HOME)/Utility -I $(HOME)/AgentSrv 
+
+OBJS = Utility/Yond_mutex.o Utility/Yond_ini.o \
+       Network/Acceptor.o Network/Connector.o Network/Session.o Network/SessionList.o Network/SessionPool.o \
+       Network/SyncHandler.o Network/SocketOpt.o  Network/NetworkObject.o Network/IOCPServer.o \
+       AgentSrv/AgentMain.o
+#Utility/Yond_log.o Yond_thread.o 
+#       AgentSrv/AgentMain.o AgentSrv/AgentFactory.o AgentSrv/AgentPlayer.o AgentSrv/AgentServer.o \
+#       AgentSrv/PacketHandler.o AgentSrv/Handler_FromClient.o AgentSrv/Handler_FromGameServer.o \
+#       Utility/Yond_mutex.o Utility/Yond_buffer.o 
+
+#Utility/Yond_log.o Utility/Yond_ini.o Utility/Yond_mutex.o Utility/PublicObject.o
+
+BINDIR = bin
+
+all: checkbin $(BINDIR)/AgentServer 
+
+$(BINDIR)/AgentServer: $(OBJS)
+	$(CC) -g $^ -o $@ -pthread
+
+.SUFFIXES: .c .o .cpp
+.cpp.o:
+	$(CC) $(CFLAGS) $(INC) -o $@ -c $<
+
+.PHONY: checkbin
+checkbin:
+	test -d "${BINDIR}" || mkdir $(BINDIR)
+
+.PHONY:	clean
+clean:
+	rm -f Common/*.o
+	rm -f Network/*.o
+	rm -f Utility/*.o
+	rm -f AgentSrv/*.o
+	rm -f $(BINDIR)/AgentServer
+	
