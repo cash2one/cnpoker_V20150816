@@ -64,7 +64,7 @@ typedef unsigned long	ULONG;
 
 #include "PackageStruct_AL.h"
 #include "PackageStruct_CA.h"
-#include "PackageStruct_GA.h"
+#include "PackageStruct_AG.h"
 #include "PackageStruct_GD.h"
 #include "PackageStruct_LD.h"
 
@@ -74,7 +74,7 @@ typedef unsigned long	ULONG;
 #include "Protocol_AL.h"
 #include "Protocol_CA.h"
 #include "Protocol_CL.h"
-#include "Protocol_GA.h"
+#include "Protocol_AG.h"
 #include "Protocol_GD.h"
 #include "Protocol_LD.h"
 
