@@ -101,7 +101,7 @@ void ServerSession::TryToConnect()
 		return;
 	}
 	
-	g_AgentServer->ConnectToServer( this, (char *)m_strConnectIP.c_str(), m_wConnectPort );
+	//g_AgentServer->ConnectToServer( this, (char *)m_strConnectIP.c_str(), m_wConnectPort );
 }
 
 

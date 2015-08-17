@@ -9,7 +9,7 @@
 
 struct MSG_AG_START_GAME_REQ : public MSG_BASE
 {
-	DWORD   m_dwUserKey;
+	DWORD   m_dwUserID;
 	
 	MSG_AG_START_GAME_REQ() 
 	{
@@ -22,7 +22,7 @@ struct MSG_AG_START_GAME_REQ : public MSG_BASE
 
 struct MSG_AG_START_GAME_ANC : public MSG_BASE
 {
-	DWORD   m_dwUserKey;
+	DWORD   m_dwUserID;
 	
 	MSG_AG_START_GAME_ANC() 
 	{
@@ -35,7 +35,7 @@ struct MSG_AG_START_GAME_ANC : public MSG_BASE
 
 struct MSG_AG_JOINROOM_REQ : public MSG_BASE_FORWARD // MSG_BASE_FORWARD
 {
-	DWORD   m_dwUserKey;
+	DWORD   m_dwUserID;
 	BYTE m_byRoomNumber;
 	
 	MSG_AG_JOINROOM_REQ() 
@@ -62,7 +62,7 @@ struct MSG_AG_JOINROOM_ANC : public MSG_BASE_FORWARD // MSG_BASE_FORWARD
 
 struct MSG_AG_JOINTABLE_REQ : public MSG_BASE_FORWARD // MSG_BASE_FORWARD
 {
-	DWORD   m_dwUserKey;
+	DWORD   m_dwUserID;
 	BYTE m_byTableNumber;
 	
 	MSG_AG_JOINTABLE_REQ() 

@@ -49,12 +49,12 @@ HANDLER_IMPL( CA_StartGame_REQ )
 	printf("1.CA_StartGame_REQ\n");
 	printf("2.Send to GameServer: AG_Connect / AG_StartGame_REQ.\n");
 	MSG_CA_START_GAME_REQ *pRecvMsg = (MSG_CA_START_GAME_REQ *)pMsg;
-	DWORD dwUserKey = pRecvMsg->m_dwUserKey;
+	DWORD dwUserID = pRecvMsg->m_dwUserID;
 	
 	// AG_START_GAME_REQ 
 	MSG_AG_START_GAME_REQ msg2; // AG_Connect 10, AG_StartGame_REQ 2000
-	msg2.m_dwUserKey = dwUserKey;
-	printf("FromClient : UserKey->%d\n", msg2.m_dwUserKey);
+	msg2.m_dwUserID = dwUserID;
+	printf("FromClient : UserKey->%d\n", msg2.m_dwUserID);
 	
 	g_AgentServer->SendToGameServer( (BYTE *)&msg2, sizeof(msg2) );
 }
@@ -66,7 +66,7 @@ HANDLER_IMPL( CA_JoinRoom_REQ )
 	printf("Room Number:%d\n", pRecv->m_byRoomNumber);
 	
 	MSG_AG_JOINROOM_REQ msg2;
-	//msg2.m_dwUserKey = dwUserKey; // User Key
+	//msg2.m_dwUserID = dwUserID; // User ID
 	msg2.m_byRoomNumber = pRecv->m_byRoomNumber; // Romm Number
 	g_AgentServer->SendToGameServer( (BYTE *)&msg2, sizeof(msg2) );
 }
@@ -79,7 +79,7 @@ HANDLER_IMPL( CA_JoinTable_REQ )
 	printf("Table Number:%d\n", pRecv->m_byTableNumber);
 	
 	MSG_AG_JOINTABLE_REQ msg2;
-	//msg2.m_dwUserKey = dwUserKey; // User Key
+	//msg2.m_dwUserID = dwUserID; // User ID
 	msg2.m_byTableNumber = pRecv->m_byTableNumber; // Table Number
 	g_AgentServer->SendToGameServer( (BYTE *)&msg2, sizeof(msg2) );
 }

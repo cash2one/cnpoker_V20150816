@@ -26,12 +26,11 @@ public:
 	
 	BOOL Update( DWORD dwDeltaTick );
 	
-	BOOL ConnectToServer(ServerSession * pSession, char * pszIP, WORD wPort);
-	
 	BOOL SendToGameServer( BYTE * pMsg, WORD wSize);
+	
 	ServerSession * GetGameServerSession() const;
 	
-	
+	//BOOL ConnectToServer(ServerSession * pSession, char * pszIP, WORD wPort);
 private:
 	BOOL 	m_bShutdown;
 	IOCPServer * m_pIOCPServer;

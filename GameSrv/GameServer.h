@@ -20,7 +20,7 @@ public:
 	
 	BOOL ConnectToServer( ServerSession * pSession, char * pszIP, WORD wPort );
 	
-	void StartListen();
+	//void StartListen();
 	
 	BOOL MaintainConnection();
 	

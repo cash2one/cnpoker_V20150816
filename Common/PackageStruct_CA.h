@@ -43,7 +43,6 @@ struct MSG_CA_CONNECTION_ENTERSERVER_NAK : public MSG_BASE
 struct MSG_CA_CONNECTION_ENTERSERVER_ANC : public MSG_BASE
 {	
 	DWORD   m_dwUserID;
-	DWORD   m_dwCode;
 	//BYTE	m_byTicket[TICKET_LEN];
 	
 	MSG_CA_CONNECTION_ENTERSERVER_ANC() 
@@ -58,7 +57,7 @@ struct MSG_CA_CONNECTION_ENTERSERVER_ANC : public MSG_BASE
 // 开始游戏 请求
 struct MSG_CA_START_GAME_REQ : public MSG_BASE_FORWARD
 {
-	DWORD 	m_dwUserKey;
+	DWORD 	m_dwUserID;
 	
 	MSG_CA_START_GAME_REQ() 
 	{
@@ -72,7 +71,7 @@ struct MSG_CA_START_GAME_REQ : public MSG_BASE_FORWARD
 // 加入房间 请求
 struct MSG_CA_JOINROOM_REQ : public MSG_BASE_FORWARD
 {
-	DWORD 	m_dwUserKey;
+	DWORD 	m_dwUserID;
 	BYTE m_byRoomNumber;
 	
 	MSG_CA_JOINROOM_REQ() 
@@ -87,7 +86,7 @@ struct MSG_CA_JOINROOM_REQ : public MSG_BASE_FORWARD
 // 加入桌子 请求
 struct MSG_CA_JOINTABLE_REQ : public MSG_BASE_FORWARD
 {
-	DWORD 	m_dwUserKey;
+	DWORD 	m_dwUserID;
 	BYTE m_byTableNumber;
 	
 	MSG_CA_JOINTABLE_REQ() 

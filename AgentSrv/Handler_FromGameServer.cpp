@@ -17,11 +17,11 @@ HANDLER_IMPL( AG_StartGame_ANC )
 {
 	printf("Recv GameServer Msg --> AG_StartGame_ANC Success\n");
 	MSG_AG_START_GAME_ANC * pRecv = (MSG_AG_START_GAME_ANC *)pMsg;
-	printf("%d ?= 40, %d ?= 2001, UserKey=%d\n", pRecv->m_byCategory, pRecv->m_byProtocol, pRecv->m_dwUserKey);
+	printf("%d ?= 40, %d ?= 2001, UserKey=%d\n", pRecv->m_byCategory, pRecv->m_byProtocol, pRecv->m_dwUserID);
 	
-	User * pUser = g_UserManager.FindUser(pRecv->m_dwUserKey);
+	User * pUser = g_UserManager.FindUser(pRecv->m_dwUserID);
 	if ( pUser == NULL ) {
-		printf("g_UserManager.FindUser(%d) Fail\n", pRecv->m_dwUserKey);
+		printf("g_UserManager.FindUser(%d) Fail\n", pRecv->m_dwUserID);
 		return;
 	}
 	

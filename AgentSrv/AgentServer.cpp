@@ -1,8 +1,6 @@
 #include "AgentServer.h"
 
 #include "UserManager.h"
-#include "InfoParser.h"
-
 
 NetworkObject * CreateServerSideAcceptedObject();
 VOID DestroyServerSideAcceptedObject( NetworkObject *pNetworkObject );
@@ -32,11 +30,12 @@ AgentServer::~AgentServer(void)
 BOOL AgentServer::Init()
 {
 	AgentFactory::Instance()->Init();
-	BOOL bRet = g_InfoParser.Init("./ServerInfo.ini");
-	if ( !bRet ) {
-		printf("Parse Server Info fail\n");
-		return FALSE;
-	}
+	
+	//BOOL bRet = g_InfoParser.Init("./ServerInfo.ini");
+	//if ( !bRet ) {
+	//	printf("Parse Server Info fail\n");
+	//	return FALSE;
+	//}
 		
 	m_pIOCPServer = new IOCPServer;
 
@@ -50,7 +49,7 @@ BOOL AgentServer::Init()
 	desc[0].dwTimeOut					= 0;
 	desc[0].dwNumberOfAcceptThreads		= 1;
 	desc[0].dwNumberOfIoThreads			= 1;
-	desc[0].dwNumberOfConnectThreads	= 1; // Agent Connect -> GameServer
+	desc[0].dwNumberOfConnectThreads	= 0; // Agent Server don't Active connect.
 	desc[0].dwMaxPacketSize				= 60000; //4096
 	desc[0].fnCreateAcceptedObject		= CreateServerSideAcceptedObject;
 	desc[0].fnDestroyAcceptedObject		= DestroyServerSideAcceptedObject;
@@ -85,14 +84,13 @@ BOOL AgentServer::Init()
 		return FALSE;
 	}
 	
-	#if 0
-	m_pGameServer = AgentFactory::Instance()->AllocGameServerSession();
-	if ( m_pGameServer ) {
-		SERVER_INFO info = g_InfoParser.GetServerInfo( GAME_SERVER ); // 获取 GAME Server 的 IP 与 Port
-		m_pGameServer->SetAddr( info.m_strIp, info.m_dwPort ); // 7100		
-		//m_pIOCPServer->Connect( SERVER_SYNCHANDLER, (NetworkObject *)m_pGameServer, "127.0.0.1", 7100 ); // GAME Port 7100
-	}	
-	#endif
+	//m_pGameServer = AgentFactory::Instance()->AllocGameServerSession();
+	//if ( m_pGameServer ) {
+	//	SERVER_INFO info = g_InfoParser.GetServerInfo( GAME_SERVER ); // 获取 GAME Server 的 IP 与 Port
+	//	m_pGameServer->SetAddr( info.m_strIp, info.m_dwPort ); // 7100		
+	//	//m_pIOCPServer->Connect( SERVER_SYNCHANDLER, (NetworkObject *)m_pGameServer, "127.0.0.1", 7100 ); // GAME Port 7100
+	//}	
+
 	
 	return TRUE;	
 }
@@ -126,9 +124,9 @@ BOOL AgentServer::MaintainConnection()
 	}
 	
 	// 主动连接 Game Server
-	if ( m_pGameServer ) {
-		m_pGameServer->TryToConnect();
-	}
+	//if ( m_pGameServer ) {
+	//	m_pGameServer->TryToConnect();
+	//}
 }
 
 BOOL AgentServer::Update( DWORD dwDeltaTick )
@@ -141,18 +139,6 @@ BOOL AgentServer::Update( DWORD dwDeltaTick )
 	//MaintainConnection();
 	
 	return TRUE;
-}
-
-BOOL AgentServer::ConnectToServer(ServerSession * pSession, char * pszIP, WORD wPort)
-{
-	//printf("AgentServer::ConnectToServer Function\n");
-	if (pSession == NULL) {
-		return FALSE;
-	}
-	//printf("IP = %s, Port = %d\n", pszIP, wPort);
-	
-	return m_pIOCPServer->Connect( SERVER_SYNCHANDLER, (NetworkObject *)pSession, pszIP, wPort );
-	//return m_pIOCPServer->Connect( SERVER_SYNCHANDLER, (NetworkObject *)pSession, "127.0.0.1", 3456 );	
 }
 
 BOOL AgentServer::SendToGameServer( BYTE * pMsg, WORD wSize)
@@ -169,6 +155,20 @@ ServerSession * AgentServer::GetGameServerSession() const
 {
 	return m_pGameServer;
 }
+
+#if 0
+BOOL AgentServer::ConnectToServer(ServerSession * pSession, char * pszIP, WORD wPort)
+{
+	//printf("AgentServer::ConnectToServer Function\n");
+	if (pSession == NULL) {
+		return FALSE;
+	}
+	//printf("IP = %s, Port = %d\n", pszIP, wPort);
+	
+	return m_pIOCPServer->Connect( SERVER_SYNCHANDLER, (NetworkObject *)pSession, pszIP, wPort );
+	//return m_pIOCPServer->Connect( SERVER_SYNCHANDLER, (NetworkObject *)pSession, "127.0.0.1", 3456 );	
+}
+#endif
 
 ///////////////////////////////////////////////////////////////
 

@@ -56,7 +56,6 @@ void TempUserSession::OnRecv(BYTE *pMsg, WORD wSize)
 	printf("Msg size = %d\n", sizeof(MSG_CA_CONNECTION_ENTERSERVER_ANC));
 	
 	MSG_CA_CONNECTION_ENTERSERVER_ANC ancMsg;
-	ancMsg.m_dwCode = 1;
 	ancMsg.m_dwUserID = dwKey; // User Key
 	pSession->Send( (BYTE *)&ancMsg, sizeof(MSG_CA_CONNECTION_ENTERSERVER_ANC) );
 }

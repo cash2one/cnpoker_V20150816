@@ -35,7 +35,7 @@ BOOL GameServer::Init()
 	SYNCHANDLER_DESC desc;
 	
 	desc.dwSyncHandlerKey				= SERVER_SYNCHANDLER;
-	desc.dwMaxAcceptSession				= 5;
+	desc.dwMaxAcceptSession				= 0;
 	desc.dwMaxConnectSession			= 5;
 	desc.dwSendBufferSize				= 2000000;
 	desc.dwRecvBufferSize		 		= 2000000;
@@ -51,8 +51,6 @@ BOOL GameServer::Init()
 	if ( !m_pIOCPServer->Init(&desc, 1) ) {
 		return FALSE;
 	}
-	
-	StartListen();
 	
 	m_pAgentServerSession = GameFactory::Instance()->AllocAgentServerSession();
 	if ( m_pAgentServerSession ) {
@@ -74,6 +72,7 @@ BOOL GameServer::ConnectToServer( ServerSession * pSession, char * pszIP, WORD w
 	//return m_pIOCPServer->Connect( SERVER_SYNCHANDLER, (NetworkObject *)pSession, "127.0.0.1", 7000 );
 }
 
+#if 0
 void GameServer::StartListen()
 {
 	if( !m_pIOCPServer->IsListening( SERVER_SYNCHANDLER) ) {
@@ -83,6 +82,7 @@ void GameServer::StartListen()
 		}
 	}
 }
+#endif
 
 BOOL GameServer::MaintainConnection()
 {
@@ -90,11 +90,11 @@ BOOL GameServer::MaintainConnection()
 		return FALSE;
 	}
 	
-	//if ( m_pAgentServerSession ) {
-	//	if ( m_pAgentServerSession->TryToConnect() ) {
-	//		ConnectToServer(m_pAgentServerSession);
-	//	}
-	//}
+	if ( m_pAgentServerSession ) {
+		if ( m_pAgentServerSession->TryToConnect() ) {
+			ConnectToServer( m_pAgentServerSession, (char *)m_pAgentServerSession->GetConnnectIP().c_str(), m_pAgentServerSession->GetConnnectPort() );
+		}
+	}
 }
 
 BOOL GameServer::Update( DWORD dwDeltaTick )
@@ -104,7 +104,7 @@ BOOL GameServer::Update( DWORD dwDeltaTick )
 	}
 	
 	// Connect other Servers
-	//MaintainConnection();
+	MaintainConnection();
 	
 	return TRUE;
 }
