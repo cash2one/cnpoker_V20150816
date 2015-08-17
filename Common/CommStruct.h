@@ -22,16 +22,16 @@ struct PlayerInfo
 	}
 };
 
-struct Cards
+/*	struct CardInfo
 {
-	uint m_uiCards[17]; 	// 握有的牌
-	bool m_bDiscards[17]; 	// 打出的牌
+	uint m_uiCards[CNPOKER_CARD_LEN_2]; 	// 握有的牌
+	bool m_bDiscards[CNPOKER_CARD_LEN_1]; 	// 打出的牌
 	
-	Cards()
+	CardInfo()
 	{
 		memset( this, 0, sizeof(Cards) );		
 	}
-};
+};	*/
 
 struct TableInfo 
 {
@@ -39,7 +39,10 @@ struct TableInfo
 	uint m_szUserKey[3]; 	// 玩家{1,2,3} - Key
 	uint m_szUserWons[3]; 	// 玩家{1,2,3} - 胜率
 	uint m_szUserMoney[3]; 	// 玩家{1,2,3} - 钱池
-		
+	
+	BYTE m_bAllCards[CNPOKER_CARD_LEN_1]; 	// 初始的牌	// m_bAllCards[0] = 0,1,2,3 
+	BYTE m_bDiscards[CNPOKER_CARD_LEN_1]; 	// 打出的牌	// m_bDiscards[0] = 0,1
+	
 	TableInfo()
 	{
 		memset( this, 0, sizeof(TableInfo) );

@@ -100,12 +100,10 @@ HANDLER_IMPL( AG_Discards_REQ )
 		return;
 	}
 	
-	 
-	MSG_AG_Discards_BRD pSend= MSG_AG_Discards_REQ;
+	MSG_AG_Discards_BRD pSend = MSG_AG_Discards_REQ;
 	
 	pUser->Broadcast( pSend, sizeof(pSend) );
 	printf("AG_Discards_BRD\n");
-	
 }
 
 HANDLER_IMPL( AG_EndGame_SYN )

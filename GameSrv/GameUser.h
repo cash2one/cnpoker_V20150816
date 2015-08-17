@@ -46,7 +46,7 @@ public:
 			userkey= 	m_TableInfo[m_uiTableNumber ].m_szUserKey[i];
 			if user ！= m_dwUserKey
 			{
-				
+				send()
 			}
 		}
 	}
@@ -57,10 +57,12 @@ private:
 	unsigned int m_uiRoomNumber;
 	unsigned int m_uiTableNumber;
 	
+	BYTE m_bySeat;	// 0,1,3
+	BYTE byCards[CNPOKER_CARD_LEN_2];
 	static TableInfo m_TableInfo[1000];
+	
 	PlayerInfo m_pPlayer;
 	
-	vector<int> m_vecCards;
 };
 
 #endif
