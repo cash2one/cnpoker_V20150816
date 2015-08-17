@@ -12,29 +12,29 @@ AgentServerSession::~AgentServerSession()
 
 void AgentServerSession::Init()
 {
-	
+	ServerSession::Init();
 }
 
 void AgentServerSession::Release()
 {
-	
+	ServerSession::Release();
 }
 
 void AgentServerSession::Update()
 {
-	
+	ServerSession::Update();
 }
 
 void AgentServerSession::OnRecv(BYTE *pMsg, WORD wSize)
 {
 	printf("[AgentServerSession::OnRecv]\n");
 	printf("call g_PacketHandler.ParsePacket_AG function.\n");
-	g_PacketHandler.ParsePacket_GA( this, (MSG_BASE *)pMsg, wSize);
+	g_PacketHandler.ParsePacket_AG( this, (MSG_BASE *)pMsg, wSize);
 }
 
 void AgentServerSession::OnDisconnect()
 {
-	
+	ServerSession::OnDisconnect();
 }
 	
 void AgentServerSession::OnConnect( BOOL bSuccess, DWORD dwNetworkIndex )

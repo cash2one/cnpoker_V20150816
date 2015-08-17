@@ -13,7 +13,6 @@ AgentFactory::AgentFactory()
 AgentFactory::~AgentFactory()
 {
 	if (m_pUserPool) 				delete m_pUserPool;
-	//if (m_pUserSessionPool) 		delete m_pUserSessionPool;
 	if (m_pTempUserSessionPool) 	delete m_pTempUserSessionPool;	
 	
 	if (m_pGameServerSessionPool) 	delete m_pGameServerSessionPool;
@@ -23,14 +22,12 @@ AgentFactory::~AgentFactory()
 void AgentFactory::Init()
 {
 	m_pUserPool 			= new MemoryFactory<User>;
-	//m_pUserSessionPool 		= new MemoryFactory<UserSession>;
 	m_pTempUserSessionPool 	= new MemoryFactory<TempUserSession>;
 	
 	m_pGameServerSessionPool 	= new MemoryFactory<GameServerSession>; 
 	m_pTempServerSessionPool 	= new MemoryFactory<TempServerSession>;
 	
 	m_pUserPool->Initialize(999,1);
-	//m_pUserSessionPool->Initialize(999,1);
 	m_pTempUserSessionPool->Initialize(9,1);
 	
 	m_pGameServerSessionPool->Initialize(1,1);
@@ -46,19 +43,6 @@ User * AgentFactory::AllocUser() {
 void AgentFactory::FreeUser(User * pUser) {
 	return m_pUserPool->Free(pUser);
 }
-
-#if 0
-UserSession * AgentFactory::AllocUserSession() {
-	if (m_pUserSessionPool == NULL) {
-		return NULL;
-	}
-	return m_pUserSessionPool->Alloc();
-}
-
-void AgentFactory::FreeUserSession(UserSession * pUser) {
-	return m_pUserSessionPool->Free(pUser);
-}
-#endif
 
 TempUserSession * AgentFactory::AllocTempUserSession() {
 	if (m_pTempUserSessionPool == NULL) {
@@ -91,4 +75,3 @@ TempServerSession * AgentFactory::AllocTempServerSession() {
 void AgentFactory::FreeTempServerSession(TempServerSession * pServerSession) {
 	return m_pTempServerSessionPool->Free(pServerSession);
 }
-

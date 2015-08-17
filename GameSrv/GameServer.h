@@ -17,8 +17,10 @@ public:
 	~GameServer(void);
 
 	BOOL Init();
-	BOOL ConnectToServer(ServerSession * pSession);
-	//void StartListen();
+	
+	BOOL ConnectToServer( ServerSession * pSession, char * pszIP, WORD wPort );
+	
+	void StartListen();
 	
 	BOOL MaintainConnection();
 	

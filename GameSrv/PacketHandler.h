@@ -17,19 +17,17 @@ public:
 
 public:
 	BOOL RegisterHandler();
-	void Register_GA();
+	void Register_AG();
 	void Register_DG();
 	
-	//void AddSendGameSrvMsg(WORD category, WORD protocol);
-	
-	BOOL AddHandler_GA( WORD category, WORD protocol, fnHandler fnHandler);
+	BOOL AddHandler_AG( WORD category, WORD protocol, fnHandler fnHandler);
 	BOOL AddHandler_DG( WORD category, WORD protocol, fnHandler fnHandler);
 
-	void ParsePacket_GA( ServerSession * pSession, MSG_BASE * pMsg, WORD wSize );
+	void ParsePacket_AG( ServerSession * pSession, MSG_BASE * pMsg, WORD wSize );
 	void ParsePacket_DG( ServerSession * pSession, MSG_BASE * pMsg, WORD wSize );
 
 private:
-	struct FUNC_GA : public BASE_FUNC
+	struct FUNC_AG : public BASE_FUNC
 	{
 		fnHandler	m_fnHandler;
 	};
@@ -39,7 +37,7 @@ private:
 		fnHandler	m_fnHandler;
 	};
 
-	FunctionMap	*	m_pFuncMap_GA;
+	FunctionMap	*	m_pFuncMap_AG;
 	FunctionMap	*	m_pFuncMap_DG;
 };
 

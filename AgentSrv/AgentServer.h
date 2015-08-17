@@ -26,6 +26,8 @@ public:
 	
 	BOOL Update( DWORD dwDeltaTick );
 	
+	BOOL ConnectToServer(ServerSession * pSession, char * pszIP, WORD wPort);
+	
 	BOOL SendToGameServer( BYTE * pMsg, WORD wSize);
 	ServerSession * GetGameServerSession() const;
 	
@@ -35,7 +37,6 @@ private:
 	IOCPServer * m_pIOCPServer;
 	
 	ServerSession * m_pGameServer;
-	//ServerSession * m_pDBServer;
 };
 
 extern AgentServer * g_AgentServer;

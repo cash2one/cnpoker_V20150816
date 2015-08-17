@@ -1,14 +1,14 @@
 CC = g++
 CFLAGS = -g -fPIC -D_FILELINE -Wno-deprecated 
 #HOME = /mnt/Shared/moche
-HOME = /mnt/share/cnpoker_v20150803
+HOME = /mnt/share/cnpoker_V20150816
 
 MYSQLINC = /usr/local/mysql/include
 MYSQLLIB = -L /usr/lib64/mysql -lmysqlclient -lz -lm
 
 INC = -I $(HOME)/Common -I $(HOME)/Network -I $(HOME)/Utility -I $(HOME)/AgentSrv -I $(HOME)/HyMysql -I $(HOME)/DBSrv -I $(MYSQLINC) 
 
-UtilityObjs 	= Utility/Yond_mutex.o Utility/Yond_ini.o Utility/ObjKeyGenerator.o
+UtilityObjs 	= Utility/Yond_mutex.o Utility/Yond_ini.o Utility/ObjKeyGenerator.o Utility/Yond_thread.o Utility/Yond_thread_pool.o
 CommonObjs 	= Common/InfoParser.o
 NetworkObjs 	= Network/Acceptor.o Network/Connector.o Network/IOCPServer.o Network/NetworkObject.o Network/Session.o \
 		  Network/SessionList.o Network/SessionPool.o Network/SocketOpt.o Network/SyncHandler.o
@@ -18,7 +18,7 @@ AgentServerObjs = AgentSrv/AgentMain.o AgentSrv/AgentFactory.o AgentSrv/AgentSer
 		  AgentSrv/GameServerSession.o \
 		  AgentSrv/UserManager.o
 GameServerObjs 	= GameSrv/AgentServerSession.o GameSrv/DBServerSession.o \
-		  GameSrv/GameFactory.o GameSrv/GameMain.o GameSrv/GameServer.o GameSrv/GameUser.o \
+		  GameSrv/GameFactory.o GameSrv/GameMain.o GameSrv/GameServer.o GameSrv/GameUser.o GameSrv/GameUserManager.o \
 		  GameSrv/Handler_FromAgentServer.o GameSrv/Handler_FromDBServer.o GameSrv/PacketHandler.o \
 		  GameSrv/ServerSession.o
 

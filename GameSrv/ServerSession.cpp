@@ -49,8 +49,7 @@ void ServerSession::Update()
 }
 
 void ServerSession::OnRecv(BYTE *pMsg, WORD wSize)
-{
-	
+{	
 }
 
 void ServerSession::OnConnect( BOOL bSucces, DWORD dwNetworkIndex )

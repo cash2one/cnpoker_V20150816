@@ -6,7 +6,7 @@ int main(int argc, char ** argv)
 	g_GameServer->Init();
 	
 	while(true) {
-		Sleep(1000);
+		Sleep(100);
 		g_GameServer->Update(0);
 	}
 	

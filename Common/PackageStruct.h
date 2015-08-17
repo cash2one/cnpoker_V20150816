@@ -11,6 +11,7 @@ struct MSG_BASE
 	{
 		memset(this, 0, sizeof(MSG_BASE));
 	}
+	
 	void Init(WORD wCMDType, WORD wCMDID)
 	{
 		m_byCategory = wCMDType;
@@ -52,10 +53,10 @@ struct MSG_HEARTBEAT : public MSG_BASE
 
 struct MSG_TEST_PACK : public MSG_BASE
 {
-	INT nNumber;
-	SHORT nShort;
-	FLOAT nFloat;
-	CHAR strChar[20];
+	int nNumber;
+	short nShort;
+	float nFloat;
+	char strChar[20];
 	DWORD dwDword;
 };
 

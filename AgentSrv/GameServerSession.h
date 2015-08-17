@@ -4,7 +4,7 @@
 #include <Utility.h>
 #include <Common.h>
 #include <Network.h>
-//#include "AgentServer.h" 
+
 #include "ServerSession.h"
 
 class GameServerSession : public ServerSession
@@ -17,10 +17,9 @@ public:
 	
 	virtual void    Init();
 	
-public:
-
-	virtual void	OnDisconnect();
+protected:
 	virtual void	OnRecv(BYTE *pMsg, WORD wSize);
+	virtual void	OnDisconnect();
 	virtual void	OnLogString( char * pszLog);
 };
 

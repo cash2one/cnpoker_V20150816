@@ -107,4 +107,4 @@ struct MSG_AL_LOGOUT_SYN : public MSG_BASE_FORWARD
 
 #pragma pack(pop)
 
-#endif // _PACKAGESTRUCT_CA_H_
+#endif // _PACKAGESTRUCT_AL_H_INCLUDED_

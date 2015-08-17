@@ -61,20 +61,20 @@ typedef unsigned long	ULONG;
 #include "CommStruct.h"
 #include "Define.h"
 #include "PackageStruct.h"
-
+#include "PackageStruct_AG.h"
 #include "PackageStruct_AL.h"
 #include "PackageStruct_CA.h"
-#include "PackageStruct_AG.h"
+
 #include "PackageStruct_GD.h"
 #include "PackageStruct_LD.h"
 
 #include "PlayerGoods.h"
 #include "PlayerTasks.h"
 
+#include "Protocol_AG.h"
 #include "Protocol_AL.h"
 #include "Protocol_CA.h"
 #include "Protocol_CL.h"
-#include "Protocol_AG.h"
 #include "Protocol_GD.h"
 #include "Protocol_LD.h"
 

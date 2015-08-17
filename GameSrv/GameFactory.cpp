@@ -48,3 +48,16 @@ AgentServerSession * GameFactory::AllocAgentServerSession() {
 void GameFactory::FreeAgentServerSession(AgentServerSession * pObjs) {
 	return m_pAgentServerPool->Free(pObjs);
 }
+
+DBServerSession * GameFactory::AllocDBServerSession()
+{
+	if (m_pDBServerPool == NULL) {
+		return NULL;
+	}
+	return m_pDBServerPool->Alloc();
+}
+
+void GameFactory::FreeDBServerSession(DBServerSession * pObjs)
+{
+	return m_pDBServerPool->Free(pObjs);
+}

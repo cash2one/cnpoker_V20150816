@@ -16,12 +16,7 @@ int main(int argc, char ** argv)
 	int nShutdown = 1;
 	while( nShutdown ) {
 		usleep(20);
-		#if 0
-		static DWORD lastUpdateTick = GetTickCount();
-		DOWRD curTick = GetTickCount();
-		DWORD deltaTick = curTick - lastUpdateTick;
-		lastUpdateTick = curTick;
-		#endif
+
 		if ( !g_AgentServer->Update( 0 ) ) {
 			break;
 		}

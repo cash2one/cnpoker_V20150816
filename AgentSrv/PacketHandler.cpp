@@ -8,20 +8,20 @@ PacketHandler g_PacketHandler;
 PacketHandler::PacketHandler(void)
 {
 	m_pFuncMap_CA = new FunctionMap;
-	m_pFuncMap_GA = new FunctionMap;
+	m_pFuncMap_AG = new FunctionMap;
 	RegisterHandler();
 }
 
 PacketHandler::~PacketHandler(void)
 {
 	SAFE_DELETE(m_pFuncMap_CA);
-	SAFE_DELETE(m_pFuncMap_GA);
+	SAFE_DELETE(m_pFuncMap_AG);
 }
 
 BOOL PacketHandler::RegisterHandler()
 {
 	Register_CA();
-	Register_GA();
+	Register_AG();
 	return TRUE;
 }	
 
@@ -35,33 +35,34 @@ void PacketHandler::Register_CA()
 	AddHandler_CA(CA_Client, CA_Logout_REQ, Handler_FromClient::OnCA_Logout_REQ);
 
 	AddHandler_CA(CA_Game, CA_StartGame_REQ, Handler_FromClient::OnCA_StartGame_REQ);
-#if 0	
-	AddHandler_CA(CA_Game_Protocol, CA_StartGame_REQ, Handler_FromClient::OnCA_StartGame_REQ);
-	AddHandler_CA(CA_Game_Protocol, CA_JoinRoom_REQ, Handler_FromClient::OnCA_JoinRoom_REQ);
-	AddHandler_CA(CA_Game_Protocol, CA_JoinTable_REQ, Handler_FromClient::OnCA_JoinTable_REQ);
-	AddHandler_CA(CA_Game_Protocol, CA_ShowCards_REQ, Handler_FromClient::OnCA_ShowCards_REQ);
-	AddHandler_CA(CA_Game_Protocol, CA_Discards_REQ, Handler_FromClient::OnCA_Discards_REQ);
-	AddHandler_CA(CA_Game_Protocol, CA_EndGame_REQ, Handler_FromClient::OnCA_EndGame_REQ);
-#endif
+	
+	// sylar 2015-08-16
+	AddHandler_CA(CA_Game, CA_JoinRoom_REQ, Handler_FromClient::OnCA_JoinRoom_REQ);
+	AddHandler_CA(CA_Game, CA_JoinTable_REQ, Handler_FromClient::OnCA_JoinTable_REQ);
+	AddHandler_CA(CA_Game, CA_ShowCards_REQ, Handler_FromClient::OnCA_ShowCards_REQ);
+	AddHandler_CA(CA_Game, CA_Discards_BRD, Handler_FromClient::OnCA_Discards_BRD);
+	AddHandler_CA(CA_Game, CA_EndGame_SYN, Handler_FromClient::OnCA_EndGame_SYN);
+	
+	AddHandler_CA(CA_Game, CA_InitCards_BRD, Handler_FromClient::OnCA_InitCards_BRD);
 }
 
-void PacketHandler::Register_GA()
+void PacketHandler::Register_AG()
 {
-	AddHandler_GA(GA_Connect, GA_StartGame_ANC, Handler_FromGameServer::OnGA_StartGame_ANC);
+	AddHandler_AG(AG_Connect, AG_StartGame_ANC, Handler_FromGameServer::OnAG_StartGame_ANC);
 #if 0
-	AddHandler_GA(GA_Connect_Protocol, GA_Heratbeat_ANC, Handler_FromGameServer::OnGA_Heratbeat_ANC);
+	AddHandler_AG(AG_Connect_Protocol, AG_Heratbeat_ANC, Handler_FromGameServer::OnAG_Heratbeat_ANC);
 	
-	AddHandler_GA(GA_Client_Protocol, GA_Login_ANC, Handler_FromGameServer::OnGA_Login_ANC);
-	AddHandler_GA(GA_Client_Protocol, GA_Relogin_ANC, Handler_FromGameServer::OnGA_Relogin_ANC);
-	AddHandler_GA(GA_Client_Protocol, GA_Logout_ANC, Handler_FromGameServer::OnGA_Logout_ANC);
+	AddHandler_AG(AG_Client_Protocol, AG_Login_ANC, Handler_FromGameServer::OnAG_Login_ANC);
+	AddHandler_AG(AG_Client_Protocol, AG_Relogin_ANC, Handler_FromGameServer::OnAG_Relogin_ANC);
+	AddHandler_AG(AG_Client_Protocol, AG_Logout_ANC, Handler_FromGameServer::OnAG_Logout_ANC);
 	
-	AddHandler_GA(GA_Game_Protocol, GA_StartGame_ANC, Handler_FromGameServer::OnGA_StartGame_ANC);
-	AddHandler_GA(GA_Game_Protocol, GA_JoinRoom_ANC, Handler_FromGameServer::OnGA_JoinRoom_ANC);
-	AddHandler_GA(GA_Game_Protocol, GA_JoinTable_ANC, Handler_FromGameServer::OnGA_JoinTable_ANC);
-	AddHandler_GA(GA_Game_Protocol, GA_ContendWithBanker_ANC, Handler_FromGameServer::OnGA_ContendWithBanker_ANC);
-	AddHandler_GA(GA_Game_Protocol, GA_ShowCards_ANC, Handler_FromGameServer::OnGA_ShowCards_ANC);
-	AddHandler_GA(GA_Game_Protocol, GA_Discards_ANC, Handler_FromGameServer::OnGA_Discards_ANC);
-	AddHandler_GA(GA_Game_Protocol, GA_EndGame_ANC, Handler_FromGameServer::OnGA_EndGame_ANC);
+	AddHandler_AG(AG_Game_Protocol, AG_StartGame_ANC, Handler_FromGameServer::OnAG_StartGame_ANC);
+	AddHandler_AG(AG_Game_Protocol, AG_JoinRoom_ANC, Handler_FromGameServer::OnAG_JoinRoom_ANC);
+	AddHandler_AG(AG_Game_Protocol, AG_JoinTable_ANC, Handler_FromGameServer::OnAG_JoinTable_ANC);
+	AddHandler_AG(AG_Game_Protocol, AG_ContendWithBanker_ANC, Handler_FromGameServer::OnAG_ContendWithBanker_ANC);
+	AddHandler_AG(AG_Game_Protocol, AG_ShowCards_ANC, Handler_FromGameServer::OnAG_ShowCards_ANC);
+	AddHandler_AG(AG_Game_Protocol, AG_Discards_ANC, Handler_FromGameServer::OnAG_Discards_ANC);
+	AddHandler_AG(AG_Game_Protocol, AG_EndGame_ANC, Handler_FromGameServer::OnAG_EndGame_ANC);
 #endif
 }
 
@@ -76,19 +77,18 @@ BOOL PacketHandler::AddHandler_CA( WORD category, WORD protocol, fnHandler_c fnH
 	return m_pFuncMap_CA->Add( pFuncInfo );
 }
 
-BOOL PacketHandler::AddHandler_GA( WORD category, WORD protocol, fnHandler fnHandler)
+BOOL PacketHandler::AddHandler_AG( WORD category, WORD protocol, fnHandler fnHandler)
 {
-	FUNC_GA * pFuncInfo	= new FUNC_GA;
+	FUNC_AG * pFuncInfo	= new FUNC_AG;
 	
 	pFuncInfo->m_dwFunctionKey	= MAKELONG( category, protocol );
 	pFuncInfo->m_fnHandler		= fnHandler;
 	
-	return m_pFuncMap_GA->Add( pFuncInfo );
+	return m_pFuncMap_AG->Add( pFuncInfo );
 }
 
 VOID PacketHandler::ParsePacket_CA( UserSession * pSession, MSG_BASE * pMsg, WORD wSize )
 {
-	//ASSERT(NULL != pMsg);
 	assert(NULL != pMsg);	
 
 	printf("PacketHandler::ParsePacket CA \n");
@@ -99,39 +99,24 @@ VOID PacketHandler::ParsePacket_CA( UserSession * pSession, MSG_BASE * pMsg, WOR
 	//AddLogMsg(LOG_OUT, "ParsePacket_CA Register Message:Category=%d, Protocol=%d\n", pMsg->m_byCategory, pMsg->m_byProtocol);
 }
 
-VOID PacketHandler::ParsePacket_GA( ServerSession * pSession, MSG_BASE * pMsg, WORD wSize )
+VOID PacketHandler::ParsePacket_AG( ServerSession * pSession, MSG_BASE * pMsg, WORD wSize )
 {
-	//ASSERT(NULL != pMsg);
 	assert(NULL != pMsg);
-	printf("PacketHandler::ParsePacket GA \n");
+	printf("PacketHandler::ParsePacket AG \n");
 	
-	FUNC_GA * pFuncInfo = (FUNC_GA *)m_pFuncMap_GA->Find( MAKELONG( pMsg->m_byCategory, pMsg->m_byProtocol ) );
+	FUNC_AG * pFuncInfo = (FUNC_AG *)m_pFuncMap_AG->Find( MAKELONG( pMsg->m_byCategory, pMsg->m_byProtocol ) );
 	pFuncInfo->m_fnHandler( pSession, pMsg, wSize );
 
-	//AddLogMsg(LOG_OUT, "ParsePacket_GA Register Message:Category=%d, Protocol=%d\n", pMsg->m_byCategory, pMsg->m_byProtocol);
+	//AddLogMsg(LOG_OUT, "ParsePacket_AG Register Message:Category=%d, Protocol=%d\n", pMsg->m_byCategory, pMsg->m_byProtocol);
 }
 
 VOID PacketHandler::ParsePacket(NetworkObject * pNetwork, char * pMsg)
 {
-	//ASSERT(NULL != pMsg);
 	assert(NULL != pMsg);
 	printf("PacketHandler::ParsePacket Function \n");
 
 	MSG_BASE * pBase = (MSG_BASE *)pMsg;
 	printf("Category:%d,Protocol:%d\n", pBase->m_byCategory, pBase->m_byProtocol);
 
-#if 0
-	ServerSession * pSession = AgentServer::Instance()->FindSession(pNetwork);
-	if ( pSession == NULL ) {
-		pSession = AgentServer::Instance()->AddSession(pNetwork);
-	}
-
-	if ( pBase->m_byCategory == CA_Client_Protocol ) {
-		ParsePacket_CA(pSession, pBase, sizeof(pBase)); // login relogin logout
-	}
-	else if ( pBase->m_byCategory == CA_Connect_Protocol ) {
-		ParsePacket_CA(pSession, pBase, sizeof(pBase)); // Heartbeat
-	}
-#endif	
 	//AddLogMsg(LOG_OUT, "ParsePacket_CA Register Message:Category=%d, Protocol=%d\n", pMsg->m_byCategory, pMsg->m_byProtocol);
 }

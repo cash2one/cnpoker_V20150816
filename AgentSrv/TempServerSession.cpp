@@ -40,7 +40,7 @@ void TempServerSession::OnRecv(BYTE *pMsg, WORD wSize)
 		if ( pSession != NULL ) {
 			m_pSession->UnbindNetworkObject();
 			pSession->BindNetworkObject(Obj);
-		}	
+		}
 	}
 	else if ( pRecvMsg->m_byServerType == DB_SERVER ) {
 		printf("TempServerSession OnRecv : DB_SERVER\n");

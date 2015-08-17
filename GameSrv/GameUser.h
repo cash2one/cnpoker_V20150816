@@ -19,14 +19,30 @@ public:
 	void LoginTable(unsigned int _tableid);
 	void logoutTable();
 	
+	DWORD GetHashKey() const { return m_dwUserKey; }
+	void SetHashKey( DWORD dwKey ) { m_dwUserKey = dwKey; }
+	
+	void SetRoomNumber(unsigned int unRoomNum) { m_uiRoomNumber = unRoomNum; }
+	void SetTableNumber(unsigned int unTableNum) { m_uiTableNumber = unTableNum; }
+	
+	
+	// 设置玩家信息
+	void SetPlayerInfo(PlayerInfo info);
+	// 获取用户信息
 	PlayerInfo & GetPlayerInfo();
 	
-private:
-	unsigned int uiRoomNumber;
-	unsigned int uiTableNumber;
+	void InitCards();
 	
-	static TableInfo m_pTableInfo;
+private:
+	DWORD m_dwUserKey;
+	
+	unsigned int m_uiRoomNumber;
+	unsigned int m_uiTableNumber;
+	
+	static TableInfo m_pTableInfo[1000];
 	PlayerInfo m_pPlayer;
+	
+	vector<int> m_vecCards;
 };
 
 #endif

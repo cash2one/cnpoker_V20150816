@@ -7,6 +7,7 @@
 #include "PacketHandler.h"
 #include "ServerSession.h"
 #include "AgentServerSession.h"
+#include "DBServerSession.h"
 #include "GameUser.h"
 
 using namespace A;
@@ -20,17 +21,20 @@ public:
 private:
 	MemoryFactory<GameUser> 			* m_pGameUserPool;
 	MemoryFactory<AgentServerSession> 	* m_pAgentServerPool;
-//	MemoryFactory<DBServerSession> 		* m_pDBServerPool;
+	MemoryFactory<DBServerSession> 		* m_pDBServerPool;
 	
 public:
 	void Init(void);
 	void Release(void);
 
 	GameUser * AllocGameUser();
-	void FreeGameUser(GameUser *);
+	void FreeGameUser(GameUser * pObjs);
 	
 	AgentServerSession * AllocAgentServerSession();
-	void FreeAgentServerSession(AgentServerSession *);
+	void FreeAgentServerSession(AgentServerSession * pObjs);
+	
+	DBServerSession * AllocDBServerSession();
+	void FreeDBServerSession(DBServerSession * pObjs);
 };
 
 #endif

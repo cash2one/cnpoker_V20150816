@@ -137,4 +137,4 @@ struct MSG_GD_SAVE_ANC : public MSG_BASE_FORWARD
 
 #pragma pack(pop)
 
-#endif // _PACKAGESTRUCT_CA_H_
+#endif // _PACKAGESTRUCT_GD_H_INCLUDED_

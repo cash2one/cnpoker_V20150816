@@ -23,14 +23,17 @@ public:
 	HANDLER_DECL( CA_Logout_REQ);
 	
 	HANDLER_DECL( CA_StartGame_REQ );
-#if 0	
-	HANDLER_DECL( CA_StartGame_REQ );
+	
+	// sylar 2015-08-16
 	HANDLER_DECL( CA_JoinRoom_REQ );
+	
 	HANDLER_DECL( CA_JoinTable_REQ );
 	HANDLER_DECL( CA_ShowCards_REQ );
-	HANDLER_DECL( CA_Discards_REQ );
-	HANDLER_DECL( CA_EndGame_REQ );
-#endif
+	HANDLER_DECL( CA_Discards_BRD );
+	HANDLER_DECL( CA_EndGame_SYN );
+	
+	HANDLER_DECL( CA_InitCards_BRD );
+	//
 };
 
 

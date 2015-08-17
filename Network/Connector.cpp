@@ -10,7 +10,7 @@ void * connect_thread(void * param)
 	while (true)
 	{
 		sem_wait( &pClass->m_semConnect );
-		printf("After sem_wait.Begin to handle ConnectingList \n");
+		//printf("After sem_wait.Begin to handle ConnectingList \n");
 		if ( pClass->m_bShutdown )
 		{
 			printf ( "\n connect_thread 0x%x exit \n", pthread_self() );
@@ -34,7 +34,7 @@ void * connect_thread(void * param)
 			
 			if (err == SOCKET_ERROR)
 			{
-				printf ( "connect fail, errno = %d. %s:%d \n", errno );
+				//printf ( "connect fail, errno = %d\n", errno );
 				
 				pClass->m_pSync->m_pConnectFailList->Lock();
 				pClass->m_pSync->m_pConnectFailList->push_back( pSession );			
@@ -42,6 +42,7 @@ void * connect_thread(void * param)
 			}
 			else 
 			{
+				printf("connect success\n");
 				SocketOpt::Nonblocking( pSession->GetSocket() );
 				SocketOpt::DisableBuffering( pSession->GetSocket() );
 

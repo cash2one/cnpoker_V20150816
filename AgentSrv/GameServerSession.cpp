@@ -15,16 +15,16 @@ void GameServerSession::Init()
 	
 }
 
-void GameServerSession::OnDisconnect()
-{
-	
-}
-
 void GameServerSession::OnRecv(BYTE *pMsg, WORD wSize)
 {
 	printf("[GameServerSession::OnRecv]\n");
-	printf("call g_PacketHandler.ParsePacket_GA function.\n");
-	g_PacketHandler.ParsePacket_GA( this, (MSG_BASE *)pMsg, wSize );
+	printf("call g_PacketHandler.ParsePacket_AG function.\n");
+	g_PacketHandler.ParsePacket_AG( this, (MSG_BASE *)pMsg, wSize );
+}
+
+void GameServerSession::OnDisconnect()
+{
+	ServerSession::OnDisconnect();
 }
 
 void GameServerSession::OnLogString( char * pszLog)

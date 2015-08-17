@@ -22,7 +22,6 @@ public:
 
 private:	
 	MemoryFactory<User> 				* m_pUserPool;
-	//MemoryFactory<UserSession> 		* m_pUserSessionPool;
 	MemoryFactory<TempUserSession> 		* m_pTempUserSessionPool; 
 
 	MemoryFactory<GameServerSession>	* m_pGameServerSessionPool; 
@@ -34,9 +33,6 @@ public:
 
 	User * AllocUser();
 	void FreeUser(User * pUser);
-	
-	UserSession * AllocUserSession();
-	void FreeUserSession(UserSession * pUser);
 
 	TempUserSession * AllocTempUserSession();
 	void FreeTempUserSession(TempUserSession * pUser);

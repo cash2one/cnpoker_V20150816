@@ -55,22 +55,50 @@ struct MSG_CA_CONNECTION_ENTERSERVER_ANC : public MSG_BASE
 	}
 };
 
+// 开始游戏 请求
 struct MSG_CA_START_GAME_REQ : public MSG_BASE_FORWARD
 {
 	DWORD 	m_dwUserKey;
-	//PlayerInfo m_Info;	
-	//DWORD   m_dwUserID;
-	//DWORD   m_dwCode;
-	//BYTE	m_byTicket[TICKET_LEN];
 	
 	MSG_CA_START_GAME_REQ() 
 	{
 		memset( this, 0, sizeof(MSG_CA_START_GAME_REQ) );
 		
-		m_byCategory = CA_Game; // 22
+		m_byCategory = CA_Game; // 32
 		m_byProtocol = CA_StartGame_REQ; // 301
 	}
 };
+
+// 加入房间 请求
+struct MSG_CA_JOINROOM_REQ : public MSG_BASE_FORWARD
+{
+	DWORD 	m_dwUserKey;
+	BYTE m_byRoomNumber;
+	
+	MSG_CA_JOINROOM_REQ() 
+	{
+		memset( this, 0, sizeof(MSG_CA_JOINROOM_REQ) );
+		
+		m_byCategory = CA_Game; // 32
+		m_byProtocol = CA_JoinRoom_REQ; // 303
+	}
+};
+
+// 加入桌子 请求
+struct MSG_CA_JOINTABLE_REQ : public MSG_BASE_FORWARD
+{
+	DWORD 	m_dwUserKey;
+	BYTE m_byTableNumber;
+	
+	MSG_CA_JOINTABLE_REQ() 
+	{
+		memset( this, 0, sizeof(MSG_CA_JOINTABLE_REQ) );
+		
+		m_byCategory = CA_Game; // 32
+		m_byProtocol = CA_JoinTable_REQ; // 305
+	}
+};
+
 
 #pragma pack(pop)
 

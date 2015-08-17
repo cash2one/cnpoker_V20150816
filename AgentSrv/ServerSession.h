@@ -18,12 +18,12 @@ public:
 	
 	virtual void	OnAccept( DWORD dwNetworkIndex );
 	virtual void	OnConnect( BOOL bSuccess, DWORD dwNetworkIndex );
-	virtual void	OnDisconnect( DWORD dwNetworkIndex );
+	virtual void	OnDisconnect();
 	virtual void	OnRecv(BYTE *pMsg, WORD wSize);
 	
 	virtual void	OnLogString( char * pszLog);
 
-	virtual eSERVER_TYPE	GetServerType() {	return UNKNOWN_SERVER; }
+	virtual eSERVER_TYPE	GetServerType() {	return AGENT_SERVER; }
 	
 	DWORD GetSessionIndex() {	return m_dwSessionIndex; }
 	void  SetSessionIndex( DWORD dwIdx) { m_dwSessionIndex = dwIdx; }

@@ -20,17 +20,16 @@ public:
 
 public:
 	BOOL RegisterHandler();
+	void Register_AG();
 	void Register_CA();
-	void Register_GA();
-	
-	//void AddSendGameSrvMsg(WORD category, WORD protocol);
-	
+		
+	BOOL AddHandler_AG( WORD category, WORD protocol, fnHandler fnHandler);
 	BOOL AddHandler_CA( WORD category, WORD protocol, fnHandler_c fnHandler);
-	BOOL AddHandler_GA( WORD category, WORD protocol, fnHandler fnHandler);
+	
 
 	void ParsePacket(NetworkObject * pNetwork, char * reMsg);
+	void ParsePacket_AG( ServerSession * pServerSession, MSG_BASE * pMsg, WORD wSize );
 	void ParsePacket_CA( UserSession * pUserSession, MSG_BASE * pMsg, WORD wSize );
-	void ParsePacket_GA( ServerSession * pServerSession, MSG_BASE * pMsg, WORD wSize );
 
 private:
 	struct FUNC_CA : public BASE_FUNC
@@ -38,13 +37,13 @@ private:
 		fnHandler_c	m_fnHandler;
 	};
 
-	struct FUNC_GA : public BASE_FUNC
+	struct FUNC_AG : public BASE_FUNC
 	{
 		fnHandler	m_fnHandler;
 	};
 
-	FunctionMap	*	m_pFuncMap_CA;
-	FunctionMap	*	m_pFuncMap_GA;
+	FunctionMap	*	m_pFuncMap_AG;
+	FunctionMap	*	m_pFuncMap_CA;	
 };
 
 extern PacketHandler g_PacketHandler;

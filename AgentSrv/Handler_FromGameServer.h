@@ -14,20 +14,20 @@ public:
 	Handler_FromGameServer(void);
 	~Handler_FromGameServer(void);
 
-	HANDLER_DECL( GA_StartGame_ANC );
+	HANDLER_DECL( AG_StartGame_ANC );
 #if 0	
-	HANDLER_DECL( GA_Heartbeat_SYN );
+	HANDLER_DECL( AG_Heartbeat_SYN );
 	
-	HANDLER_DECL( GA_Logout_REQ);
-	HANDLER_DECL( GA_Relogin_SYN );
-	HANDLER_DECL( GA_Logout_REQ);
+	HANDLER_DECL( AG_Logout_REQ);
+	HANDLER_DECL( AG_Relogin_SYN );
+	HANDLER_DECL( AG_Logout_REQ);
 	
-	HANDLER_DECL( GA_StartGame_REQ );
-	HANDLER_DECL( GA_JoinRoom_REQ );
-	HANDLER_DECL( GA_JoinTable_REQ );
-	HANDLER_DECL( GA_ShowCards_REQ );
-	HANDLER_DECL( GA_Discards_REQ );
-	HANDLER_DECL( GA_EndGame_REQ );
+	HANDLER_DECL( AG_StartGame_REQ );
+	HANDLER_DECL( AG_JoinRoom_REQ );
+	HANDLER_DECL( AG_JoinTable_REQ );
+	HANDLER_DECL( AG_ShowCards_REQ );
+	HANDLER_DECL( AG_Discards_REQ );
+	HANDLER_DECL( AG_EndGame_REQ );
 #endif
 };
 

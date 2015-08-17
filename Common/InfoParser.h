@@ -35,8 +35,7 @@ public:
 	SERVER_INFO GetServerInfo(eSERVER_TYPE type);
 
 private:
-	Yond_ini * pIniFile;
-	
+	Yond_ini * pIniFile;	
 };
 
 extern InfoParser g_InfoParser;

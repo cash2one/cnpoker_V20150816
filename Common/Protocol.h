@@ -17,25 +17,25 @@
 //--------------------------------------------------------------
 
 enum eCategory_Type {
+	/***** AG: Agent --> Game *****/
+	AG_Connect 			= 10,
+	AG_ClientLogin 		= 11,
+	AG_Update 			= 12,
+	
 	/***** AL: Agent --> Login *****/
-	AL_Connect 			= 10,
-	AL_ClientLogin,
-	AL_Update,
+	AL_Connect 			= 20,
+	AL_ClientLogin 		= 21,
+	AL_Update 			= 22,
 	
 	/***** CA: Client --> Agent *****/
-	CA_Connect 			= 20,
-	CA_Client 	 		= 21,
-	CA_Game 		 	= 22,
+	CA_Connect 			= 30,
+	CA_Client 	 		= 31,
+	CA_Game 		 	= 32,
 	
 	/***** CL: Client --> Login *****/
-	//CL_Connect 			= 30,
-	//CL_ClientLogin 		= 31,	
-	//CL_Update 			= 32,
-	
-	/***** GA: GAME --> Agent *****/
-	GA_Connect 			= 40,
-	GA_ClientLogin 		= 41,	
-	GA_Update 			= 42,
+	CL_Connect 			= 40,
+	CL_ClientLogin 		= 41,	
+	CL_Update 			= 42,
 	
 	/***** GD: GAME --> DB *****/
 	GD_Connect 			= 50,
@@ -47,6 +47,5 @@ enum eCategory_Type {
 	LD_ClientLogin 		= 61,	
 	LD_Update 			= 62,
 };
-
 
 #endif // _PROTOCOL_H_INCLUDED_

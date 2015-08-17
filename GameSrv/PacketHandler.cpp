@@ -7,27 +7,34 @@ PacketHandler g_PacketHandler;
 
 PacketHandler::PacketHandler(void)
 {
-	m_pFuncMap_GA = new FunctionMap;
+	m_pFuncMap_AG = new FunctionMap;
 	m_pFuncMap_DG = new FunctionMap;
 	RegisterHandler();
 }
 
 PacketHandler::~PacketHandler(void)
 {
-	SAFE_DELETE(m_pFuncMap_GA);
+	SAFE_DELETE(m_pFuncMap_AG);
 	SAFE_DELETE(m_pFuncMap_DG);
 }
 
 BOOL PacketHandler::RegisterHandler()
 {
-	Register_GA();
+	Register_AG();
 	Register_DG();
 	return TRUE;
 }	
 
-void PacketHandler::Register_GA()
+void PacketHandler::Register_AG()
 {
-	AddHandler_GA( GA_Connect, GA_StartGame_REQ, Handler_FromAgentServer::OnGA_StartGame_REQ );
+	AddHandler_AG( AG_Connect, AG_StartGame_REQ, Handler_FromAgentServer::OnAG_StartGame_REQ );	
+	AddHandler_AG( AG_Connect, AG_JoinRoom_REQ, Handler_FromAgentServer::OnAG_JoinRoom_REQ );
+	AddHandler_AG( AG_Connect, AG_JoinTable_REQ, Handler_FromAgentServer::OnAG_JoinTable_REQ );
+	AddHandler_AG( AG_Connect, AG_ShowCards_REQ, Handler_FromAgentServer::OnAG_ShowCards_REQ );
+	AddHandler_AG( AG_Connect, AG_Discards_BRD, Handler_FromAgentServer::OnAG_Discards_BRD );
+	AddHandler_AG( AG_Connect, AG_EndGame_SYN, Handler_FromAgentServer::OnAG_EndGame_SYN );
+	
+	AddHandler_AG( AG_Connect, AG_InitCards_BRD, Handler_FromAgentServer::OnAG_InitCards_BRD );
 }
 
 void PacketHandler::Register_DG()
@@ -37,15 +44,15 @@ void PacketHandler::Register_DG()
 #endif
 }
 
-BOOL PacketHandler::AddHandler_GA( WORD category, WORD protocol, fnHandler fnHandler)
+BOOL PacketHandler::AddHandler_AG( WORD category, WORD protocol, fnHandler fnHandler)
 {
-	FUNC_GA * pFuncInfo	= new FUNC_GA;
+	FUNC_AG * pFuncInfo	= new FUNC_AG;
 	printf("category:%d,protocol:%d\n", category, protocol);	
 	pFuncInfo->m_dwFunctionKey	= MAKELONG( category, protocol );
 	printf("m_dwFunctionKey:%d\n", pFuncInfo->m_dwFunctionKey);
 	pFuncInfo->m_fnHandler		= fnHandler;
 	
-	return m_pFuncMap_GA->Add( pFuncInfo );
+	return m_pFuncMap_AG->Add( pFuncInfo );
 }
 
 BOOL PacketHandler::AddHandler_DG( WORD category, WORD protocol, fnHandler fnHandler)
@@ -58,11 +65,11 @@ BOOL PacketHandler::AddHandler_DG( WORD category, WORD protocol, fnHandler fnHan
 	return m_pFuncMap_DG->Add( pFuncInfo );
 }
 
-VOID PacketHandler::ParsePacket_GA( ServerSession * pSession, MSG_BASE * pMsg, WORD wSize )
+VOID PacketHandler::ParsePacket_AG( ServerSession * pSession, MSG_BASE * pMsg, WORD wSize )
 {
-	// ASSERT(NULL != pMsg);
+	assert(NULL != pMsg);
 	
-	FUNC_GA * pFuncInfo = (FUNC_GA *)m_pFuncMap_GA->Find( MAKELONG( pMsg->m_byCategory, pMsg->m_byProtocol ) );
+	FUNC_AG * pFuncInfo = (FUNC_AG *)m_pFuncMap_AG->Find( MAKELONG( pMsg->m_byCategory, pMsg->m_byProtocol ) );
 	pFuncInfo->m_fnHandler( pSession, pMsg, wSize );
 
 	//AddLogMsg(LOG_OUT, "ParsePacket_CA Register Message:Category=%d, Protocol=%d\n", pMsg->m_byCategory, pMsg->m_byProtocol);
@@ -70,11 +77,11 @@ VOID PacketHandler::ParsePacket_GA( ServerSession * pSession, MSG_BASE * pMsg, W
 
 VOID PacketHandler::ParsePacket_DG( ServerSession * pSession, MSG_BASE * pMsg, WORD wSize )
 {
-	// ASSERT(NULL != pMsg);
+	assert(NULL != pMsg);
 	
 	FUNC_DG * pFuncInfo = (FUNC_DG *)m_pFuncMap_DG->Find( MAKELONG( pMsg->m_byCategory, pMsg->m_byProtocol ) );
 	pFuncInfo->m_fnHandler( pSession, pMsg, wSize );
 
-	//AddLogMsg(LOG_OUT, "ParsePacket_GA Register Message:Category=%d, Protocol=%d\n", pMsg->m_byCategory, pMsg->m_byProtocol);
+	//AddLogMsg(LOG_OUT, "ParsePacket_DG Register Message:Category=%d, Protocol=%d\n", pMsg->m_byCategory, pMsg->m_byProtocol);
 }
 
