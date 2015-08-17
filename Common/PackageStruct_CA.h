@@ -3,20 +3,13 @@
 
 #include "PackageStruct.h"
 #include "Protocol_CA.h"
-#include "Define.h"
 
 #pragma pack(push, 1)
 
-struct MSG_LOGIN : public MSG_BASE
-{
-	char 	m_szBuffer[512];
-};
 
-struct MSG_CA_CONNECTION_ENTERSERVER_SYN : public MSG_BASE
+struct MSG_CA_CONNECTION_ENTERSERVER_SYN : public MSG_BASE_FORWARD
 {
-	DWORD   m_dwUserID;
-	DWORD   m_dwCode;
-	//BYTE	m_byTicket[TICKET_LEN];	
+	//DWORD   m_dwUserID;
 	
 	MSG_CA_CONNECTION_ENTERSERVER_SYN() 
 	{
@@ -24,10 +17,13 @@ struct MSG_CA_CONNECTION_ENTERSERVER_SYN : public MSG_BASE
 		
 		m_byCategory = CA_Connect;
 		m_byProtocol = CA_Login_REQ;
+		
+		m_dwParameter = 0; // dwUserID
+		m_byParameter = 0;
 	}
 };
 
-struct MSG_CA_CONNECTION_ENTERSERVER_NAK : public MSG_BASE
+struct MSG_CA_CONNECTION_ENTERSERVER_NAK : public MSG_BASE_FORWARD
 {
 	DWORD   m_dwErrorCode;
 	
@@ -37,12 +33,15 @@ struct MSG_CA_CONNECTION_ENTERSERVER_NAK : public MSG_BASE
 		
 		m_byCategory = CA_Connect;
 		m_byProtocol = CA_Login_NAK;
+		
+		m_dwParameter = 0; // dwUserID
+		m_byParameter = 0;
 	}
 };
 
-struct MSG_CA_CONNECTION_ENTERSERVER_ANC : public MSG_BASE
+struct MSG_CA_CONNECTION_ENTERSERVER_ANC : public MSG_BASE_FORWARD
 {	
-	DWORD   m_dwUserID;
+	//DWORD   m_dwUserID;
 	//BYTE	m_byTicket[TICKET_LEN];
 	
 	MSG_CA_CONNECTION_ENTERSERVER_ANC() 
@@ -51,13 +50,34 @@ struct MSG_CA_CONNECTION_ENTERSERVER_ANC : public MSG_BASE
 		
 		m_byCategory = CA_Connect;
 		m_byProtocol = CA_Login_ANC;
+		
+		m_dwParameter = 0; // dwUserID
+		m_byParameter = 0;
 	}
 };
+
+// 登陆游戏 请求
+struct MSG_CA_LOGIN_GAME_REQ : public MSG_BASE_FORWARD
+{
+	unsigned int m_uiRootID;
+	
+	MSG_CA_START_GAME_REQ() 
+	{
+		memset( this, 0, sizeof(MSG_CA_START_GAME_REQ) );
+		
+		m_byCategory = CA_Game; // 32
+		m_byProtocol = CA_Login_REQ; // ???
+		
+		m_dwParameter = 0; // dwUserID
+		m_byParameter = 0;
+	}
+};
+
 
 // 开始游戏 请求
 struct MSG_CA_START_GAME_REQ : public MSG_BASE_FORWARD
 {
-	DWORD 	m_dwUserID;
+	//DWORD 	m_dwUserID;
 	
 	MSG_CA_START_GAME_REQ() 
 	{
@@ -65,13 +85,16 @@ struct MSG_CA_START_GAME_REQ : public MSG_BASE_FORWARD
 		
 		m_byCategory = CA_Game; // 32
 		m_byProtocol = CA_StartGame_REQ; // 301
+		
+		m_dwParameter = 0; // dwUserID
+		m_byParameter = 0;
 	}
 };
 
 // 加入房间 请求
 struct MSG_CA_JOINROOM_REQ : public MSG_BASE_FORWARD
 {
-	DWORD 	m_dwUserID;
+	//DWORD 	m_dwUserID;
 	BYTE m_byRoomNumber;
 	
 	MSG_CA_JOINROOM_REQ() 
@@ -80,13 +103,16 @@ struct MSG_CA_JOINROOM_REQ : public MSG_BASE_FORWARD
 		
 		m_byCategory = CA_Game; // 32
 		m_byProtocol = CA_JoinRoom_REQ; // 303
+		
+		m_dwParameter = 0; // dwUserID
+		m_byParameter = 0;
 	}
 };
 
 // 加入桌子 请求
 struct MSG_CA_JOINTABLE_REQ : public MSG_BASE_FORWARD
 {
-	DWORD 	m_dwUserID;
+	//DWORD 	m_dwUserID;
 	BYTE m_byTableNumber;
 	
 	MSG_CA_JOINTABLE_REQ() 
@@ -95,6 +121,9 @@ struct MSG_CA_JOINTABLE_REQ : public MSG_BASE_FORWARD
 		
 		m_byCategory = CA_Game; // 32
 		m_byProtocol = CA_JoinTable_REQ; // 305
+		
+		m_dwParameter = 0; // dwUserID
+		m_byParameter = 0;
 	}
 };
 

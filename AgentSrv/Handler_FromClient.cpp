@@ -21,10 +21,13 @@ HANDLER_IMPL( CA_Heartbeat_SYN )
 HANDLER_IMPL( CA_Login_REQ)
 {
 	printf("CA_Login_REQ\n");
-	MSG_LOGIN *pLogin = (MSG_LOGIN *)pMsg;
-	string a = pLogin->m_szBuffer;
-	printf("Recv Buffer:%s\n", a.c_str());
-
+	MSG_CA_LOGIN_GAME_REQ * pRecvMsg = (MSG_CA_LOGIN_GAME_REQ *)pMsg;
+	unsigned int uiRootID = pRecvMsg->m_uiRootID;
+	printf("uiRootID = %d\n", uiRootID);
+	
+	MSG_AG_LOGIN_REQ msg2;
+	msg2.m_uiRootID = uiRootID;	
+	g_AgentServer->SendToGameServer( (BYTE *)&msg2, sizeof(msg2) );
 }
 
 HANDLER_IMPL( CA_Login_ANC)

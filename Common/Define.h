@@ -8,12 +8,12 @@
 
 #define MAX_PLAYER_NUM  		( 1000 )
 
-#define CNPOKER_USER1 			(0)
-#define CNPOKER_USER2 			(1)
-#define CNPOKER_USER3 			(2)
-#define CNPOKER_HOLE			(3)
+#define CNPOKER_USER1 			( 0 )
+#define CNPOKER_USER2 			( 1 )
+#define CNPOKER_USER3 			( 2 )
+#define CNPOKER_HOLE			( 3 )
 
-#define CNPOKER_CARD_LEN_1 		(54)
-#define CNPOKER_CARD_LEN_2 		(20)
+#define CNPOKER_CARD_LEN_1 		( 54 )
+#define CNPOKER_CARD_LEN_2 		( 20 )
 
 #endif // DEFINE_H_INCLUDED_

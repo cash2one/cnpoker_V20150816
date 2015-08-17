@@ -25,11 +25,15 @@ public:
 	
 	void SetRoomNumber(unsigned int unRoomNum) { m_uiRoomNumber = unRoomNum; }
 	void SetTableNumber(unsigned int unTableNum) { m_uiTableNumber = unTableNum; }
-	
+	void SetSeat(unsigned int unSeat) { m_uiSeat = unSeat; }
 
+	
+	
 	PlayerInfo & GetPlayerInfo();
 
 	void SetPlayerInfo(PlayerInfo info);
+	
+	GameUser * GetNextGameUser();
 	
 	void StartGame();
 	
@@ -37,28 +41,19 @@ public:
 	void ShowCards();
 	void Discards();
 	
+	void Broadcast();
+	
 	static unsigned short GetRandom();
-	
-	GameUser::Broadcast()
-	{
-		for ()
-		{
-			userkey= 	m_TableInfo[m_uiTableNumber ].m_szUserKey[i];
-			if user ！= m_dwUserKey
-			{
-				send()
-			}
-		}
-	}
-	
+		
 private:
 	DWORD m_dwUserKey;
 	
-	unsigned int m_uiRoomNumber;
-	unsigned int m_uiTableNumber;
+	unsigned int m_uiRoomNumber; // 房间号
+	unsigned int m_uiTableNumber; // 桌子号
+	unsigned int m_uiSeat;	// 座位号 0,1,2,3
 	
-	BYTE m_bySeat;	// 0,1,3
-	BYTE byCards[CNPOKER_CARD_LEN_2];
+	BYTE byCards[CNPOKER_CARD_LEN_2]; // 20
+	
 	static TableInfo m_TableInfo[1000];
 	
 	PlayerInfo m_pPlayer;

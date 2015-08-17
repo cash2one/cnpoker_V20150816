@@ -28,9 +28,11 @@ enum eAG_Game_Protocol {
 	AG_InitCards_BRD, 				// 服务器给所有玩家发牌：【牌数、牌串】
 	
 	AG_ShowCards_REQ, 				// 明牌
+	AG_ShowCards_ANC,
 	
-	AG_Discards_BRD, 				// 出牌通知：【玩家ID、开始时间，结束时间】
-	AG_Discards_SYN, 				// 玩家出牌：【牌数、牌值串】
+	AG_Discards_REQ, 				// 玩家出牌：【牌数、牌值串】
+	//AG_Discards_ANC, 				// 出牌通知：【玩家ID、开始时间，结束时间】
+	
 	AG_Discards_ANC, 				// 出牌应答：0-不合格、1-合格
 	AG_MaxCards_BRD, 				// 单圈胜利：0-不合格、1-合格
 	AG_WinPlayer_BRD, 				// 单局胜利：0-不合格、1-合格

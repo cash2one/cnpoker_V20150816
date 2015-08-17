@@ -57,9 +57,9 @@ typedef unsigned long	ULONG;
 #include <string.h>
 
 #include "Const.h"
+#include "Define.h"
 #include "Protocol.h"
 #include "CommStruct.h"
-#include "Define.h"
 #include "PackageStruct.h"
 #include "PackageStruct_AG.h"
 #include "PackageStruct_AL.h"
