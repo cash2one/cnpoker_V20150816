@@ -9,8 +9,7 @@ struct PlayerInfo
 	uint m_uiDBUserID; 		// 用户数据库ID
 	uint m_uiMoney; 		// 拥有的钱
 	uint m_uiPrepaid; 		// 预付的钱
-	uint m_uiCards[17]; 	// 握有的牌
-	bool m_bDiscards[17]; 	// 打出的牌
+
 	uint m_uiRankList; 		// 排行
 	uint m_uiGoodsList[5]; 	// 道具
 	
@@ -23,8 +22,20 @@ struct PlayerInfo
 	}
 };
 
+struct Cards
+{
+	uint m_uiCards[17]; 	// 握有的牌
+	bool m_bDiscards[17]; 	// 打出的牌
+	
+	Cards()
+	{
+		memset( this, 0, sizeof(Cards) );		
+	}
+};
+
 struct TableInfo 
 {
+	//map<DWORD, DWORD> m_mapUserSeat; // UserKey -> 
 	uint m_szUserKey[3]; 	// 玩家{1,2,3} - Key
 	uint m_szUserWons[3]; 	// 玩家{1,2,3} - 胜率
 	uint m_szUserMoney[3]; 	// 玩家{1,2,3} - 钱池

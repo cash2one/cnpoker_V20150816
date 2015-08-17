@@ -20,11 +20,23 @@ HANDLER_IMPL( AG_StartGame_REQ )
 	MSG_AG_START_GAME_REQ * pRecvMsg = (MSG_AG_START_GAME_REQ *)pMsg;
 	DWORD dwUserID = pRecvMsg->m_dwUserID;
 	
-	GameUser * pUser = GameFactory::Instance()->AllocGameUser();
-	if ( pUser != NULL ) {
-		pUser->SetHashKey(dwUserID);
+	// 先查找用户
+	GameUser * pUser = g_GameUserManager.Find(dwUserID);
+	if ( pUser == NULL ) {
+		// 分配新用户
+		GameUser * pUser = GameFactory::Instance()->AllocGameUser();
+		if ( pUser != NULL ) {
+			pUser->SetHashKey(dwUserID);
+		}
 	}
 	
+	pUser->StartGame();
+	
+	// 返回应答数据给Agent
+	MSG_AG_START_GAME_ANC msg2;
+	msg2.m_dwUserID = dwUserID;
+	
+	g_GameServer->SendToAgentServer( (BYTE *)&msg2, sizeof(msg2) );
 	
 #if 0	
 	MSG_AG_START_GAME_REQ * pRecvMsg = (MSG_GA_START_GAME_REQ *)pMsg;

@@ -3,11 +3,12 @@
 
 #include "PackageStruct.h"
 #include "Protocol_AG.h"
-#include "Define.h"
+
+#include "CommStruct.h"
 
 #pragma pack(push, 1)
 
-struct MSG_AG_START_GAME_REQ : public MSG_BASE
+struct MSG_AG_START_GAME_REQ : public MSG_BASE_FORWARD
 {
 	DWORD   m_dwUserID;
 	
@@ -20,7 +21,7 @@ struct MSG_AG_START_GAME_REQ : public MSG_BASE
 	}
 };
 
-struct MSG_AG_START_GAME_ANC : public MSG_BASE
+struct MSG_AG_START_GAME_ANC : public MSG_BASE_FORWARD
 {
 	DWORD   m_dwUserID;
 	
@@ -33,7 +34,21 @@ struct MSG_AG_START_GAME_ANC : public MSG_BASE
 	}
 };
 
-struct MSG_AG_JOINROOM_REQ : public MSG_BASE_FORWARD // MSG_BASE_FORWARD
+struct MSG_AG_START_GAME_NAK : public MSG_BASE_FORWARD
+{
+	DWORD   m_dwUserID;
+	DWORD 	m_dwErrorCode;
+	
+	MSG_AG_START_GAME_NAK() 
+	{
+		memset( this, 0, sizeof(MSG_AG_START_GAME_NAK) );
+		
+		m_byCategory = AG_Connect; // 10
+		//m_byProtocol = AG_StartGame_NAK; // ??? 
+	}
+};
+
+struct MSG_AG_JOINROOM_REQ : public MSG_BASE_FORWARD
 {
 	DWORD   m_dwUserID;
 	BYTE m_byRoomNumber;
@@ -47,7 +62,7 @@ struct MSG_AG_JOINROOM_REQ : public MSG_BASE_FORWARD // MSG_BASE_FORWARD
 	}
 };
 
-struct MSG_AG_JOINROOM_ANC : public MSG_BASE_FORWARD // MSG_BASE_FORWARD
+struct MSG_AG_JOINROOM_ANC : public MSG_BASE_FORWARD
 {
 	BYTE m_byRoomNumber;
 	
@@ -60,7 +75,7 @@ struct MSG_AG_JOINROOM_ANC : public MSG_BASE_FORWARD // MSG_BASE_FORWARD
 	}
 };
 
-struct MSG_AG_JOINTABLE_REQ : public MSG_BASE_FORWARD // MSG_BASE_FORWARD
+struct MSG_AG_JOINTABLE_REQ : public MSG_BASE_FORWARD
 {
 	DWORD   m_dwUserID;
 	BYTE m_byTableNumber;
@@ -74,7 +89,7 @@ struct MSG_AG_JOINTABLE_REQ : public MSG_BASE_FORWARD // MSG_BASE_FORWARD
 	}
 };
 
-struct MSG_AG_JOINTABLE_ANC : public MSG_BASE_FORWARD // MSG_BASE_FORWARD
+struct MSG_AG_JOINTABLE_ANC : public MSG_BASE_FORWARD
 {
 	BYTE m_byTableNumber;
 	

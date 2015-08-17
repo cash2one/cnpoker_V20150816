@@ -62,12 +62,13 @@ HANDLER_IMPL( CA_StartGame_REQ )
 HANDLER_IMPL( CA_JoinRoom_REQ )
 {
 	printf("CA_JoinRoom_REQ Function\n");
-	MSG_CA_JOINROOM_REQ *pRecv = (MSG_CA_JOINROOM_REQ *)pMsg;
-	printf("Room Number:%d\n", pRecv->m_byRoomNumber);
+	MSG_CA_JOINROOM_REQ *pRecvMsg = (MSG_CA_JOINROOM_REQ *)pMsg;
+	DWORD dwUserID = pRecvMsg->m_dwUserID;
+	printf("Room Number:%d\n", pRecvMsg->m_byRoomNumber);
 	
 	MSG_AG_JOINROOM_REQ msg2;
-	//msg2.m_dwUserID = dwUserID; // User ID
-	msg2.m_byRoomNumber = pRecv->m_byRoomNumber; // Romm Number
+	msg2.m_dwUserID = dwUserID; // User ID
+	msg2.m_byRoomNumber = pRecvMsg->m_byRoomNumber; // Romm Number
 	g_AgentServer->SendToGameServer( (BYTE *)&msg2, sizeof(msg2) );
 }
 
@@ -75,12 +76,13 @@ HANDLER_IMPL( CA_JoinTable_REQ )
 {
 	printf("CA_JoinTable_REQ Function\n");
 	
-	MSG_CA_JOINTABLE_REQ *pRecv = (MSG_CA_JOINTABLE_REQ *)pMsg;
-	printf("Table Number:%d\n", pRecv->m_byTableNumber);
+	MSG_CA_JOINTABLE_REQ *pRecvMsg = (MSG_CA_JOINTABLE_REQ *)pMsg;
+	DWORD dwUserID = pRecvMsg->m_dwUserID;
+	printf("Table Number:%d\n", pRecvMsg->m_byTableNumber);
 	
 	MSG_AG_JOINTABLE_REQ msg2;
-	//msg2.m_dwUserID = dwUserID; // User ID
-	msg2.m_byTableNumber = pRecv->m_byTableNumber; // Table Number
+	msg2.m_dwUserID = dwUserID; // User ID
+	msg2.m_byTableNumber = pRecvMsg->m_byTableNumber; // Table Number
 	g_AgentServer->SendToGameServer( (BYTE *)&msg2, sizeof(msg2) );
 }
 

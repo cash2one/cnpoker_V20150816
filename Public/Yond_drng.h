@@ -1,11 +1,9 @@
-#ifndef YOND_RANDOM_H_INCLUDED_
-#define YOND_RANDOM_H_INCLUDED_
-
-#include <Utility.h>
+#ifndef _YOND_DRNG_H_INCLUDED_
+#define _YOND_DRNG_H_INCLUDED_
 
 
-BOOL is_support_drng();
+bool is_support_drng();
 
 uint32_t GetRandom();
 
-#endif // YOND_RANDOM_H_INCLUDED_
+#endif // _YOND_DRNG_H_INCLUDED_

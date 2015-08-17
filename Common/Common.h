@@ -68,15 +68,11 @@ typedef unsigned long	ULONG;
 #include "PackageStruct_GD.h"
 #include "PackageStruct_LD.h"
 
-#include "PlayerGoods.h"
-#include "PlayerTasks.h"
-
 #include "Protocol_AG.h"
 #include "Protocol_AL.h"
 #include "Protocol_CA.h"
 #include "Protocol_CL.h"
 #include "Protocol_GD.h"
 #include "Protocol_LD.h"
-
 
 #endif // _COMMON_H_INCLUDED_

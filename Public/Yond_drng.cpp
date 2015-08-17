@@ -169,14 +169,14 @@ long int btd(char *s)
 }
 
 /******* Random Interface ********/
-BOOL is_support_drng()
+bool is_support_drng()
 {
 	if ( !( get_drng_support() & DRNG_HAS_RDRAND ) ) 
 	{
 		fprintf(stderr, "No RDRAND support\n");
-		return FALSE;
+		return false;
 	}
-	return TRUE;
+	return true;
 }
 
 uint32_t GetRandom()
