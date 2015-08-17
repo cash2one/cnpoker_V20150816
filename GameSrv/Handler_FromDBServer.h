@@ -14,6 +14,9 @@ public:
 	Handler_FromDBServer(void);
 	~Handler_FromDBServer(void);
 
+	HANDLER_DECL( GD_Login_ANC );
+	HANDLER_DECL( GD_Login_NAK );
+	
 	HANDLER_DECL( GD_Logout_REQ );
 };
 

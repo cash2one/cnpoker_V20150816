@@ -26,8 +26,6 @@ public:
 	void SetRoomNumber(unsigned int unRoomNum) { m_uiRoomNumber = unRoomNum; }
 	void SetTableNumber(unsigned int unTableNum) { m_uiTableNumber = unTableNum; }
 	
-	
-	
 
 	PlayerInfo & GetPlayerInfo();
 
@@ -40,6 +38,18 @@ public:
 	void Discards();
 	
 	static unsigned short GetRandom();
+	
+	GameUser::Broadcast()
+	{
+		for ()
+		{
+			userkey= 	m_TableInfo[m_uiTableNumber ].m_szUserKey[i];
+			if user ！= m_dwUserKey
+			{
+				
+			}
+		}
+	}
 	
 private:
 	DWORD m_dwUserKey;

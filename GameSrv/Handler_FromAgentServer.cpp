@@ -90,8 +90,20 @@ HANDLER_IMPL( AG_ShowCards_REQ )
 	
 }
 
-HANDLER_IMPL( AG_Discards_BRD )
+HANDLER_IMPL( AG_Discards_REQ )
 {
+	MSG_AG_Discards_REQ * pObj = (MSG_AG_Discards_REQ *) pMsg;
+	
+	GameUser * pUser = g_GameUserManager.Find(pObj->m_dwParameter);
+	if ( pUser == NULL ) {
+		printf("Can't find User %d\n", dwUserID);
+		return;
+	}
+	
+	 
+	MSG_AG_Discards_BRD pSend= MSG_AG_Discards_REQ;
+	
+	pUser->Broadcast( pSend, sizeof(pSend) );
 	printf("AG_Discards_BRD\n");
 	
 }

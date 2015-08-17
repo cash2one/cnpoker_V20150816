@@ -21,12 +21,12 @@ public:
 	HANDLER_DECL( AG_Logout_REQ );
 	HANDLER_DECL( AG_Relogin_SYN );	
 #endif
-    
-	HANDLER_DECL( AG_StartGame_REQ );
 	HANDLER_DECL( AG_JoinRoom_REQ );
 	HANDLER_DECL( AG_JoinTable_REQ );
+	
+	HANDLER_DECL( AG_StartGame_REQ );
 	HANDLER_DECL( AG_ShowCards_REQ );
-	HANDLER_DECL( AG_Discards_BRD );
+	HANDLER_DECL( AG_Discards_REQ ); 
 	HANDLER_DECL( AG_EndGame_SYN );
 	
 	HANDLER_DECL( AG_InitCards_BRD );

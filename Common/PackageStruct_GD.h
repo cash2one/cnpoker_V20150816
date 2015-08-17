@@ -37,7 +37,7 @@ struct MSG_GD_LOGIN_ANC : public MSG_BASE_FORWARD
 		
 		m_byCategory = GD_ClientLogin;
 		m_byProtocol = GD_Login_ANC;
-				
+			
 		m_dwParameter = 0;
 		m_byParameter = 0;
 	}

@@ -39,7 +39,7 @@ struct TableInfo
 	uint m_szUserKey[3]; 	// 玩家{1,2,3} - Key
 	uint m_szUserWons[3]; 	// 玩家{1,2,3} - 胜率
 	uint m_szUserMoney[3]; 	// 玩家{1,2,3} - 钱池
-	
+		
 	TableInfo()
 	{
 		memset( this, 0, sizeof(TableInfo) );
