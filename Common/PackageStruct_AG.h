@@ -252,6 +252,21 @@ struct MSG_AG_DISCARDS_ANC : public MSG_BASE_FORWARD
 	}
 };
 
+// 取得胜利
+struct MSG_AG_WINPLAYER_BRD : public MSG_BASE_FORWARD
+{	
+	MSG_AG_WINPLAYER_BRD() 
+	{
+		memset( this, 0, sizeof(MSG_AG_WINPLAYER_BRD) );
+		
+		m_byCategory = AG_Connect; // 10
+		m_byProtocol = AG_Discards_REQ; // ???
+		
+		m_dwParameter = 0; // dwUserID
+		m_byParameter = 0;
+	}
+};
+
 
 #pragma pack(pop)
 

@@ -35,7 +35,9 @@ enum eAG_Game_Protocol {
 	
 	AG_Discards_ANC, 				// 出牌应答：0-不合格、1-合格
 	AG_MaxCards_BRD, 				// 单圈胜利：0-不合格、1-合格
+	
 	AG_WinPlayer_BRD, 				// 单局胜利：0-不合格、1-合格
+	
 	AG_EndGame_SYN,
 };
 

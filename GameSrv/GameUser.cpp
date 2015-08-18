@@ -1,8 +1,9 @@
 #include "GameUser.h"
 
-#include <ctime>
-#include <cstdlib>
+//#include <ctime>
+//#include <cstdlib>
 
+#include "GameServer.h"
 #include "GameUserManager.h"
 
 TableInfo GameUser::m_TableInfo[1000] = { TableInfo() };
@@ -82,6 +83,7 @@ GameUser * GameUser::GetNextGameUser()
 	if ( pUser != NULL ) {
 		return pUser;
 	}
+	return NULL;
 }
 
 void GameUser::StartGame()
@@ -132,18 +134,74 @@ void GameUser::AllocCards()
 			m_uiCardsCount++; // 记录一共有多少张牌
 		}	
 	}
+	
+#if 0	
+	// 把另外2份牌发送给其他2个User
+	GameUser * pFirst = pUser;
+	for(int i=0; i<2; ++i) {
+		GameUser * pNextUser = pFirst->GetNextGameUser();
+		pNextUser->AllocCards(); // 把牌分给对应的人。 牌出来了。
+		pFirst = pNextUser;	
+	}
+#endif	
+	
 	//GetNext
 	//->AllocCards();
 }
 
 void GameUser::ShowCards()
 {
+	printf("[ShowCards] : Table Number = %d\n", m_uiTableNumber);	
 	
+	MSG_AG_SHOWCARDS_ANC msg2;
+	msg2.m_dwUserKey = m_dwUserKey;
+	memcpy(msg2.m_byCards, m_byCards, CNPOKER_CARD_LEN_2); // 将明牌玩家的牌复制进消息包中
+
+	// 发送给另外一个玩家
+	unsigned int idx = (m_uiSeat + 1) % 3;
+	DWORD dwOtherUserID = GameUser::m_TableInfo[m_uiTableNumber].m_uiUserKey[idx];
+	msg2.m_byParameter = dwOtherUserID;
+	g_GameServer->SendToAgentServer( (BYTE *)&msg2, sizeof(msg2) );
+	
+	// 再发送给另外一个玩家
+	idx = (idx + 1) % 3;
+	dwOtherUserID = GameUser::m_TableInfo[m_uiTableNumber].m_uiUserKey[idx];
+	msg2.m_byParameter = dwOtherUserID;
+	g_GameServer->SendToAgentServer( (BYTE *)&msg2, sizeof(msg2) );	
 }
 
-void GameUser::Discards()
+void GameUser::Discards(BYTE * pCards, unsigned int uiSize)
 {
+	printf("[Discards] : Table Number = %d\n", m_uiTableNumber);	
+
+	// 找出打出的牌，m_bDiscards数组对应位置 置1
+	FigureOutDiscards(pCards, uiSize); // 传入 玩家打出的牌数组 和 个数
+
+	MSG_AG_DISCARDS_ANC msg2;
+	msg2.m_dwParameter = m_dwUserKey;
+	msg2.m_uiSize = uiSize;
+	memcpy(msg2.m_byDiscards, pCards, uiSize);
 	
+	// 发送给另外一个玩家
+	unsigned int idx = (m_uiSeat + 1) % 3;
+	DWORD dwOtherUserID = GameUser::m_TableInfo[m_uiTableNumber].m_uiUserKey[idx];
+	msg2.m_byParameter = dwOtherUserID;
+	g_GameServer->SendToAgentServer( (BYTE *)&msg2, sizeof(msg2) );
+	
+	// 再发送给另外一个玩家
+	idx = (idx + 1) % 3;
+	dwOtherUserID = GameUser::m_TableInfo[m_uiTableNumber].m_uiUserKey[idx];
+	msg2.m_byParameter = dwOtherUserID;
+	g_GameServer->SendToAgentServer( (BYTE *)&msg2, sizeof(msg2) );
+}
+
+BOOL GameUser::IsWinTheGame()
+{
+	if ( m_uiCardsCount == 0)
+	{
+		return TRUE;
+	}
+	return FALSE;
 }
 
 void GameUser::Broadcast(BYTE *pMsg, WORD wSize)
@@ -159,6 +217,35 @@ void GameUser::Broadcast(BYTE *pMsg, WORD wSize)
 	}
 	#endif
 }
+
+void GameUser::FigureOutDiscards(BYTE * pCards, unsigned int uiSize) // 出的牌 3,4,5 --> 3张
+{
+	if ( (m_uiTableNumber > 0) && (m_uiTableNumber < 1000) )
+	{
+		for(int i=0; i<uiSize; ++i)
+		{
+			for(int j=0; j<m_uiCardsCount; ++j) // 手上的牌
+			{			
+				if ( m_byCards[j] == pCards[i] )
+				{	
+					if ( GameUser::m_TableInfo[m_uiTableNumber].m_bDiscards[*pCards] == 1 )
+					{
+						printf("Error: Cheat\n");
+						return;
+					}
+					GameUser::m_TableInfo[m_uiTableNumber].m_bDiscards[*pCards] = 1;
+					m_uiCardsCount--; // 手上牌数量减少
+					
+				}
+			}
+		}
+		// 这里少了个步骤，将手上的牌重新赋值
+	}
+	else
+	{
+		printf("Error: Table Number is not correct.\n");
+	}
+}	
 
 //////////////////////////////////////
 unsigned short GameUser::GetRandom()
