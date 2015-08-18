@@ -61,9 +61,9 @@ struct MSG_CA_LOGIN_GAME_REQ : public MSG_BASE_FORWARD
 {
 	unsigned int m_uiRootID;
 	
-	MSG_CA_START_GAME_REQ() 
+	MSG_CA_LOGIN_GAME_REQ() 
 	{
-		memset( this, 0, sizeof(MSG_CA_START_GAME_REQ) );
+		memset( this, 0, sizeof(MSG_CA_LOGIN_GAME_REQ) );
 		
 		m_byCategory = CA_Game; // 32
 		m_byProtocol = CA_Login_REQ; // ???
@@ -95,7 +95,7 @@ struct MSG_CA_START_GAME_REQ : public MSG_BASE_FORWARD
 struct MSG_CA_JOINROOM_REQ : public MSG_BASE_FORWARD
 {
 	//DWORD 	m_dwUserID;
-	BYTE m_byRoomNumber;
+	unsigned int m_uiRoomNumber;
 	
 	MSG_CA_JOINROOM_REQ() 
 	{
@@ -113,7 +113,7 @@ struct MSG_CA_JOINROOM_REQ : public MSG_BASE_FORWARD
 struct MSG_CA_JOINTABLE_REQ : public MSG_BASE_FORWARD
 {
 	//DWORD 	m_dwUserID;
-	BYTE m_byTableNumber;
+	unsigned int m_uiTableNumber;
 	
 	MSG_CA_JOINTABLE_REQ() 
 	{

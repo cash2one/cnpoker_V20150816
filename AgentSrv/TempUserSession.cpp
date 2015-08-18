@@ -26,10 +26,9 @@ void TempUserSession::OnRecv(BYTE *pMsg, WORD wSize)
 {
 	printf("Enter TempUserSession::OnRecv\n");
 
-	MSG_CA_CONNECTION_ENTERSERVER_SYN * dwCodeMsg;
-	dwCodeMsg = (MSG_CA_CONNECTION_ENTERSERVER_SYN *) pMsg;
+	MSG_CA_CONNECTION_ENTERSERVER_SYN * pRecvMsg = (MSG_CA_CONNECTION_ENTERSERVER_SYN *) pMsg;
 #if 0	
-	if ( !DeCode (dwCodeMsg->m_byTicket, TICKET_LEN) ) {
+	if ( !DeCode (pRecvMsg->m_byTicket, TICKET_LEN) ) {
 		MSG_CA_CONNECTION_ENTERSERVER_NAK msgError;
 		Send( (BYTE *)pMsg, sizeof(MSG_CA_CONNECTION_ENTERSERVER_NAK) );
 		return;
@@ -56,7 +55,7 @@ void TempUserSession::OnRecv(BYTE *pMsg, WORD wSize)
 	printf("Msg size = %d\n", sizeof(MSG_CA_CONNECTION_ENTERSERVER_ANC));
 	
 	MSG_CA_CONNECTION_ENTERSERVER_ANC ancMsg;
-	ancMsg.m_dwUserID = dwKey; // User Key
+	ancMsg.m_dwParameter = dwKey; // User Key
 	pSession->Send( (BYTE *)&ancMsg, sizeof(MSG_CA_CONNECTION_ENTERSERVER_ANC) );
 }
 

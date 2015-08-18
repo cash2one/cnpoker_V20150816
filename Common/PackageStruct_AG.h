@@ -14,9 +14,9 @@ struct MSG_AG_LOGIN_REQ : public MSG_BASE_FORWARD
 	//DWORD   m_dwUserID;
 	unsigned int m_uiRootID;
 	
-	MSG_AG_START_GAME_REQ() 
+	MSG_AG_LOGIN_REQ() 
 	{
-		memset( this, 0, sizeof(MSG_AG_START_GAME_REQ) );
+		memset( this, 0, sizeof(MSG_AG_LOGIN_REQ) );
 		
 		m_byCategory = AG_Connect; // 10
 		m_byProtocol = AG_StartGame_REQ; // 2000
