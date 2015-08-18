@@ -53,16 +53,14 @@ public:
 	
 	void Broadcast(BYTE *pMsg, WORD wSize); // 发送消息给其他游戏玩家
 	
-
-	
-	//  找出打出的牌，m_bDiscards数组对应位置 置1
+	// 找出打出的牌，m_bDiscards， 并检查出牌是否有效
 	void FigureOutDiscards(BYTE * pCards, unsigned int uiSize); // 出的牌 3,4,5 --> 3张
 
 	
 	
 	static TableInfo m_TableInfo[1000]; // private to public	
 	
-	BYTE m_byCards[CNPOKER_CARD_LEN_2]; // 自己手上的牌 private  to public
+	char m_szCards[CNPOKER_CARD_LEN_2]; // 自己手上的牌 private  to public
 	
 	unsigned int m_uiCardsCount; // 记录一共有多少张牌
 	
