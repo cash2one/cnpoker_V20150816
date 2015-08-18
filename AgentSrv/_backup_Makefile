@@ -1,19 +1,41 @@
 CC = g++
 CFLAGS = -g -fPIC -D_FILELINE -Wno-deprecated 
-#HOME = /mnt/Shared/moche
-HOME = /usr/local/moche_v20150728
-INC = -I $(HOME)/Common -I $(HOME)/Network -I $(HOME)/Utility -I $(HOME)/AgentSrv 
 
-OBJS = Utility/Yond_mutex.o Utility/Yond_ini.o \
-       Network/Acceptor.o Network/Connector.o Network/Session.o Network/SessionList.o Network/SessionPool.o \
-       Network/SyncHandler.o Network/SocketOpt.o  Network/NetworkObject.o Network/IOCPServer.o \
-       AgentSrv/AgentMain.o
-#Utility/Yond_log.o Yond_thread.o 
-#       AgentSrv/AgentMain.o AgentSrv/AgentFactory.o AgentSrv/AgentPlayer.o AgentSrv/AgentServer.o \
-#       AgentSrv/PacketHandler.o AgentSrv/Handler_FromClient.o AgentSrv/Handler_FromGameServer.o \
-#       Utility/Yond_mutex.o Utility/Yond_buffer.o 
+HOME = /mnt/Shared
+#HOME = /usr/local/moche_v20150728
 
-#Utility/Yond_log.o Utility/Yond_ini.o Utility/Yond_mutex.o Utility/PublicObject.o
+INC = 	-I $(HOME)/Common \
+		-I $(HOME)/Network \
+		-I $(HOME)/Utility \
+		-I $(HOME)/AgentSrv
+
+OBJS = 	Utility/Yond_mutex.o \
+		Utility/Yond_thread.o \
+		Utility/Yond_ini.o \
+		Utility/ObjKeyGenerator.o \
+		Network/Acceptor.o \
+		Network/Connector.o \
+		Network/Session.o \
+		Network/SessionList.o \
+		Network/SessionPool.o \
+		Network/SyncHandler.o \
+		Network/SocketOpt.o \
+		Network/NetworkObject.o \
+		Network/IOCPServer.o \
+		AgentSrv/ServerSession.o \
+		AgentSrv/TempServerSession.o \
+		AgentSrv/GameServerSession.o \
+		AgentSrv/TempUserSession.o \
+		AgentSrv/User.o \
+		AgentSrv/UserSession.o \
+		AgentSrv/UserManager.o \
+		AgentSrv/PacketHandler.o \
+		AgentSrv/Handler_FromGameServer.o \
+		AgentSrv/Handler_FromLoginServer.o \
+		AgentSrv/Handler_FromClient.o \
+		AgentSrv/AgentFactory.o \
+		AgentSrv/AgentServer.o \
+		AgentSrv/AgentMain.o
 
 BINDIR = bin
 

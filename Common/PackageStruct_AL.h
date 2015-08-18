@@ -23,22 +23,25 @@ struct MSG_AL_PRELOGIN_SYN : public MSG_BASE_FORWARD
 
 struct MSG_AL_PRELOGIN_ANC : public MSG_BASE_FORWARD
 {
-	unsigned int uiRootID;
-	BYTE byUserKey[CODE_KEY_LEN + 1];
+	DWORD 	uiRootID;
+	BYTE 	byUserKey[CODE_KEY_LEN + 1];
+	
+	BYTE	m_byIP[BYTE_IP_LEN];
+	DWORD	m_Port;
 	
 	MSG_AL_PRELOGIN_ANC()
 	{
 		memset( this, 0, sizeof(MSG_AL_PRELOGIN_ANC) );
 		
 		m_byCategory = AL_ClientLogin;
-		m_byProtocol = AL_PreLogin_ANC;
+		m_byProtocol = AL_Prelogin_ANC;
 	}
 };
 
 struct MSG_AL_RELOGIN_SYN : public MSG_BASE_FORWARD
 {
-	unsigned int uiRootID;
-	BYTE byUserKey[CODE_KEY_LEN + 1];
+	DWORD 	uiRootID;
+	BYTE 	byUserKey[CODE_KEY_LEN + 1];
 	
 	MSG_AL_RELOGIN_SYN()
 	{
@@ -51,8 +54,9 @@ struct MSG_AL_RELOGIN_SYN : public MSG_BASE_FORWARD
 
 struct MSG_AL_RELOGIN_ANC : public MSG_BASE_FORWARD
 {
-	unsigned int uiRootID;
-	
+	DWORD	uiRootID;
+	BYTE	byUserKey[CODE_KEY_LEN + 1];
+		
 	MSG_AL_RELOGIN_ANC()
 	{
 		memset( this, 0, sizeof(MSG_AL_RELOGIN_ANC) );
@@ -65,7 +69,7 @@ struct MSG_AL_RELOGIN_ANC : public MSG_BASE_FORWARD
 
 struct MSG_AL_LOGIN_SYN : public MSG_BASE_FORWARD
 {
-	unsigned int uiRootID;
+	DWORD uiRootID;
 	BYTE byUserKey[CODE_KEY_LEN + 1];
 	
 	MSG_AL_LOGIN_SYN()
@@ -79,7 +83,7 @@ struct MSG_AL_LOGIN_SYN : public MSG_BASE_FORWARD
 
 struct MSG_AL_LOGIN_ANC : public MSG_BASE_FORWARD
 {
-	unsigned int uiRootID;
+	DWORD uiRootID;
 	
 	MSG_AL_LOGIN_ANC()
 	{
@@ -93,7 +97,7 @@ struct MSG_AL_LOGIN_ANC : public MSG_BASE_FORWARD
 
 struct MSG_AL_LOGOUT_SYN : public MSG_BASE_FORWARD
 {
-	unsigned int uiRootID;
+	DWORD uiRootID;
 	
 	MSG_AL_LOGOUT_SYN()
 	{

@@ -17,6 +17,8 @@ public:
 
 	HANDLER_DECL( CA_Heartbeat_SYN );
 	
+	HANDLER_DECL( CA_Prelogin_REQ );
+	
 	HANDLER_DECL( CA_Login_REQ );
 	HANDLER_DECL( CA_Login_ANC );
 	HANDLER_DECL( CA_Relogin_REQ );	

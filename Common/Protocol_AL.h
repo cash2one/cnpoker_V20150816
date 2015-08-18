@@ -12,7 +12,7 @@ enum eAL_Connect_Protocol {
 
 enum eAL_ClientLogin_Protocol {
 	AL_Prelogin_SYN, 				
-	AL_PreLogin_ANC,
+	AL_Prelogin_ANC,
 	AL_Relogin_SYN, 				
 	AL_ReLogin_ANC,
 	AL_Login_SYN,			

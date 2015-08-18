@@ -36,7 +36,6 @@ public:
 
 	TempUserSession * AllocTempUserSession();
 	void FreeTempUserSession(TempUserSession * pUser);
-
 	
 	GameServerSession * AllocGameServerSession();
 	void FreeGameServerSession(GameServerSession * pServerSession);

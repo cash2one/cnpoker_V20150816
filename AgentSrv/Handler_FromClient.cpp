@@ -18,16 +18,35 @@ HANDLER_IMPL( CA_Heartbeat_SYN )
 	printf("CA_Heartbeat_SYN\n");
 }
 
+HANDLER_IMPL( CA_Prelogin_REQ )
+{
+	MSG_CA_PRELOGIN_GAME_REQ *pObj = (MSG_CA_PRELOGIN_GAME_REQ *)pMsg;
+	
+	MSG_AL_PRELOGIN_SYN msg2;
+	msg2.m_dwParameter = pObj->m_dwParameter;
+	memcpy(msg2.byUsername, pObj->byUsername, sizeof(pObj->byUsername) );
+	memcpy(msg2.byPassword, pObj->byPassword, sizeof(pObj->byPassword) );
+	g_AgentServer->SendToLoginServer( (BYTE *)&msg2, sizeof(msg2) );
+}
+
 HANDLER_IMPL( CA_Login_REQ)
 {
 	printf("CA_Login_REQ\n");
-	MSG_CA_LOGIN_GAME_REQ * pRecvMsg = (MSG_CA_LOGIN_GAME_REQ *)pMsg;
-	unsigned int uiRootID = pRecvMsg->m_uiRootID;
+	MSG_CA_LOGIN_GAME_REQ * pObj = (MSG_CA_LOGIN_GAME_REQ *)pMsg;
+	unsigned int uiRootID = pObj->m_uiRootID;
 	printf("uiRootID = %d\n", uiRootID);
 	
+	MSG_AL_LOGIN_SYN msg2;
+	msg2.m_dwParameter = pObj->m_dwParameter;
+	msg2.uiRootID = pObj->m_uiRootID;
+	memcpy(msg2.byUserKey, pObj->byUserKey, sizeof(pObj->byUserKey) );
+	g_AgentServer->SendToLoginServer( (BYTE *)&msg2, sizeof(msg2) );
+	
+	/*
 	MSG_AG_LOGIN_REQ msg2;
 	msg2.m_uiRootID = uiRootID;	
 	g_AgentServer->SendToGameServer( (BYTE *)&msg2, sizeof(msg2) );
+	*/
 }
 
 HANDLER_IMPL( CA_Login_ANC)

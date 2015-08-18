@@ -19,12 +19,17 @@ AgentServer::AgentServer(void)
 	m_pIOCPServer 	= NULL;
 	
 	m_pGameServer 	= NULL;
+	
+	m_pLoginServer  = NULL;
 }
 
 AgentServer::~AgentServer(void)
 {
 	if ( m_pIOCPServer )
 		delete m_pIOCPServer;
+	
+	if ( m_pLoginServer )
+		delete m_pLoginServer;
 }
 
 BOOL AgentServer::Init()
@@ -83,6 +88,7 @@ BOOL AgentServer::Init()
 		printf("[AgentFactory::Instance()->AllocGameServerSession] fail\n");
 		return FALSE;
 	}
+	
 	
 	//m_pGameServer = AgentFactory::Instance()->AllocGameServerSession();
 	//if ( m_pGameServer ) {
@@ -147,6 +153,16 @@ BOOL AgentServer::SendToGameServer( BYTE * pMsg, WORD wSize)
 	
 	if ( m_pGameServer ) {
 		return m_pGameServer->Send( pMsg, wSize );
+	}
+	return FALSE;
+}
+
+BOOL AgentServer::SendToLoginServer( BYTE * pMsg, WORD wSize)
+{
+	printf("[AgentServer::SendToLoginServer]\n");
+	
+	if ( m_pLoginServer ) {
+		return m_pLoginServer->Send( pMsg, wSize );
 	}
 	return FALSE;
 }

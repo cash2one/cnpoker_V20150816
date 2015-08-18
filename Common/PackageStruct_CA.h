@@ -57,9 +57,50 @@ struct MSG_CA_CONNECTION_ENTERSERVER_ANC : public MSG_BASE_FORWARD
 };
 
 // 登陆游戏 请求
+struct MSG_CA_PRELOGIN_GAME_REQ : public MSG_BASE_FORWARD
+{
+	BYTE byUsername[32];
+	BYTE byPassword[32];
+	
+	MSG_CA_PRELOGIN_GAME_REQ() 
+	{
+		memset( this, 0, sizeof(MSG_CA_PRELOGIN_GAME_REQ) );
+		
+		m_byCategory = CA_Game; // 32
+		m_byProtocol = CA_Prelogin_REQ; // ???
+		
+		m_dwParameter = 0; // dwUserID
+		m_byParameter = 0;
+	}
+};
+
+
+// 登陆游戏 请求
+struct MSG_CA_PRELOGIN_GAME_ANC : public MSG_BASE_FORWARD
+{
+	DWORD 	uiRootID;
+	BYTE 	byUserKey[CODE_KEY_LEN + 1];
+	
+	BYTE	m_byIP[BYTE_IP_LEN];
+	DWORD	m_Port;
+	
+	MSG_CA_PRELOGIN_GAME_ANC() 
+	{
+		memset( this, 0, sizeof(MSG_CA_PRELOGIN_GAME_ANC) );
+		
+		m_byCategory = CA_Game; // 32
+		m_byProtocol = CA_Prelogin_ANC; // ???
+		
+		m_dwParameter = 0; // dwUserID
+		m_byParameter = 0;
+	}
+};
+
+//
 struct MSG_CA_LOGIN_GAME_REQ : public MSG_BASE_FORWARD
 {
-	unsigned int m_uiRootID;
+	DWORD	m_uiRootID;
+	BYTE 	byUserKey[CODE_KEY_LEN + 1];
 	
 	MSG_CA_LOGIN_GAME_REQ() 
 	{

@@ -6,14 +6,15 @@
 #include "ServerSession.h"
 
 #define HANDLER_DECL( p )			static VOID On##p( ServerSession * pServerSession, MSG_BASE * pMsg, WORD wSize )
-#define HANDLER_IMPL( p )			VOID Handler_FromGameServer::On##p( ServerSession * pServerSession, MSG_BASE * pMsg, WORD wSize )
+#define HANDLER_IMPL( p )			VOID Handler_FromLoginServer::On##p( ServerSession * pServerSession, MSG_BASE * pMsg, WORD wSize )
 
-class Handler_FromGameServer
+class Handler_FromLoginServer
 {
 public:
-	Handler_FromGameServer(void);
-	~Handler_FromGameServer(void);
+	Handler_FromLoginServer(void);
+	~Handler_FromLoginServer(void);
 
+	HANDLER_DECL( AL_Prelogin_ANC );
 	HANDLER_DECL( AL_Login_ANC );
 };
 

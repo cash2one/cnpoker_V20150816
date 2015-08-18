@@ -28,14 +28,19 @@ public:
 	
 	BOOL SendToGameServer( BYTE * pMsg, WORD wSize);
 	
+	BOOL SendToLoginServer( BYTE * pMsg, WORD wSize);
+	
 	ServerSession * GetGameServerSession() const;
 	
 	//BOOL ConnectToServer(ServerSession * pSession, char * pszIP, WORD wPort);
 private:
 	BOOL 	m_bShutdown;
+	
 	IOCPServer * m_pIOCPServer;
 	
 	ServerSession * m_pGameServer;
+	
+	ServerSession * m_pLoginServer;
 };
 
 extern AgentServer * g_AgentServer;
