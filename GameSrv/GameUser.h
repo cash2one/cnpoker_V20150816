@@ -38,13 +38,17 @@ public:
 	void StartGame();
 	
 	void InitCards();
+	
+	void AllocCards();
+	
 	void ShowCards();
 	void Discards();
 	
 	void Broadcast();
 	
 	static unsigned short GetRandom();
-		
+	
+	static TableInfo m_TableInfo[1000]; // private to public
 private:
 	DWORD m_dwUserKey;
 	
@@ -54,7 +58,7 @@ private:
 	
 	BYTE m_byCards[CNPOKER_CARD_LEN_2]; // 20
 	
-	static TableInfo m_TableInfo[1000];
+	
 	
 	PlayerInfo m_pPlayer;
 	

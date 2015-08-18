@@ -21,9 +21,9 @@ HANDLER_IMPL( AG_Login_REQ )
 	printf("uiRootID = %d\n", uiRootID);
 	
 	MSG_GD_LOGIN_SYN msg2;
-	msg2.m_uiRootID = uiRootID;
+	msg2.uiRootID = uiRootID;
 	
-	g_GameServer->SendToDBServer( (BYTE *)&msg2, sizeof(msg2) );
+	//g_GameServer->SendToDBServer( (BYTE *)&msg2, sizeof(msg2) );
 }
 
 HANDLER_IMPL( AG_StartGame_REQ )
@@ -82,9 +82,9 @@ HANDLER_IMPL( AG_JoinTable_REQ )
 	
 	for(int i=0; i<3; ++i)
 	{
-		if( m_TableInfo[byTableNumber].m_szUserKey[i] == 0 ) {
-			m_TableInfo[byTableNumber].m_szUserKey[i] = dwUserID;
-			pUser->SetSeat(i); // 设置座位			
+		if( pUser->m_TableInfo[uiTableNumber].m_uiUserKey[i] == 0 ) {
+			pUser->m_TableInfo[uiTableNumber].m_uiUserKey[i] = dwUserID;
+			pUser->SetSeat(i); // 设置座位
 			break;
 		}
 	}

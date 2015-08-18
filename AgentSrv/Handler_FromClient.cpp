@@ -81,11 +81,11 @@ HANDLER_IMPL( CA_JoinTable_REQ )
 	
 	MSG_CA_JOINTABLE_REQ *pRecvMsg = (MSG_CA_JOINTABLE_REQ *)pMsg;
 	DWORD dwUserID = pRecvMsg->m_dwParameter;
-	printf("Table Number:%d\n", pRecvMsg->m_byTableNumber);
+	printf("Table Number:%d\n", pRecvMsg->m_uiTableNumber);
 	
 	MSG_AG_JOINTABLE_REQ msg2;
 	msg2.m_dwParameter = dwUserID; // User ID
-	msg2.m_byTableNumber = pRecvMsg->m_byTableNumber; // Table Number
+	msg2.m_uiTableNumber = pRecvMsg->m_uiTableNumber; // Table Number
 	g_AgentServer->SendToGameServer( (BYTE *)&msg2, sizeof(msg2) );
 }
 

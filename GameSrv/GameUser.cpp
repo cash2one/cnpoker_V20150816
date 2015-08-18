@@ -5,13 +5,15 @@
 
 #include "GameUserManager.h"
 
+//TableInfo GameUser::m_TableInfo[1000] = {0};
+
 GameUser::GameUser()
 {
 	m_dwUserKey = 0;
 	m_uiRoomNumber = 0;
 	m_uiTableNumber = 0;
 	
-	m_bySeat = 0;
+	m_uiSeat = 0;
 }
 	
 GameUser::~GameUser()
@@ -64,7 +66,7 @@ void GameUser::SetPlayerInfo(PlayerInfo info)
 GameUser * GameUser::GetNextGameUser()
 {
 	unsigned int idx = (m_uiSeat + 1) % 3;
-	DWORD dwUserID = m_TableInfo[m_uiTableNumber].m_uiUserKey[idx];
+	DWORD dwUserID = this->m_TableInfo[m_uiTableNumber].m_uiUserKey[idx];
 	GameUser * pUser = g_GameUserManager.Find(dwUserID);
 	if ( pUser != NULL ) {
 		return pUser;
@@ -108,10 +110,10 @@ void GameUser::AllocCards()
 	
 	BYTE * pMove = m_TableInfo[m_uiTableNumber].m_bAllCards;
 	
-	BYTE * pCards = &m_byCards;
+	BYTE * pCards = m_byCards;
 	for(BYTE i=3; i<54; ++i) {
 		BYTE bySeat = pMove[i];
-		if (m_bySeat == bySeat)
+		if (m_uiSeat == bySeat)
 		{
 			*pCards = vecCards[i];
 			pCards++;
@@ -133,6 +135,7 @@ void GameUser::Discards()
 
 void GameUser::Broadcast()
 {
+	#if 0
 	for ()
 	{
 		userkey= 	m_TableInfo[m_uiTableNumber ].m_szUserKey[i];
@@ -141,6 +144,7 @@ void GameUser::Broadcast()
 			send()
 		}
 	}
+	#endif
 }
 
 //////////////////////////////////////
