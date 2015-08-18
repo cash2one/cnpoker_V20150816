@@ -63,21 +63,12 @@ void GameUser::SetPlayerInfo(PlayerInfo info)
 
 GameUser * GameUser::GetNextGameUser()
 {
-	// GameManager是通过 UserID 查找的，不是通过 seat 查找。除非是seat 与 UserID用map对应，或者直接seat 与 GameUser 对应
 	unsigned int idx = (m_uiSeat + 1) % 3;
-	
-	#if 0
-	for(int i=0; i<3; ++i) {
-		if ( m_dwUserKey != m_TableInfo[m_uiTableNumber].m_szUserKey[i] ) {
-			
-			DWORD dwUserID = m_TableInfo[m_uiTableNumber].m_uiUserKey[i];
-			GameUser * pUser = g_GameUserManager.Find(dwUserID);
-			if ( pUser != NULL ) {
-				return pUser;
-			}			
-		}	
+	DWORD dwUserID = m_TableInfo[m_uiTableNumber].m_uiUserKey[idx];
+	GameUser * pUser = g_GameUserManager.Find(dwUserID);
+	if ( pUser != NULL ) {
+		return pUser;
 	}
-	#endif
 }
 
 void GameUser::StartGame()
@@ -117,7 +108,7 @@ void GameUser::AllocCards()
 	
 	BYTE * pMove = m_TableInfo[m_uiTableNumber].m_bAllCards;
 	
-	BYTE * pCards = byCards;
+	BYTE * pCards = &m_byCards;
 	for(BYTE i=3; i<54; ++i) {
 		BYTE bySeat = pMove[i];
 		if (m_bySeat == bySeat)
@@ -125,10 +116,9 @@ void GameUser::AllocCards()
 			*pCards = vecCards[i];
 			pCards++;
 		}	
-	}
-	
-	GetNext
-	->AllocCards();
+	}	
+	//GetNext
+	//->AllocCards();
 }
 
 void GameUser::ShowCards()

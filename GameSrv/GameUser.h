@@ -52,7 +52,7 @@ private:
 	unsigned int m_uiTableNumber; // 桌子号
 	unsigned int m_uiSeat;	// 座位号 0,1,2,3
 	
-	BYTE byCards[CNPOKER_CARD_LEN_2]; // 20
+	BYTE m_byCards[CNPOKER_CARD_LEN_2]; // 20
 	
 	static TableInfo m_TableInfo[1000];
 	
