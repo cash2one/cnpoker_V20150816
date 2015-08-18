@@ -29,7 +29,9 @@ HANDLER_IMPL( LD_Login_ANC )
 			LoginUserManager::Instance()->PUSH(pLoginUser);
 			
 			MSG_AL_PRELOGIN_ANC pSendMsg;
-			pSendMsg.uiRootID = pObj->uiRootID;
+			pSendMsg.m_dwParameter 	= pObj->m_dwParameter;
+			pSendMsg.uiRootID 		= pObj->uiRootID;
+			memset( pSendMsg.byUserKey, pObj->byUserKey, CODE_KEY_LEN);
 			pSession->Send( (BYTE *)&pSendMsg, sizeof(pSendMsg) );
 		}
 	}

@@ -28,6 +28,7 @@ HANDLER_IMPL( AL_Prelogin_SYN )
 
 HANDLER_IMPL( AL_Relogin_SYN )
 {
+/*	
 	MSG_AL_RELOGIN_SYN * pObj = (MSG_AL_RELOGIN_SYN *) pMsg;
 	
 	LoginUser * pLoginUser = NULL;
@@ -42,6 +43,7 @@ HANDLER_IMPL( AL_Relogin_SYN )
 			return;
 		}
 	}
+*/
 }
 
 HANDLER_IMPL( AL_Login_SYN )
