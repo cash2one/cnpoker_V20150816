@@ -11,7 +11,6 @@
 
 struct MSG_AG_LOGIN_REQ : public MSG_BASE_FORWARD
 {
-	//DWORD   m_dwUserID;
 	unsigned int m_uiRootID;
 	
 	MSG_AG_LOGIN_REQ() 
@@ -46,8 +45,6 @@ struct MSG_AG_LOGIN_ANC : public MSG_BASE_FORWARD
 
 struct MSG_AG_START_GAME_REQ : public MSG_BASE_FORWARD
 {
-	//DWORD   m_dwUserID;
-	
 	MSG_AG_START_GAME_REQ() 
 	{
 		memset( this, 0, sizeof(MSG_AG_START_GAME_REQ) );
@@ -62,8 +59,6 @@ struct MSG_AG_START_GAME_REQ : public MSG_BASE_FORWARD
 
 struct MSG_AG_START_GAME_ANC : public MSG_BASE_FORWARD
 {
-	//DWORD   m_dwUserID;
-	
 	MSG_AG_START_GAME_ANC() 
 	{
 		memset( this, 0, sizeof(MSG_AG_START_GAME_ANC) );
@@ -78,7 +73,6 @@ struct MSG_AG_START_GAME_ANC : public MSG_BASE_FORWARD
 
 struct MSG_AG_START_GAME_NAK : public MSG_BASE_FORWARD
 {
-	//DWORD   m_dwUserID;
 	DWORD 	m_dwErrorCode;
 	
 	MSG_AG_START_GAME_NAK() 
@@ -95,7 +89,6 @@ struct MSG_AG_START_GAME_NAK : public MSG_BASE_FORWARD
 
 struct MSG_AG_JOINROOM_REQ : public MSG_BASE_FORWARD
 {
-	//DWORD   m_dwUserID;
 	unsigned int m_uiRoomNumber;
 	
 	MSG_AG_JOINROOM_REQ() 
@@ -129,7 +122,6 @@ struct MSG_AG_JOINROOM_ANC : public MSG_BASE_FORWARD
 
 struct MSG_AG_JOINTABLE_REQ : public MSG_BASE_FORWARD
 {
-	//DWORD   m_dwUserID;
 	unsigned int m_uiTableNumber;
 	//unsigned int m_uiSeat;
 	
@@ -164,7 +156,6 @@ struct MSG_AG_JOINTABLE_ANC : public MSG_BASE_FORWARD
 // 初始化牌
 struct MSG_AG_INITCARDS_BRD : public MSG_BASE_FORWARD
 {
-	//unsigned int m_uiTableNumber;
 	BYTE m_byCards[20];
 	
 	MSG_AG_INITCARDS_BRD() 
@@ -173,6 +164,20 @@ struct MSG_AG_INITCARDS_BRD : public MSG_BASE_FORWARD
 		
 		m_byCategory = AG_Connect; // 10
 		m_byProtocol = AG_InitCards_BRD; // ???
+		
+		m_dwParameter = 0; // dwUserID
+		m_byParameter = 0;
+	}
+};
+
+struct MSG_AG_INITCARDS_ANC : public MSG_BASE_FORWARD
+{
+	MSG_AG_INITCARDS_ANC() 
+	{
+		memset( this, 0, sizeof(MSG_AG_INITCARDS_ANC) );
+		
+		m_byCategory = AG_Connect; // 10
+		//m_byProtocol = AG_InitCards_ANC; // ???
 		
 		m_dwParameter = 0; // dwUserID
 		m_byParameter = 0;
@@ -197,7 +202,7 @@ struct MSG_AG_SHOWCARDS_REQ : public MSG_BASE_FORWARD
 struct MSG_AG_SHOWCARDS_ANC : public MSG_BASE_FORWARD
 {
 	DWORD m_dwUserKey;
-	BYTE  m_dwCards[20];
+	BYTE  m_byCards[CNPOKER_CARD_LEN_2]; // 20
 	
 	MSG_AG_SHOWCARDS_ANC() 
 	{

@@ -31,7 +31,7 @@ void PacketHandler::Register_AG()
 	AddHandler_AG( AG_Connect, AG_JoinRoom_REQ, Handler_FromAgentServer::OnAG_JoinRoom_REQ );
 	AddHandler_AG( AG_Connect, AG_JoinTable_REQ, Handler_FromAgentServer::OnAG_JoinTable_REQ );
 	AddHandler_AG( AG_Connect, AG_ShowCards_REQ, Handler_FromAgentServer::OnAG_ShowCards_REQ );
-	AddHandler_AG( AG_Connect, AG_Discards_BRD, Handler_FromAgentServer::OnAG_Discards_BRD );
+	AddHandler_AG( AG_Connect, AG_Discards_REQ, Handler_FromAgentServer::OnAG_Discards_REQ );
 	AddHandler_AG( AG_Connect, AG_EndGame_SYN, Handler_FromAgentServer::OnAG_EndGame_SYN );
 	
 	AddHandler_AG( AG_Connect, AG_InitCards_BRD, Handler_FromAgentServer::OnAG_InitCards_BRD );
