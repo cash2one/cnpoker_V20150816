@@ -182,8 +182,6 @@ struct MSG_AG_INITCARDS_BRD : public MSG_BASE_FORWARD
 // 明牌
 struct MSG_AG_SHOWCARDS_REQ : public MSG_BASE_FORWARD
 {
-	//unsigned int m_uiTableNumber;
-	
 	MSG_AG_SHOWCARDS_REQ() 
 	{
 		memset( this, 0, sizeof(MSG_AG_SHOWCARDS_REQ) );
@@ -198,7 +196,8 @@ struct MSG_AG_SHOWCARDS_REQ : public MSG_BASE_FORWARD
 
 struct MSG_AG_SHOWCARDS_ANC : public MSG_BASE_FORWARD
 {
-	//unsigned int m_uiTableNumber;
+	DWORD m_dwUserKey;
+	BYTE  m_dwCards[20];
 	
 	MSG_AG_SHOWCARDS_ANC() 
 	{
@@ -215,7 +214,6 @@ struct MSG_AG_SHOWCARDS_ANC : public MSG_BASE_FORWARD
 // 出牌
 struct MSG_AG_DISCARDS_REQ : public MSG_BASE_FORWARD
 {
-	//unsigned int m_uiTableNumber;
 	unsigned int m_uiSize;
 	BYTE m_byDiscards[CNPOKER_CARD_LEN_2]; // 最多20张
 	
@@ -233,7 +231,9 @@ struct MSG_AG_DISCARDS_REQ : public MSG_BASE_FORWARD
 
 struct MSG_AG_DISCARDS_ANC : public MSG_BASE_FORWARD
 {
-	//unsigned int m_uiTableNumber;
+	DWORD m_dwUserKey;
+	DWORD m_uiSize;
+	BYTE m_byDiscards[CNPOKER_CARD_LEN_2]; // 最多20张
 	
 	MSG_AG_DISCARDS_ANC() 
 	{
