@@ -47,11 +47,24 @@ struct TableInfo
 	uint m_uiUserWons[3]; 	// 玩家{1,2,3} - 胜率
 	uint m_uiUserMoney[3]; 	// 玩家{1,2,3} - 钱池
 	
-	BYTE m_bAllCards[CNPOKER_CARD_LEN_1]; 	// 初始的牌 54张 // m_bAllCards[0] = 0,1,2,3,...53
-	BYTE m_bDiscards[CNPOKER_CARD_LEN_1]; 	// 打出的牌	// m_bDiscards[0] = 0,1; 0 未出的牌; 1 已出的牌
+	BYTE m_byExtraCards[3]; // 抢地主额外的三张牌
+	BYTE m_byAllCards[CNPOKER_CARD_LEN_1]; 	// 初始的牌 54张 // m_bAllCards[0] = 0,1,2,3,...53
+	char m_byDiscards[CNPOKER_CARD_LEN_1]; 	// 打出的牌	// m_bDiscards[0] = 0,-1; 0 未出的牌; -1 已出的牌
+		
+	uint m_uiLastMsg; // 最后一个有牌权的人
+	uint m_uiLastDis; // 上一个出牌的人
+	
+	BYTE m_byCmpValue; // 比较的值
+	BYTE m_byCmpCount; // 比较的值 的 个数
+	
+	BYTE m_byCallLandlord; // 叫地主
+	unsigned int m_uiGrabTimes; // 抢地主次数
 	
 	TableInfo()
 	{
+		m_uiLastDis = -1;
+		m_uiLastMsg = -1;
+		
 		memset( this, 0, sizeof(TableInfo) );
 	}
 };

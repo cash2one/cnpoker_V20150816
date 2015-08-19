@@ -184,6 +184,85 @@ struct MSG_AG_INITCARDS_ANC : public MSG_BASE_FORWARD
 	}
 };
 
+// 叫地主 请求
+struct MSG_AG_CALLLANDLOARD_REQ : public MSG_BASE_FORWARD
+{
+	BYTE m_byCall; // 0 不叫， 1 叫地主
+	
+	MSG_AG_CALLLANDLOARD_REQ()
+	{
+		memset( this, 0, sizeof(MSG_AG_CALLLANDLOARD_REQ) );
+		
+		m_byCategory = AG_Connect; // 10
+		m_byProtocol = AG_CallLandlord_REQ; // 
+		
+		m_dwParameter = 0; // dwUserID
+		m_byParameter = 0;
+	}
+};
+
+// 叫地主 应答
+struct MSG_AG_CALLLANDLOARD_ANC : public MSG_BASE_FORWARD
+{	
+	MSG_AG_CALLLANDLOARD_REQ()
+	{
+		memset( this, 0, sizeof(MSG_AG_CALLLANDLOARD_REQ) );
+		
+		m_byCategory = AG_Connect; // 10
+		m_byProtocol = AG_CallLandlord_ANC; // 
+		
+		m_dwParameter = 0; // dwUserID
+		m_byParameter = 0;
+	}
+};
+
+// 抢地主 请求
+struct MSG_AG_GRABLANDLOARD_REQ : public MSG_BASE_FORWARD
+{
+	MSG_AG_GRABLANDLOARD_REQ() 
+	{
+		memset( this, 0, sizeof(MSG_AG_GRABLANDLOARD_REQ) );
+		
+		m_byCategory = AG_Connect; // 10
+		m_byProtocol = AG_GrabLandlord_REQ; // 
+		
+		m_dwParameter = 0; // dwUserID
+		m_byParameter = 0;
+	}
+};
+
+// 抢地主 应答
+struct MSG_AG_GRABLANDLOARD_ANC : public MSG_BASE_FORWARD
+{
+	//unsigned int m_uiSeat; // 成功抢到地主的玩家Key 还是说 Seat ?
+	
+	MSG_AG_GRABLANDLOARD_ANC() 
+	{
+		memset( this, 0, sizeof(MSG_AG_GRABLANDLOARD_ANC) );
+		
+		m_byCategory = AG_Connect; // 10
+		m_byProtocol = AG_GrabLandlord_ANC; // 
+		
+		m_dwParameter = 0; // dwUserID
+		m_byParameter = 0;
+	}
+};
+
+// 抢地主 广播 (最终地主确定)
+struct MSG_AG_GRABLANDLOARD_BRD : public MSG_BASE_FORWARD
+{	
+	MSG_AG_GRABLANDLOARD_BRD() 
+	{
+		memset( this, 0, sizeof(MSG_AG_GRABLANDLOARD_BRD) );
+		
+		m_byCategory = AG_Connect; // 10
+		m_byProtocol = AG_GrabLandlord_BRD; // 
+		
+		m_dwParameter = 0; // dwUserID
+		m_byParameter = 0;
+	}
+};
+
 // 明牌
 struct MSG_AG_SHOWCARDS_REQ : public MSG_BASE_FORWARD
 {
@@ -246,6 +325,60 @@ struct MSG_AG_DISCARDS_ANC : public MSG_BASE_FORWARD
 		
 		m_byCategory = AG_Connect; // 10
 		m_byProtocol = AG_Discards_ANC; // ???
+		
+		m_dwParameter = 0; // dwUserID
+		m_byParameter = 0;
+	}
+};
+
+// 出牌 无效 
+struct MSG_AG_DISCARDS_INVALID : public MSG_BASE_FORWARD
+{
+	DWORD m_dwErrorCode;
+	
+	MSG_AG_DISCARDS_INVALID() 
+	{
+		memset( this, 0, sizeof(MSG_AG_DISCARDS_INVALID) );
+		
+		m_byCategory = AG_Connect; // 10
+		m_byProtocol = AG_Discards_INVALID; // ???
+		
+		m_dwParameter = 0; // dwUserID
+		m_byParameter = 0;
+	}
+};
+
+// 要不起 请求
+struct MSG_AG_PASS_REQ : public MSG_BASE_FORWARD
+{
+	//DWORD m_dwUserKey;
+	//DWORD m_uiSize;
+	//BYTE m_byDiscards[CNPOKER_CARD_LEN_2]; // 最多20张
+	
+	MSG_AG_PASS_REQ() 
+	{
+		memset( this, 0, sizeof(MSG_AG_PASS_REQ) );
+		
+		m_byCategory = AG_Connect; // 10
+		m_byProtocol = AG_Pass_REQ; // ???
+		
+		m_dwParameter = 0; // dwUserID
+		m_byParameter = 0;
+	}
+};
+
+// 要不起 应答
+struct MSG_AG_PASS_ANC : public MSG_BASE_FORWARD
+{
+	//DWORD m_dwUserKey;
+	//DWORD m_uiSize;
+	
+	MSG_AG_PASS_ANC() 
+	{
+		memset( this, 0, sizeof(MSG_AG_PASS_ANC) );
+		
+		m_byCategory = AG_Connect; // 10
+		m_byProtocol = AG_Pass_ANC; // ???
 		
 		m_dwParameter = 0; // dwUserID
 		m_byParameter = 0;

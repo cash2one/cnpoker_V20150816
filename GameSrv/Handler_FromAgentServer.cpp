@@ -108,14 +108,70 @@ HANDLER_IMPL( AG_InitCards_BRD )
 		printf("Can't find User %d\n", dwUserID);
 		return;
 	}
-	pUser->InitCards(); // 牌已经分为3份。 只是把牌分为3份，但不知道牌是什么。
-	pUser->AllocCards(); // 获得自己的牌, 其他用户的牌也一起分了
+	pUser->InitCards(); // 初始化牌
+	pUser->AllocCards(); // 发给每个玩家的牌
 
 	
 	// 返回 消息包 给 Agent
 	MSG_AG_INITCARDS_ANC msg2;
 	msg2.m_byParameter = dwUserID;
 	g_GameServer->SendToAgentServer( (BYTE *)&msg2, sizeof(msg2) );
+}
+
+// 叫地主
+HANDLER_IMPL( AG_CallLandlord_REQ )
+{
+	printf("AG_CallLandlord_REQ\n");
+	MSG_AG_CALLLANDLOARD_REQ * pRecvMsg = (MSG_AG_CALLLANDLOARD_REQ *)pMsg;
+	DWORD dwUserID = pRecvMsg->m_dwParameter;
+	
+	GameUser * pUser = g_GameUserManager.Find(dwUserID);
+	if ( pUser == NULL ) {
+		printf("Can't find User %d\n", dwUserID);
+		return;
+	}
+	pUser->CallLandlord();
+	
+	// 返回 消息包 给 Agent
+	MSG_AG_CALLLANDLOARD_ANC msg2;
+	msg2.m_byParameter = dwUserID;
+	g_GameServer->SendToAgentServer( (BYTE *)&msg2, sizeof(msg2) );
+}
+
+// 抢地主
+HANDLER_IMPL( AG_GrabLandlord_REQ )
+{
+	printf("AG_GrabLandlord_REQ\n");
+	
+	MSG_AG_GRABLANDLOARD_REQ * pRecvMsg = (MSG_AG_GRABLANDLOARD_REQ *)pMsg;
+	DWORD dwUserID = pRecvMsg->m_dwParameter;
+	
+	GameUser * pUser = g_GameUserManager.Find(dwUserID);
+	if ( pUser == NULL ) {
+		printf("Can't find User %d\n", dwUserID);
+		return;
+	}
+	pUser->GrabLandlord(); // 抢地主，抢地主次数加1.最终由Agent算出谁是地主
+	
+	// 返回 消息包 给 Agent
+	MSG_AG_GRABLANDLOARD_ANC msg2;
+	msg2.m_byParameter = dwUserID;
+	g_GameServer->SendToAgentServer( (BYTE *)&msg2, sizeof(msg2) );	
+}
+
+HANDLER_IMPL( AG_GrabLandlord_BRD )
+{
+	printf("AG_GrabLandlord_BRD\n");
+	
+	MSG_AG_GRABLANDLOARD_BRD * pRecvMsg = (MSG_AG_GRABLANDLOARD_BRD *)pMsg;
+	DWORD dwUserID = pRecvMsg->m_dwParameter;
+	
+	GameUser * pUser = g_GameUserManager.Find(dwUserID);
+	if ( pUser == NULL ) {
+		printf("Can't find User %d\n", dwUserID);
+		return;
+	}
+	pUser->GetExtraCards(); // 获取桌面的3张牌	
 }
 
 HANDLER_IMPL( AG_ShowCards_REQ )
@@ -154,6 +210,24 @@ HANDLER_IMPL( AG_Discards_REQ )
 		
 		g_GameServer->SendToAgentServer( (BYTE *)&msg2, sizeof(msg2) );
 	}
+}
+
+HANDLER_IMPL( AG_Pass_REQ )
+{
+	printf("AG_Pass_REQ\n");
+	MSG_AG_PASS_REQ * pRecvMsg = (MSG_AG_PASS_REQ *)pMsg;	
+	DWORD dwUserID = pRecvMsg->m_dwParameter;
+	
+	GameUser * pUser = g_GameUserManager.Find(dwUserID);
+	if ( pUser == NULL ) {
+		printf("Can't find User %d\n", dwUserID);
+		return;
+	}
+	pUser->Pass(); // 要不起
+	
+	MSG_AG_PASS_ANC msg2;
+	msg2.m_dwParameter = dwUserID;
+	g_GameServer->SendToAgentServer( (BYTE *)&msg2, sizeof(msg2) );
 }
 
 HANDLER_IMPL( AG_EndGame_SYN )

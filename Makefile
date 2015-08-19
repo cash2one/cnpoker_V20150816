@@ -16,7 +16,8 @@ INC = -I $(HOME)/Common  \
 	  -I $(MYSQLINC) 
 
 PublicObjs 		= Public/Yond_drng.o \
-				  Public/InfoParser.o
+				  Public/InfoParser.o \
+				  Public/Poker.o
 	  
 UtilityObjs 	= Utility/Yond_mutex.o \
 				  Utility/Yond_ini.o \

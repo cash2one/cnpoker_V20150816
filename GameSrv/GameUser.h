@@ -31,12 +31,6 @@ public:
 	void SetTableNumber(unsigned int unTableNum) { m_uiTableNumber = unTableNum; }
 	void SetSeat(unsigned int unSeat) { m_uiSeat = unSeat; }
 
-	/**********  出牌算法 **********/
-	int Than(ePK_TYPE _my, char _myValue, char _myCount, ePK_TYPE _other, char _otherValue, char _otherCount);
-	int Pick(char * PK_Group, char PK_Size, char & thanValue, char & thanCount);
-	int OneTimes(char * szPK1, char iSizePK1, char * szPK2, char iSizePK2);
-	
-	/*******************************/
 	
 	PlayerInfo & GetPlayerInfo();
 
@@ -44,30 +38,38 @@ public:
 	
 	GameUser * GetNextGameUser();
 	
+	/****** 游戏响应 ******/
 	void StartGame();
 	
 	void InitCards();
 	
 	void AllocCards();
 	
-	void ShowCards();
+	void CallLandlord(BYTE byCall); // 叫地主
+	void GrabLandlord(); // 抢地主
+	void GetExtraCards(); // 获取桌面的三张牌
 	
-	void Discards(BYTE * pCards, unsigned int uiSize);
+	void ShowCards(); // 明牌
 	
-	BOOL IsWinTheGame();
+	void Discards(BYTE * pCards, unsigned int uiSize); // 出牌
+	
+	void Pass(); // 要不起
+	
+	BOOL IsWinTheGame(); // 是否取得胜利
+	
+	/****** 游戏响应 ******/
 	
 	void Broadcast(BYTE *pMsg, WORD wSize); // 发送消息给其他游戏玩家
 	
 	// 找出打出的牌，m_bDiscards， 并检查出牌是否有效
-	void FigureOutDiscards(BYTE * pCards, unsigned int uiSize); // 出的牌 3,4,5 --> 3张
-
+	int FigureOutDiscards(BYTE * pCards, unsigned int uiSize); // 出的牌 3,4,5 --> 3张
 	
 	
 	static TableInfo m_TableInfo[1000]; // private to public	
 	
-	char m_szCards[CNPOKER_CARD_LEN_2]; // 自己手上的牌 private  to public
+	char m_szCards[CNPOKER_CARD_LEN_2]; // 自己手上的牌 private to public
 	
-	unsigned int m_uiCardsCount; // 记录一共有多少张牌
+	unsigned int m_uiCardsCount; // 记录玩家手上有多少张牌
 	
 	static unsigned short GetRandom();
 private:

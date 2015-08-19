@@ -22,14 +22,21 @@ public:
 #endif
 	HANDLER_DECL( AG_Login_REQ );
 
+	HANDLER_DECL( AG_StartGame_REQ ); // 开始游戏
+	
 	HANDLER_DECL( AG_JoinRoom_REQ );
 	HANDLER_DECL( AG_JoinTable_REQ );
+		
+	HANDLER_DECL( AG_InitCards_BRD ); // 初始化牌
 	
-	HANDLER_DECL( AG_StartGame_REQ );
+	HANDLER_DECL( AG_CallLandlord_REQ ); // 叫地主
+	HANDLER_DECL( AG_GrabLandlord_REQ ); // 抢地主
+	HANDLER_DECL( AG_GrabLandlord_BRD ); // 抢地主 广播
 	
-	HANDLER_DECL( AG_InitCards_BRD );
 	HANDLER_DECL( AG_ShowCards_REQ );
 	HANDLER_DECL( AG_Discards_REQ );
+	
+	HANDLER_DECL( AG_Pass_REQ ); // 要不起
 	
 	HANDLER_DECL( AG_EndGame_SYN );
 	
