@@ -22,12 +22,12 @@ void LoginServerSession::OnRecv(BYTE *pMsg, WORD wSize)
 	g_PacketHandler.ParsePacket_AL( this, (MSG_BASE *)pMsg, wSize );
 }
 
-void GameServerSession::OnDisconnect()
+void LoginServerSession::OnDisconnect()
 {
 	ServerSession::OnDisconnect();
 }
 
-void GameServerSession::OnLogString( char * pszLog)
+void LoginServerSession::OnLogString( char * pszLog)
 {
 	
 }

@@ -31,7 +31,12 @@ public:
 	void SetTableNumber(unsigned int unTableNum) { m_uiTableNumber = unTableNum; }
 	void SetSeat(unsigned int unSeat) { m_uiSeat = unSeat; }
 
+	/**********  出牌算法 **********/
+	int Than(ePK_TYPE _my, char _myValue, char _myCount, ePK_TYPE _other, char _otherValue, char _otherCount);
+	int Pick(char * PK_Group, char PK_Size, char & thanValue, char & thanCount);
+	int OneTimes(char * szPK1, char iSizePK1, char * szPK2, char iSizePK2);
 	
+	/*******************************/
 	
 	PlayerInfo & GetPlayerInfo();
 

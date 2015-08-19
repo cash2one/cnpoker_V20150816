@@ -58,6 +58,8 @@ typedef unsigned long	ULONG;
 
 #include "Const.h"
 #include "Define.h"
+#include "Cnpoker.h"
+
 #include "Protocol.h"
 #include "CommStruct.h"
 #include "PackageStruct.h"
