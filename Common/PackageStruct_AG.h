@@ -204,9 +204,9 @@ struct MSG_AG_CALLLANDLOARD_REQ : public MSG_BASE_FORWARD
 // 叫地主 应答
 struct MSG_AG_CALLLANDLOARD_ANC : public MSG_BASE_FORWARD
 {	
-	MSG_AG_CALLLANDLOARD_REQ()
+	MSG_AG_CALLLANDLOARD_ANC()
 	{
-		memset( this, 0, sizeof(MSG_AG_CALLLANDLOARD_REQ) );
+		memset( this, 0, sizeof(MSG_AG_CALLLANDLOARD_ANC) );
 		
 		m_byCategory = AG_Connect; // 10
 		m_byProtocol = AG_CallLandlord_ANC; // 

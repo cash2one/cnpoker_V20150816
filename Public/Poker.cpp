@@ -2,7 +2,7 @@
 
 /**********  出牌算法 **********/
 
-int Than(ePK_TYPE _my, char _myValue, char _myCount, ePK_TYPE _other, char _otherValue, char _otherCount)
+int Poker::Than(ePK_TYPE _my, char _myValue, char _myCount, ePK_TYPE _other, char _otherValue, char _otherCount)
 {
 	if ( _my != _other ) {
 		if ( _my == PH_MAX )
@@ -22,9 +22,8 @@ int Than(ePK_TYPE _my, char _myValue, char _myCount, ePK_TYPE _other, char _othe
 	
 	return (PH_INVALID);
 }
-//PH_2 =  3 ,2 ;  3 , 0
-//PH_C1 / C2/ C3      4, 2
-int Pick(char * PK_Group, char PK_Size, char & thanValue, char & thanCount)
+
+int Poker::Pick(char * PK_Group, char PK_Size, char & thanValue, char & thanCount)
 {
 	if ( PK_Size <= 0 || PK_Group == NULL ) {
 		return (PH_0);
@@ -199,7 +198,7 @@ int Pick(char * PK_Group, char PK_Size, char & thanValue, char & thanCount)
 	return (PH_0);	
 }
 
-int OneTimes(char * szPK1, char iSizePK1, char * szPK2, char iSizePK2)
+int Poker::OneTimes(char * szPK1, char iSizePK1, char * szPK2, char iSizePK2)
 {
 	char iThanValue1 = 0;
 	char iThanCount1 = 0;

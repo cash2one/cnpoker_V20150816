@@ -1,7 +1,5 @@
 #include "GameUser.h"
 
-#include <ctime>
-#include <cstdlib>
 
 #include "GameServer.h"
 #include "GameUserManager.h"
@@ -156,21 +154,21 @@ void GameUser::AllocCards()
 
 void GameUser::CallLandlord(BYTE byCall)
 {
-	printf("[UserID = %d] : CallLandlord\n", m_szUserKey);	
+	printf("[UserID = %d] : CallLandlord\n", m_dwUserKey);	
 	GameUser::m_TableInfo[m_uiTableNumber].m_byCallLandlord = byCall;
 }
 
 void GameUser::GrabLandlord()
 {
-	printf("[UserID = %d] : GrabLandlord\n", m_szUserKey);
+	printf("[UserID = %d] : GrabLandlord\n", m_dwUserKey);
 	
 	GameUser::m_TableInfo[m_uiTableNumber].m_uiGrabTimes++; // 抢地主次数加1
 }
 
 void GameUser::GetExtraCards()
 {
-	char *pMove = GameUser::m_TableInfo[m_uiTableNumber].m_byExtraCards;
-	strncpy(m_szCards+17, pMove, 3);
+	BYTE *pMove = GameUser::m_TableInfo[m_uiTableNumber].m_byExtraCards;
+	memcpy(m_szCards+17, pMove, 3);
 	
 	// 重新对牌进行排序
 	// ...
@@ -182,7 +180,7 @@ void GameUser::ShowCards()
 	
 	MSG_AG_SHOWCARDS_ANC msg2;
 	msg2.m_dwUserKey = m_dwUserKey;
-	memcpy(msg2.m_szCards, m_szCards, CNPOKER_CARD_LEN_2); // 将明牌玩家的牌复制进消息包中
+	memcpy(msg2.m_byCards, m_szCards, CNPOKER_CARD_LEN_2); // 将明牌玩家的牌复制进消息包中
 
 	// 发送给另外一个玩家
 	unsigned int idx = (m_uiSeat + 1) % 3;
@@ -201,17 +199,28 @@ void GameUser::Discards(BYTE * pCards, unsigned int uiSize)
 {
 	printf("[Discards] : Table Number = %d\n", m_uiTableNumber);	
 
+	int iThanValue1, iThanCount1;
 	// 判断谁出牌
 	if (GameUser::m_TableInfo[m_uiTableNumber].m_uiLastDis == -1) {
 		GameUser::m_TableInfo[m_uiTableNumber].m_uiLastDis = m_uiSeat; // 第一次出牌
-		GameUser::m_TableInfo[m_uiTableNumber].m_uiLastMsg = m_uiSeat; 
+		GameUser::m_TableInfo[m_uiTableNumber].m_uiLastMsg = m_uiSeat;
+		
+		// 判断出牌是否符合逻辑
+		int nRet = Poker::Pick(pCards, uiSize, iThanValue1, iThanCount1);		
+		if ( nRet == PH_0 ) {
+			MSG_AG_DISCARDS_INVALID msg2;
+			msg2.m_dwParameter = m_dwUserKey;
+			msg2.m_dwErrorCode = nRet; // 错误码
+			g_GameServer->SendToAgentServer( (BYTE *)&msg2, sizeof(msg2) );		
+			return;
+		}
 	}
 	
 	// 如果 最后一个有牌权的人 不等于 上一次出牌的人， 则需要对出牌先做判断
 	if ( GameUser::m_TableInfo[m_uiTableNumber].m_uiLastMsg != GameUser::m_TableInfo[m_uiTableNumber].m_uiLastDis ) {
-		//e1 = Pick(szPK1, iSizePK1, iThanValue1, iThanCount1);
-		//uint iThanValue1.iThanCount1;
-		//OneTimes(pCards, uiSize, );
+		// 与之前的牌比较
+	
+		//int nRet = Poker::OneTimes(pCards, uiSize, );
 	}
 	
 	// 此时可以直接出牌了
@@ -248,8 +257,8 @@ void GameUser::Discards(BYTE * pCards, unsigned int uiSize)
 	GameUser::m_TableInfo[m_uiTableNumber].m_uiLastMsg = (m_uiSeat + 1) % 3; // 牌权调到下一个人
 	
 	// 记录打出的最大的牌 及 张数
-	//GameUser::m_TableInfo[m_uiTableNumber].m_byCmpValue = iThanValue1;
-	//GameUser::m_TableInfo[m_uiTableNumber].m_byCmpCount = iThanCount1;
+	GameUser::m_TableInfo[m_uiTableNumber].m_byCmpValue = iThanValue1;
+	GameUser::m_TableInfo[m_uiTableNumber].m_byCmpCount = iThanCount1;
 }
 
 void GameUser::Pass()

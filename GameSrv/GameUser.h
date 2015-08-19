@@ -80,6 +80,8 @@ private:
 	unsigned int m_uiSeat; 			// 座位号 0,1,2,3
 	
 	PlayerInfo m_pPlayer;
+	
+	//static Poker m_sPoker;
 };
 
 #endif
