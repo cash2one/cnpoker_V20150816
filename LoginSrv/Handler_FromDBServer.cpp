@@ -1,6 +1,7 @@
 #include "Handler_FromDBServer.h"
 #include "LoginUserManager.h"
 #include "LoginFactory.h"
+#include "AllocServer.h"
 #include "LoginUser.h"
 
 Handler_FromDBServer::Handler_FromDBServer() 
@@ -12,7 +13,6 @@ Handler_FromDBServer::~Handler_FromDBServer()
 {
 	
 }
-
 
 HANDLER_IMPL( LD_Login_ANC )
 {
@@ -31,7 +31,11 @@ HANDLER_IMPL( LD_Login_ANC )
 			MSG_AL_PRELOGIN_ANC pSendMsg;
 			pSendMsg.m_dwParameter 	= pObj->m_dwParameter;
 			pSendMsg.uiRootID 		= pObj->uiRootID;
-			memset( pSendMsg.byUserKey, pObj->byUserKey, CODE_KEY_LEN);
+			memcpy( pSendMsg.byUserKey, pObj->byUserKey, CODE_KEY_LEN);
+			
+			AgentServerSession * pSession = AllocServer::Instance()->POP();
+			memcpy( pSendMsg.m_szIP, pSession->GetConnnectIP().c_str(), pSession->GetConnnectIP().size() );
+			pSendMsg.m_Port = pSession->GetConnnectPort();
 			pSession->Send( (BYTE *)&pSendMsg, sizeof(pSendMsg) );
 		}
 	}

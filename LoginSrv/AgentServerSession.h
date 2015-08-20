@@ -25,7 +25,8 @@ public:
 	virtual void	OnRecv( BYTE *pMsg, WORD wSize );
 	virtual void	OnLogString( char * pszLog );
 	
-	DWORD m_dwLoginCount;
+public:
+	unsigned short m_userCount;
 	
 	// @{ Save its after Login; }
 	/*

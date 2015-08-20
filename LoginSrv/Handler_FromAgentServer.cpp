@@ -55,7 +55,7 @@ HANDLER_IMPL( AL_Login_SYN )
 	if (pLoginUser != NULL) {
 		AgentServerSession * pSession = (AgentServerSession *)pServerSession;
 		if ( pSession != NULL ) {
-			pSession->m_dwLoginCount++;
+			pSession->m_userCount++;
 			LoginFactory::Instance()->FreeLoginUser(pLoginUser);
 			
 			MSG_AL_LOGIN_ANC pSendMsg;
@@ -78,7 +78,7 @@ HANDLER_IMPL( AL_Login_SYN )
 HANDLER_IMPL( AL_Logout_SYN )
 {
 	AgentServerSession * pSession = (AgentServerSession *)pServerSession;
-	pSession->m_dwLoginCount--;
+	pSession->m_userCount--;
 	
 	MSG_AL_LOGOUT_SYN * pObj = (MSG_AL_LOGOUT_SYN *) pMsg;
 	
