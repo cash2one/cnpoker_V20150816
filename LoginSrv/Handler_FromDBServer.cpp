@@ -34,7 +34,7 @@ HANDLER_IMPL( LD_Login_ANC )
 			memcpy( pSendMsg.byUserKey, pObj->byUserKey, CODE_KEY_LEN);
 			
 			AgentServerSession * pSession = AllocServer::Instance()->POP();
-			memcpy( pSendMsg.m_szIP, pSession->GetConnnectIP().c_str(), pSession->GetConnnectIP().size() );
+			memcpy( pSendMsg.m_byIP, pSession->GetConnnectIP().c_str(), pSession->GetConnnectIP().size() );
 			pSendMsg.m_Port = pSession->GetConnnectPort();
 			pSession->Send( (BYTE *)&pSendMsg, sizeof(pSendMsg) );
 		}

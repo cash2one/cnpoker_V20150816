@@ -22,7 +22,7 @@ void TempServerSession::OnRecv(BYTE *pMsg, WORD wSize)
 	assert( m_bFirst == TRUE);
 	m_bFirst = FALSE;
 	
-	printf("Enter TempServerSession::OnRecv.\n");
+	printf("[TempServerSession::OnRecv]\n");
 	
 #if 0
 	MSG_SERVER_TYPE * pRecvMsg = (MSG_SERVER_TYPE *)pMsg;

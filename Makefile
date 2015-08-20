@@ -85,20 +85,22 @@ DBServerObjs 	= HyMysql/HyDatabase.o \
 				  DBSrv/TempServerSession.o
 
 LoginServerObjs = LoginSrv/ServerSession.o \
+				  LoginSrv/TempServerSession.o \
 				  LoginSrv/AgentServerSession.o \
 				  LoginSrv/DBServerSession.o \
-				  LoginSrv/TempServerSession.o \
-				  LoginSrv/UserSession.o \
-				  LoginSrv/User.o \
-				  LoginSrv/UserManager.o \
+				  LoginSrv/LoginMain.o \
 				  LoginSrv/LoginFactory.o \
-				  LoginSrv/LoginMain.o 
-		 # LoginSrv/Handler_FromAgentServer.o LoginSrv/Handler_FromDBServer.o \
-
+				  LoginSrv/LoginServer.o \
+				  LoginSrv/LoginUser.o \
+				  LoginSrv/LoginUserManager.o \
+				  LoginSrv/PacketHandler.o \
+				  LoginSrv/AllocServer.o \
+				  LoginSrv/Handler_FromAgentServer.o \
+				  LoginSrv/Handler_FromDBServer.o 
+				  
 BINDIR = bin
 
-all: checkbin $(BINDIR)/AgentServer $(BINDIR)/GameServer $(BINDIR)/DBServer
-#$(BINDIR)/LoginServer
+all: checkbin $(BINDIR)/AgentServer $(BINDIR)/GameServer $(BINDIR)/DBServer $(BINDIR)/LoginServer
 
 $(BINDIR)/AgentServer: $(UtilityObjs) $(PublicObjs) $(NetworkObjs) $(AgentServerObjs)
 	$(CC) -g $^ -o $@ -pthread
@@ -109,8 +111,8 @@ $(BINDIR)/GameServer: $(UtilityObjs) $(PublicObjs) $(NetworkObjs) $(GameServerOb
 $(BINDIR)/DBServer: $(UtilityObjs) $(PublicObjs) $(NetworkObjs) $(DBServerObjs)
 	$(CC) -g $(MYSQLLIB) $^ -o $@ -pthread
 
-#$(BINDIR)/LoginServer: $(UtilityObjs) $(PublicObjs) $(NetworkObjs) $(LoginServerObjs)
-#	$(CC) -g $^ -o $@ -pthread
+$(BINDIR)/LoginServer: $(UtilityObjs) $(PublicObjs) $(NetworkObjs) $(LoginServerObjs)
+	$(CC) -g $^ -o $@ -pthread
 
 .SUFFIXES: .c .o .cpp
 .cpp.o:

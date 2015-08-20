@@ -1,5 +1,8 @@
 #include "LoginServer.h"
 
+#include "InfoParser.h"
+#include "LoginUserManager.h"
+
 NetworkObject * CreateServerSideAcceptedObject();
 VOID DestroyServerSideAcceptedObject( NetworkObject *pNetworkObject );
 VOID DestroyServerSideConnectedObject( NetworkObject *pNetworkObject );
@@ -8,9 +11,11 @@ LoginServer * g_LoginServer = NULL;
 
 LoginServer::LoginServer(void)
 {
+	m_bShutdown = FALSE;
 	m_pIOCPServer = NULL;
 	
 	m_pDBServerSession = NULL;
+	m_pAgentServerSession = NULL;
 }
 
 LoginServer::~LoginServer(void)
@@ -21,7 +26,12 @@ LoginServer::~LoginServer(void)
 
 BOOL LoginServer::Init()
 {
-	//LoginFactory::Instance()->Init();
+	LoginFactory::Instance()->Init();
+	BOOL bRet = g_InfoParser.Init( "./ServerInfo.ini" );
+	if ( !bRet ) {
+		printf("Parse Server Info fail\n");
+		return FALSE;
+	}
 	
 	m_pIOCPServer = new IOCPServer;
 
@@ -33,7 +43,7 @@ BOOL LoginServer::Init()
 	desc[0].dwSendBufferSize			= 2000000;
 	desc[0].dwRecvBufferSize		 	= 2000000;
 	desc[0].dwTimeOut					= 0;
-	desc[0].dwNumberOfAcceptThreads		= 1;
+	desc[0].dwNumberOfAcceptThreads		= 0; // Acceot
 	desc[0].dwNumberOfIoThreads			= 1;
 	desc[0].dwNumberOfConnectThreads	= 1; // Connect
 	desc[0].dwMaxPacketSize				= 60000; //4096
@@ -45,7 +55,52 @@ BOOL LoginServer::Init()
 		return FALSE;
 	}
 
+	// Agent Server
+	m_pAgentServerSession = LoginFactory::Instance()->AllocAgentServerSession();
+	if ( m_pAgentServerSession ) {
+		SERVER_INFO info = g_InfoParser.GetServerInfo( AGENT_SERVER );
+		m_pAgentServerSession->SetAddr( info.m_strIp, info.m_dwPort ); // Agent Port 7000
+	}
+	
+	// DB Server
+	m_pDBServerSession = LoginFactory::Instance()->AllocDBServerSession();
+	if ( m_pDBServerSession ) {
+		SERVER_INFO info = g_InfoParser.GetServerInfo( DB_SERVER );
+		m_pDBServerSession->SetAddr( info.m_strIp, info.m_dwPort ); // DB Port 7300
+	}	
+	
+	LoginUserManager::Instance()->Init(); 
+	
 	return TRUE;	
+}
+
+BOOL LoginServer::ConnectToServer( ServerSession * pSession, char * pszIP, WORD wPort )
+{
+	if (pSession == NULL) {
+		return FALSE;
+	}
+	printf("IP = %s, Port = %d\n", pszIP, wPort);
+	
+	return m_pIOCPServer->Connect( SERVER_SYNCHANDLER, (NetworkObject *)pSession, pszIP, wPort );
+}
+
+BOOL LoginServer::MaintainConnection()
+{
+	if (m_bShutdown) {
+		return TRUE;
+	}
+	
+	if ( m_pAgentServerSession ) {
+		if ( m_pAgentServerSession->TryToConnect() ) {
+			ConnectToServer( m_pAgentServerSession, (char *)m_pAgentServerSession->GetConnnectIP().c_str(), m_pAgentServerSession->GetConnnectPort() );
+		}
+	}
+	
+	if ( m_pDBServerSession ) {
+		if ( m_pDBServerSession->TryToConnect() ) {
+			ConnectToServer( m_pDBServerSession, (char *)m_pDBServerSession->GetConnnectIP().c_str(), m_pDBServerSession->GetConnnectPort() );
+		}
+	}
 }
 
 BOOL LoginServer::Update( DWORD dwDeltaTick )
@@ -55,36 +110,37 @@ BOOL LoginServer::Update( DWORD dwDeltaTick )
 		m_pIOCPServer->Update();
 	}
 
-	//MaintainConnection();
+	// Connect other Servers
+	MaintainConnection();
 	
 	return TRUE;
 }
 
-void LoginServer::Release()
-{
-	
-}
+//void LoginServer::Release()
+//{
+//	
+//}
 
-BOOL LoginServer::MaintainConnection()
+BOOL LoginServer::SendToAgentServer( BYTE * pMsg, WORD wSize)
 {
-	if (m_bShutdown) {
-		return TRUE;
+	printf("[LoginServer::SendToAgentServer]\n");
+	
+	if ( m_pAgentServerSession ) {
+		return m_pAgentServerSession->Send( pMsg, wSize );
 	}
-}
-
-BOOL LoginServer::ConnectToServer(ServerSession * pSession)
-{
-	
+	return FALSE;
 }
 
 BOOL LoginServer::SendToDBServer(BYTE * pMsg, WORD wSize)
 {
+	printf("[LoginServer::SendToDBServer]\n");
 	if (m_pDBServerSession != NULL) {
-		m_pDBServerSession->Send(pMsg, wSize);
+		return m_pDBServerSession->Send(pMsg, wSize);
 	}
+	return FALSE;
 }
 
-
+/*************************************************/
 NetworkObject * CreateServerSideAcceptedObject() {
 	printf("[LoginServer::CreateServerSideAcceptedObject]: Alloc TempServerSession.\n");
 	#if 0

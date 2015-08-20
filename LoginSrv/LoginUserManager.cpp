@@ -2,7 +2,7 @@
 
 LoginUserManager::LoginUserManager()
 {
-	//memset( this, 0, sizeof(DBUserManager) );
+	//m_mapLoginUser.clear();
 }
 
 LoginUserManager::~LoginUserManager()
@@ -21,12 +21,12 @@ BOOL LoginUserManager::Init()
 	return TRUE;
 }
 
-void LoginUserManager::PUSH(LoginUser * pObj)
+void LoginUserManager::PUSH(LoginUser * pLoginUser)
 {
-	MAP_LOGINUSER_ITER it = m_mapLoginUser.find( pObj->GetRootID() );
+	MAP_LOGINUSER_ITER it = m_mapLoginUser.find( pLoginUser->GetRootID() );
 	if ( it != m_mapLoginUser.end() )
 	{
-		m_mapLoginUser[ pObj->GetRootID() ] = pObj;
+		m_mapLoginUser[ pLoginUser->GetRootID() ] = pLoginUser;
 	}
 }
 
@@ -35,8 +35,8 @@ LoginUser * LoginUserManager::POP(DWORD dwRootID)
 	MAP_LOGINUSER_ITER it = m_mapLoginUser.find( dwRootID );
 	if ( it != m_mapLoginUser.end() )
 	{
-		LoginUser * pObj = it->second;
-		m_mapLoginUser.erase(it);
-		return pObj;
+		LoginUser * pLoginUser = it->second;
+		m_mapLoginUser.erase( it );
+		return pLoginUser;
 	}
 }

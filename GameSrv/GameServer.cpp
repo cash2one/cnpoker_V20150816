@@ -114,8 +114,9 @@ BOOL GameServer::SendToAgentServer( BYTE * pMsg, WORD wSize)
 	printf("[GameServer::SendToAgentServer]\n");
 	
 	if ( m_pAgentServerSession ) {
-		m_pAgentServerSession->Send( pMsg, wSize );
+		return m_pAgentServerSession->Send( pMsg, wSize );
 	}
+	return FALSE;
 }
 
 //////////////////////////////////////////////////////

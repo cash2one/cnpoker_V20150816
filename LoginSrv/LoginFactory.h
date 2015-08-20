@@ -20,7 +20,7 @@ public:
 	~LoginFactory();
 
 private:
-	// User
+	// LoginUser
 	MemoryFactory<LoginUser> 			* m_pLoginUserPool;
 
 	// Server

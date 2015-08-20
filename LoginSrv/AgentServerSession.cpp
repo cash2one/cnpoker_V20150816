@@ -3,7 +3,8 @@
 #include "PacketHandler.h"
 
 AgentServerSession::AgentServerSession()
-{	
+{
+	m_userCount = 0;
 }
 
 AgentServerSession::~AgentServerSession()
@@ -29,7 +30,7 @@ void AgentServerSession::OnRecv(BYTE *pMsg, WORD wSize)
 {
 	printf("[AgentServerSession::OnRecv]\n");
 	printf("call g_PacketHandler.ParsePacket_AL function.\n");
-	//g_PacketHandler.ParsePacket_AL( this, (MSG_BASE *)pMsg, wSize);
+	g_PacketHandler.ParsePacket_AL( this, (MSG_BASE *)pMsg, wSize);
 }
 
 void AgentServerSession::OnDisconnect()

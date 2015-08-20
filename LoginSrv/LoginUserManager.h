@@ -4,9 +4,10 @@
 #include <Utility.h>
 #include <Common.h>
 #include <Network.h>
-#include "ServerSession.h"
-#include "LoginUser.h"
+#include <Public.h>
 
+#include "LoginUser.h"
+#include "ServerSession.h"
 
 typedef std::map<DWORD, LoginUser*> 	MAP_LOGINUSER;
 typedef MAP_LOGINUSER::iterator       	MAP_LOGINUSER_ITER;
@@ -21,8 +22,9 @@ public:
 	
 	void Release();
 	
-	void PUSH(LoginUser * pObj);
-	LoginUser * POP(DWORD dwRootID);
+	void PUSH( LoginUser * pLoginUser );
+	
+	LoginUser * POP( DWORD dwRootID );
 
 private:
 	MAP_LOGINUSER		m_mapLoginUser;

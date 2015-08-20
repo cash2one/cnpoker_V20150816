@@ -10,14 +10,14 @@ public:
 	LoginUser();
 	~LoginUser();
 
-	void SetHashKey(DWORD dwKey) {	m_dwKey = dwKey; }
+	void SetHashKey( DWORD dwKey ) { m_dwKey = dwKey; }
 	DWORD GetHashKey() { return m_dwKey; }
 	
-	void SetRootID(DWORD dwRootID) {	m_dwRootID = dwRootID; }
+	void SetRootID( DWORD dwRootID ) { m_dwRootID = dwRootID; }
 	DWORD GetRootID() { return m_dwRootID; }
 	
-	void SetMD(BYTE * _md5);
-	BOOL IsSameMD(BYTE * _md5);
+	void SetMD( BYTE * _md5 );
+	BOOL IsSameMD( BYTE * _md5 );
 	
 private:
 	DWORD  m_dwKey;

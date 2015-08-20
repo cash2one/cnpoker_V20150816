@@ -4,6 +4,7 @@
 #include <Utility.h>
 #include <Common.h>
 #include <Network.h>
+#include <Public.h>
 #include "LoginFactory.h"
 
 using namespace std;
@@ -18,22 +19,22 @@ public:
 
 	// 初始化
 	BOOL Init();
-		
-	// 更新帧
-	BOOL Update( DWORD dwDeltaTick );
 	
-	// 释放
-	void Release();
+	// 连接
+	BOOL ConnectToServer( ServerSession * pSession, char * pszIP, WORD wPort );
 	
 	// 连接其他服务器
 	BOOL MaintainConnection();
 	
-	// 连接
-	BOOL ConnectToServer(ServerSession * pSession);
-		
-	//BOOL SendToAgentServer( BYTE * pMsg, WORD wSize);
+	// 更新帧
+	BOOL Update( DWORD dwDeltaTick );
 	
-	BOOL SendToDBServer(BYTE * pMsg, WORD wSize);
+	// 释放
+	//void Release();
+		
+	BOOL SendToAgentServer( BYTE * pMsg, WORD wSize );
+	
+	BOOL SendToDBServer( BYTE * pMsg, WORD wSize );
 	
 private:
 	BOOL m_bShutdown;
@@ -42,7 +43,7 @@ private:
 	
 	//
 	ServerSession * m_pDBServerSession;
-	
+	ServerSession * m_pAgentServerSession;
 };
 
 extern LoginServer * g_LoginServer;
