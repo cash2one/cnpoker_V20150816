@@ -89,13 +89,11 @@ BOOL AgentServer::Init()
 		return FALSE;
 	}
 	
-	
-	//m_pGameServer = AgentFactory::Instance()->AllocGameServerSession();
-	//if ( m_pGameServer ) {
-	//	SERVER_INFO info = g_InfoParser.GetServerInfo( GAME_SERVER ); // 获取 GAME Server 的 IP 与 Port
-	//	m_pGameServer->SetAddr( info.m_strIp, info.m_dwPort ); // 7100		
-	//	//m_pIOCPServer->Connect( SERVER_SYNCHANDLER, (NetworkObject *)m_pGameServer, "127.0.0.1", 7100 ); // GAME Port 7100
-	//}	
+	m_pLoginServer = AgentFactory::Instance()->AllocLoginServerSession();
+	if ( m_pLoginServer == NULL) {
+		printf("[AgentFactory::Instance()->AllocLoginServerSession] fail\n");
+		return FALSE;
+	}
 
 	
 	return TRUE;	
@@ -172,6 +170,11 @@ ServerSession * AgentServer::GetGameServerSession() const
 	return m_pGameServer;
 }
 
+ServerSession * AgentServer::GetLoginServerSession() const
+{
+	return m_pLoginServer;
+}
+
 #if 0
 BOOL AgentServer::ConnectToServer(ServerSession * pSession, char * pszIP, WORD wPort)
 {
@@ -199,12 +202,20 @@ NetworkObject * CreateServerSideAcceptedObject() {
 }
 
 VOID DestroyServerSideAcceptedObject( NetworkObject *pObjs ) {
-	printf("[AgentServer::DestroyServerSideAcceptedObject]: Free GameServerSession.\n");
-	GameServerSession * obj = (GameServerSession *)pObjs;
-	if ( obj ) {
-		printf("AgemtFactory::Instance()->FreeGameServerSession()\n");
+	printf("[AgentServer::DestroyServerSideAcceptedObject] Function\n");
+	ServerSession * pSession = (ServerSession *)pObjs;
+	eSERVER_TYPE eType = pSession->GetServerType();
+	if ( eType == LOGIN_SERVER ) {
+		printf("FreeLoginServerSession()\n");
+		LoginServerSession * obj = (LoginServerSession *)pObjs;
+		AgentFactory::Instance()->FreeLoginServerSession(obj);
+	}
+	else if ( eType == GAME_SERVER ) {
+		printf("FreeGameServerSession()\n");
+		GameServerSession * obj = (GameServerSession *)pObjs;
 		AgentFactory::Instance()->FreeGameServerSession(obj);
 	}
+	printf("End of [AgentServer::DestroyServerSideAcceptedObject]\n");
 }
 
 VOID DestroyServerSideConnectedObject( NetworkObject *pNetworkObject ) {

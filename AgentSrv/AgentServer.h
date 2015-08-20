@@ -31,6 +31,7 @@ public:
 	BOOL SendToLoginServer( BYTE * pMsg, WORD wSize);
 	
 	ServerSession * GetGameServerSession() const;
+	ServerSession * GetLoginServerSession() const;
 	
 	//BOOL ConnectToServer(ServerSession * pSession, char * pszIP, WORD wPort);
 private:

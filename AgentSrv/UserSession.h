@@ -24,7 +24,9 @@ public:
 	DWORD GetUserKey() const;
 	void  SetUserKey(DWORD dwKey);
 	
-public:
+protected:
+	virtual void 	Init();
+	virtual void 	Release();
 	virtual void	OnAccept( DWORD dwNetworkIndex );
 	virtual void	OnDisconnect();
 	//virtual void	OnRecv(BYTE *pMsg, WORD wSize);

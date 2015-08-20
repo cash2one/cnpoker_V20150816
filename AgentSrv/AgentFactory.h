@@ -3,13 +3,16 @@
 
 #include <Network.h>
 #include <Utility.h>
-#include "PacketHandler.h"
+
 #include "ServerSession.h"
 #include "TempServerSession.h"
 #include "GameServerSession.h"
+#include "LoginServerSession.h"
+
+#include "User.h"
 #include "UserSession.h"
 #include "TempUserSession.h"
-#include "User.h"
+
 
 using namespace A;
 
@@ -24,24 +27,30 @@ private:
 	MemoryFactory<User> 				* m_pUserPool;
 	MemoryFactory<TempUserSession> 		* m_pTempUserSessionPool; 
 
-	MemoryFactory<GameServerSession>	* m_pGameServerSessionPool; 
 	MemoryFactory<TempServerSession>	* m_pTempServerSessionPool; 
+	MemoryFactory<GameServerSession>	* m_pGameServerSessionPool; 
+	MemoryFactory<LoginServerSession>	* m_pLoginServerSessionPool;
 
 public:
 	void Init(void);
 	void Release(void);
 
+	// User
 	User * AllocUser();
 	void FreeUser(User * pUser);
 
 	TempUserSession * AllocTempUserSession();
 	void FreeTempUserSession(TempUserSession * pUser);
+
+	// Server
+	TempServerSession * AllocTempServerSession();
+	void FreeTempServerSession(TempServerSession * pServerSession);
 	
 	GameServerSession * AllocGameServerSession();
 	void FreeGameServerSession(GameServerSession * pServerSession);
 	
-	TempServerSession * AllocTempServerSession();
-	void FreeTempServerSession(TempServerSession * pServerSession);
+	LoginServerSession * AllocLoginServerSession();
+	void FreeLoginServerSession(LoginServerSession * pServerSession);
 };
 
 #endif

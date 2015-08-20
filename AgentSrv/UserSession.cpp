@@ -33,6 +33,18 @@ void  UserSession::SetUserKey(DWORD dwKey)
 	m_dwUserKey = dwKey;
 }
 
+/************ protected *************/
+void UserSession::Init()
+{
+	m_dwUserKey = 0;
+	m_pNetGame = NULL;
+}
+
+void UserSession::Release()
+{
+	
+}
+
 void UserSession::OnAccept( DWORD dwNetworkIndex )
 {
 	

@@ -5,6 +5,7 @@
 #include "UserManager.h"
 
 TempUserSession::TempUserSession()
+	: m_bFirst(TRUE)
 {	
 }
 
@@ -12,20 +13,26 @@ TempUserSession::~TempUserSession()
 {
 }
 
-void TempUserSession::Init(void)
+void TempUserSession::Init()
 {
-	
+	UserSession::Init();
 }
 
-void TempUserSession::Release(void)
+void TempUserSession::Release()
 {
-	
+	UserSession::Release();
+	m_bFirst = TRUE;
 }
 	
 void TempUserSession::OnRecv(BYTE *pMsg, WORD wSize)
 {
-	printf("Enter TempUserSession::OnRecv\n");
-
+	printf(">>>> [TempUserSession::OnRecv]\n");
+	
+	assert( m_bFirst == TRUE );
+	if ( !m_bFirst )
+		return;
+	
+	
 	MSG_CA_CONNECTION_ENTERSERVER_SYN * pRecvMsg = (MSG_CA_CONNECTION_ENTERSERVER_SYN *) pMsg;
 #if 0	
 	if ( !DeCode (pRecvMsg->m_byTicket, TICKET_LEN) ) {

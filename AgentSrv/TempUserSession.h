@@ -12,14 +12,16 @@ public:
 	TempUserSession();
 	virtual ~TempUserSession();
 	
-	virtual void Init(void);
-	virtual void Release(void);
+	virtual void Init();
+	virtual void Release();
 	
 	BOOL DeCode( BYTE * pMsg, WORD wSize );
 	
-public:
+protected:
 	virtual void	OnRecv( BYTE *pMsg, WORD wSize );
 	virtual void	OnLogString( char * pszLog );
+private:
+	BOOL m_bFirst;
 };
 
 #endif // _AGENTPLAYER_H_INCLUDED_
