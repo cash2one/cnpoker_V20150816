@@ -16,27 +16,29 @@ Handler_FromDBServer::~Handler_FromDBServer()
 
 HANDLER_IMPL( LD_Login_ANC )
 {
-	MSG_LD_LOGIN_ANC * pObj = (MSG_LD_LOGIN_ANC *) pMsg;
+	printf("<4> LD_Login_ANC\n");
 	
-	LoginUser * pLoginUser = NULL;
-	pLoginUser = LoginFactory::Instance()->AllocLoginUser();
+	MSG_LD_LOGIN_ANC * pRecvMsg = (MSG_LD_LOGIN_ANC *) pMsg;
+
+	// 分配用户
+	LoginUser * pLoginUser = LoginFactory::Instance()->AllocLoginUser();
 	
 	if ( pLoginUser != NULL ) {
-		AgentServerSession * pSession = (AgentServerSession *) pObj->netObj;
+		AgentServerSession * pSession = (AgentServerSession *) pRecvMsg->m_pNetObj;
 		if ( pSession != NULL ) {
-			pLoginUser->SetRootID(pObj->uiRootID);
-			pLoginUser->SetMD(pObj->byUserKey);
+			pLoginUser->SetRootID(pRecvMsg->m_uiRootID);
+			pLoginUser->SetMD(pRecvMsg->m_byUserKey);
 			LoginUserManager::Instance()->PUSH(pLoginUser);
 			
-			MSG_AL_PRELOGIN_ANC pSendMsg;
-			pSendMsg.m_dwParameter 	= pObj->m_dwParameter;
-			pSendMsg.uiRootID 		= pObj->uiRootID;
-			memcpy( pSendMsg.byUserKey, pObj->byUserKey, CODE_KEY_LEN);
+			MSG_AL_PRELOGIN_ANC msg2;
+			msg2.m_dwParameter 	= pRecvMsg->m_dwParameter; // dwUserKey
+			msg2.m_uiRootID 	= pRecvMsg->m_uiRootID;
+			memcpy( msg2.m_byUserKey, pRecvMsg->m_byUserKey, CODE_KEY_LEN);
 			
-			AgentServerSession * pSession = AllocServer::Instance()->POP();
-			memcpy( pSendMsg.m_byIP, pSession->GetConnnectIP().c_str(), pSession->GetConnnectIP().size() );
-			pSendMsg.m_Port = pSession->GetConnnectPort();
-			pSession->Send( (BYTE *)&pSendMsg, sizeof(pSendMsg) );
+			AgentServerSession * pSession = AllocServer::Instance()->POP(); // ??? 什么
+			memcpy( msg2.m_byIP, pSession->GetConnnectIP().c_str(), pSession->GetConnnectIP().size() );
+			msg2.m_dwPort = pSession->GetConnnectPort();
+			pSession->Send( (BYTE *)&msg2, sizeof(msg2) );
 		}
 	}
 }

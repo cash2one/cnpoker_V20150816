@@ -206,16 +206,15 @@ VOID DestroyServerSideAcceptedObject( NetworkObject *pObjs ) {
 	ServerSession * pSession = (ServerSession *)pObjs;
 	eSERVER_TYPE eType = pSession->GetServerType();
 	if ( eType == LOGIN_SERVER ) {
-		printf("FreeLoginServerSession()\n");
+		printf(">>>FreeLoginServerSession()\n");
 		LoginServerSession * obj = (LoginServerSession *)pObjs;
 		AgentFactory::Instance()->FreeLoginServerSession(obj);
 	}
 	else if ( eType == GAME_SERVER ) {
-		printf("FreeGameServerSession()\n");
+		printf(">>>FreeGameServerSession()\n");
 		GameServerSession * obj = (GameServerSession *)pObjs;
 		AgentFactory::Instance()->FreeGameServerSession(obj);
 	}
-	printf("End of [AgentServer::DestroyServerSideAcceptedObject]\n");
 }
 
 VOID DestroyServerSideConnectedObject( NetworkObject *pNetworkObject ) {

@@ -14,8 +14,8 @@ public:
 	Handler_FromLoginServer(void);
 	~Handler_FromLoginServer(void);
 
-	HANDLER_DECL( LD_Login_SYN );
-	HANDLER_DECL( LD_Logout_SYN );
+	HANDLER_DECL( LD_Login_REQ );
+	HANDLER_DECL( LD_Logout_REQ );
 };
 
 

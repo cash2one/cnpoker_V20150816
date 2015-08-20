@@ -7,55 +7,88 @@
 
 #pragma pack(push, 1)
 
-struct MSG_AL_PRELOGIN_SYN : public MSG_BASE_FORWARD
+// 预登陆 请求
+struct MSG_AL_PRELOGIN_REQ : public MSG_BASE_FORWARD
 {
-	BYTE byUsername[32];
-	BYTE byPassword[32];
+	BYTE m_byUsername[32];
+	BYTE m_byPassword[32];
 	
-	MSG_AL_PRELOGIN_SYN()
+	MSG_AL_PRELOGIN_REQ()
 	{
-		memset( this, 0, sizeof(MSG_AL_PRELOGIN_SYN) );
+		memset( this, 0, sizeof(MSG_AL_PRELOGIN_REQ) );
 		
 		m_byCategory = LD_ClientLogin;
-		m_byProtocol = AL_Prelogin_SYN;
+		m_byProtocol = AL_PreLogin_REQ;
 	}
 };
 
+// 预登陆 应答
 struct MSG_AL_PRELOGIN_ANC : public MSG_BASE_FORWARD
 {
-	DWORD 	uiRootID;
-	BYTE 	byUserKey[CODE_KEY_LEN + 1];
+	DWORD 	m_uiRootID;
+	BYTE 	m_byUserKey[CODE_KEY_LEN + 1];
 	
 	BYTE	m_byIP[BYTE_IP_LEN];
-	DWORD	m_Port;
+	DWORD	m_dwPort;
 	
 	MSG_AL_PRELOGIN_ANC()
 	{
 		memset( this, 0, sizeof(MSG_AL_PRELOGIN_ANC) );
 		
 		m_byCategory = AL_ClientLogin;
-		m_byProtocol = AL_Prelogin_ANC;
+		m_byProtocol = AL_PreLogin_ANC;
 	}
 };
 
-struct MSG_AL_RELOGIN_SYN : public MSG_BASE_FORWARD
+// 登陆 请求
+struct MSG_AL_LOGIN_REQ : public MSG_BASE_FORWARD
 {
-	DWORD 	uiRootID;
-	BYTE 	byUserKey[CODE_KEY_LEN + 1];
+	DWORD 	m_uiRootID;
+	BYTE 	m_byUserKey[CODE_KEY_LEN + 1];
 	
-	MSG_AL_RELOGIN_SYN()
+	MSG_AL_LOGIN_REQ()
 	{
-		memset( this, 0, sizeof(MSG_AL_RELOGIN_SYN) );
+		memset( this, 0, sizeof(MSG_AL_LOGIN_REQ) );
+		
+		m_byCategory = AL_ClientLogin;
+		m_byProtocol = AL_Login_REQ;
+	}
+};
+
+// 登陆 应答
+struct MSG_AL_LOGIN_ANC : public MSG_BASE_FORWARD
+{
+	DWORD m_uiRootID;
+	
+	MSG_AL_LOGIN_ANC()
+	{
+		memset( this, 0, sizeof(MSG_AL_LOGIN_ANC) );
+		
+		m_byCategory = AL_ClientLogin;
+		m_byProtocol = AL_Login_ANC;
+	}
+};
+
+// 再次登陆 请求
+struct MSG_AL_RELOGIN_REQ : public MSG_BASE_FORWARD
+{
+	DWORD 	m_uiRootID;
+	BYTE 	m_byUserKey[CODE_KEY_LEN + 1];
+	
+	MSG_AL_RELOGIN_REQ()
+	{
+		memset( this, 0, sizeof(MSG_AL_RELOGIN_REQ) );
 		
 		m_byCategory = LD_ClientLogin;
-		m_byProtocol = AL_Relogin_SYN;
+		m_byProtocol = AL_ReLogin_REQ;
 	}
 };
 
+// 再次登陆 应答
 struct MSG_AL_RELOGIN_ANC : public MSG_BASE_FORWARD
 {
-	DWORD	uiRootID;
-	BYTE	byUserKey[CODE_KEY_LEN + 1];
+	DWORD	m_uiRootID;
+	BYTE	m_byUserKey[CODE_KEY_LEN + 1];
 		
 	MSG_AL_RELOGIN_ANC()
 	{
@@ -66,45 +99,29 @@ struct MSG_AL_RELOGIN_ANC : public MSG_BASE_FORWARD
 	}
 };
 
-
-struct MSG_AL_LOGIN_SYN : public MSG_BASE_FORWARD
+// 登出 请求
+struct MSG_AL_LOGOUT_REQ : public MSG_BASE_FORWARD
 {
-	DWORD uiRootID;
-	BYTE byUserKey[CODE_KEY_LEN + 1];
+	DWORD m_uiRootID;
 	
-	MSG_AL_LOGIN_SYN()
+	MSG_AL_LOGOUT_REQ()
 	{
-		memset( this, 0, sizeof(MSG_AL_LOGIN_SYN) );
+		memset( this, 0, sizeof(MSG_AL_LOGOUT_REQ) );
 		
 		m_byCategory = AL_ClientLogin;
-		m_byProtocol = AL_Login_SYN;
+		m_byProtocol = AL_Logout_REQ;
 	}
 };
 
-struct MSG_AL_LOGIN_ANC : public MSG_BASE_FORWARD
+// 登出 应答
+struct MSG_AL_LOGOUT_ANC : public MSG_BASE_FORWARD
 {
-	DWORD uiRootID;
-	
-	MSG_AL_LOGIN_ANC()
+	MSG_AL_LOGOUT_ANC()
 	{
-		memset( this, 0, sizeof(MSG_AL_LOGIN_ANC) );
+		memset( this, 0, sizeof(MSG_AL_LOGOUT_ANC) );
 		
 		m_byCategory = AL_ClientLogin;
-		m_byProtocol = AL_Login_SYN;
-	}
-};
-
-
-struct MSG_AL_LOGOUT_SYN : public MSG_BASE_FORWARD
-{
-	DWORD uiRootID;
-	
-	MSG_AL_LOGOUT_SYN()
-	{
-		memset( this, 0, sizeof(MSG_AL_LOGOUT_SYN) );
-		
-		m_byCategory = AL_ClientLogin;
-		m_byProtocol = AL_Logout_SYN;
+		m_byProtocol = AL_Logout_ANC;
 	}
 };
 

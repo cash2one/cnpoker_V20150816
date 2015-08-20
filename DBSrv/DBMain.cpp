@@ -9,9 +9,7 @@ int main(int argc, char ** argv)
 	g_DBServer = new DBServer;
 	assert(g_DBServer);
 	
-	if( !g_DBServer->Init() ) {
-		return 0;
-	}
+	g_DBServer->Init();
 	
 	int nShutdown = 1;
 	while( nShutdown ) {

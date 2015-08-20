@@ -26,10 +26,12 @@ BOOL PacketHandler::RegisterHandler()
 
 void PacketHandler::Register_AL()
 {
-	AddHandler_AL(AL_ClientLogin, AL_Prelogin_SYN, Handler_FromAgentServer::OnAL_Prelogin_SYN);
-	AddHandler_AL(AL_ClientLogin, AL_Relogin_SYN, Handler_FromAgentServer::OnAL_Relogin_SYN);
-	AddHandler_AL(AL_ClientLogin, AL_Login_SYN, Handler_FromAgentServer::OnAL_Login_SYN);
-	AddHandler_AL(AL_ClientLogin, AL_Logout_SYN, Handler_FromAgentServer::OnAL_Logout_SYN);
+	AddHandler_AL(AL_ClientLogin, AL_PreLogin_REQ, Handler_FromAgentServer::OnAL_PreLogin_REQ);
+	
+	AddHandler_AL(AL_ClientLogin, AL_Login_REQ, Handler_FromAgentServer::OnAL_Login_REQ);
+	AddHandler_AL(AL_ClientLogin, AL_ReLogin_REQ, Handler_FromAgentServer::OnAL_ReLogin_REQ);
+	
+	AddHandler_AL(AL_ClientLogin, AL_Logout_REQ, Handler_FromAgentServer::OnAL_Logout_REQ);
 }
 
 void PacketHandler::Register_LD()

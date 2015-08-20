@@ -14,10 +14,12 @@ public:
 	Handler_FromAgentServer(void);
 	~Handler_FromAgentServer(void);
 
-	HANDLER_DECL( AL_Prelogin_SYN );
-	HANDLER_DECL( AL_Relogin_SYN );
-	HANDLER_DECL( AL_Login_SYN );
-	HANDLER_DECL( AL_Logout_SYN );
+	HANDLER_DECL( AL_PreLogin_REQ );
+	HANDLER_DECL( AL_Login_REQ );
+	
+	HANDLER_DECL( AL_ReLogin_REQ );
+	
+	HANDLER_DECL( AL_Logout_REQ );
 };
 
 

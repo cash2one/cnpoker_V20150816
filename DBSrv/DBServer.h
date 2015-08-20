@@ -26,11 +26,19 @@ public:
 	
 	BOOL Update( DWORD dwDeltaTick );
 	
+	BOOL SendToGameServer( BYTE * pMsg, WORD wSize);
 	
+	BOOL SendToLoginServer( BYTE * pMsg, WORD wSize);
+	
+	ServerSession * GetGameServerSession() const;
+	ServerSession * GetLoginServerSession() const;
 private:
 	BOOL 	m_bShutdown;
 	
 	IOCPServer * m_pIOCPServer;
+	
+	ServerSession * m_pGameServer;
+	ServerSession * m_pLoginServer;
 };
 
 extern DBServer * g_DBServer;

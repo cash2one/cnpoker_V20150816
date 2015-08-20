@@ -18,28 +18,29 @@ HANDLER_IMPL( CA_Heartbeat_SYN )
 	printf("CA_Heartbeat_SYN\n");
 }
 
-HANDLER_IMPL( CA_Prelogin_REQ )
+HANDLER_IMPL( CA_PreLogin_REQ )
 {
-	MSG_CA_PRELOGIN_GAME_REQ *pObj = (MSG_CA_PRELOGIN_GAME_REQ *)pMsg;
+	printf("<1> CA_PreLogin_REQ\n");
+	MSG_CA_PRELOGIN_REQ *pRecvMsg = (MSG_CA_PRELOGIN_REQ *)pMsg;
 	
-	MSG_AL_PRELOGIN_SYN msg2;
-	msg2.m_dwParameter = pObj->m_dwParameter;
-	memcpy(msg2.byUsername, pObj->byUsername, sizeof(pObj->byUsername) );
-	memcpy(msg2.byPassword, pObj->byPassword, sizeof(pObj->byPassword) );
+	MSG_AL_PRELOGIN_REQ msg2;
+	msg2.m_dwParameter = pRecvMsg->m_dwParameter; // dwUserKey;
+	memcpy(msg2.m_byUsername, pRecvMsg->m_byUsername, sizeof(pRecvMsg->m_byUsername) ); // 账户
+	memcpy(msg2.m_byPassword, pRecvMsg->m_byPassword, sizeof(pRecvMsg->m_byPassword) ); // 密码
 	g_AgentServer->SendToLoginServer( (BYTE *)&msg2, sizeof(msg2) );
 }
 
 HANDLER_IMPL( CA_Login_REQ)
 {
 	printf("CA_Login_REQ\n");
-	MSG_CA_LOGIN_GAME_REQ * pObj = (MSG_CA_LOGIN_GAME_REQ *)pMsg;
-	unsigned int uiRootID = pObj->m_uiRootID;
+	MSG_CA_LOGIN_REQ * pRecvMsg = (MSG_CA_LOGIN_REQ *)pMsg;
+	unsigned int uiRootID = pRecvMsg->m_uiRootID;
 	printf("uiRootID = %d\n", uiRootID);
 	
-	MSG_AL_LOGIN_SYN msg2;
-	msg2.m_dwParameter = pObj->m_dwParameter;
-	msg2.uiRootID = pObj->m_uiRootID;
-	memcpy(msg2.byUserKey, pObj->byUserKey, sizeof(pObj->byUserKey) );
+	MSG_AL_LOGIN_REQ msg2;
+	msg2.m_dwParameter = pRecvMsg->m_dwParameter;
+	msg2.m_uiRootID = pRecvMsg->m_uiRootID;
+	memcpy(msg2.m_byUserKey, pRecvMsg->m_byUserKey, sizeof(pRecvMsg->m_byUserKey) );
 	g_AgentServer->SendToLoginServer( (BYTE *)&msg2, sizeof(msg2) );
 	
 	/*
@@ -54,16 +55,17 @@ HANDLER_IMPL( CA_Login_ANC)
 	printf("CA_Login_ANC\n");
 }
 
+HANDLER_IMPL( CA_ReLogin_REQ )
+{
+	printf("CA_Relogin_REQ\n");
+}
+
 HANDLER_IMPL( CA_Logout_REQ)
 {
 	printf("CA_Logout_REQ\n");
 }
 
-HANDLER_IMPL( CA_Relogin_REQ )
-{
-	printf("CA_Relogin_REQ\n");
-}
-
+/************************************************/
 
 HANDLER_IMPL( CA_StartGame_REQ )
 {

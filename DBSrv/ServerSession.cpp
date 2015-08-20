@@ -1,5 +1,7 @@
 #include "ServerSession.h"
 
+#include "AgentServer.h"
+
 ServerSession::ServerSession()
 {	
 }
@@ -62,9 +64,9 @@ void ServerSession::OnConnect( BOOL bSucces, DWORD dwNetworkIndex )
 	}
 }
 
-void ServerSession::OnDisconnect( DWORD dwNetworkIndex )
+void ServerSession::OnDisconnect()
 {
-	m_bConnection = TRUE;
+	m_bConnection = FALSE;
 }
 
 void ServerSession::OnRecv( BYTE *pMsg, WORD wSize )
@@ -78,7 +80,13 @@ void ServerSession::OnLogString( char * pszLog )
 
 void ServerSession::SendServerType()
 {
-	m_bConnection = TRUE;
+	MSG_SERVER_TYPE 	msg;
+	msg.m_byCategory 	= 0;
+	msg.m_byCategory 	= 0;
+	msg.m_byServerType 	= GetServerType(); // DB_SERVER
+	
+	Send( (BYTE *)&msg, sizeof(MSG_SERVER_TYPE) );
+	
 }
 
 void ServerSession::SetAddr( char * pszIP, WORD wPort )
@@ -92,6 +100,7 @@ void ServerSession::TryToConnect()
 	if ( m_strConnectIP.empty() ) {
 		return;
 	}
+	
 }
 
 

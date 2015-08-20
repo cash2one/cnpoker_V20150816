@@ -14,7 +14,7 @@ public:
 	Handler_FromLoginServer(void);
 	~Handler_FromLoginServer(void);
 
-	HANDLER_DECL( AL_Prelogin_ANC );
+	HANDLER_DECL( AL_PreLogin_ANC );
 	HANDLER_DECL( AL_Login_ANC );
 };
 

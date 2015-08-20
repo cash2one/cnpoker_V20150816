@@ -13,8 +13,7 @@ TempServerSession::~TempServerSession()
 
 void TempServerSession::Clear()
 {
-	//m_bFirst = TRUE;
-	//ServerSession::Clear();
+	m_bFirst = TRUE;
 	ServerSession::Clear();
 }
 
@@ -25,17 +24,12 @@ void TempServerSession::OnRecv(BYTE *pMsg, WORD wSize)
 	
 	printf("Enter TempServerSession::OnRecv.\n");
 	
-	printf("Ignore varify. Directly Change TempServerSession to GameServerSession.\n");
-	
-	// 这里应该是要区分是GameServer 还是 DBServer 还是 WorldServer
-	// 初步调试统一为GameServer
-
-#if 0
 	MSG_SERVER_TYPE * pRecvMsg = (MSG_SERVER_TYPE *)pMsg;
-	if ( pRecvMsg->m_byServerType == GAME_SERVER ) {
-		ServerSession * Obj = g_DBServer->GetGameServerSession();
+	if ( pRecvMsg->m_byServerType == LOGIN_SERVER ) {
+		printf("1.Turn to Login_SERVER\n");
+		ServerSession * Obj = g_DBServer->GetLoginServerSession();
 		if ( Obj == NULL) {
-			printf("\ng_AgentServer->GetGameServerSession Fail.\n");
+			printf("\ng_DBServer->GetLoginServerSession Fail.\n");
 			return;
 		}
 		
@@ -43,9 +37,25 @@ void TempServerSession::OnRecv(BYTE *pMsg, WORD wSize)
 		if ( pSession != NULL ) {
 			m_pSession->UnbindNetworkObject();
 			pSession->BindNetworkObject(Obj);
-		}	
+		}
 	}
-#endif
+	else if ( pRecvMsg->m_byServerType == GAME_SERVER ) {
+		printf("2.Turn to Game_SERVER\n");
+		ServerSession * Obj = g_DBServer->GetGameServerSession();
+		if ( Obj == NULL) {
+			printf("\ng_DBServer->GetGameServerSession Fail.\n");
+			return;
+		}
+		
+		Session * pSession = this->m_pSession;
+		if ( pSession != NULL ) {
+			m_pSession->UnbindNetworkObject();
+			pSession->BindNetworkObject(Obj);
+		}
+	}
+
+	printf("\n >>>> Free TempServerSesion <<<< \n");
+	DBFactory::Instance()->FreeTempServerSession(this);
 
 }
 

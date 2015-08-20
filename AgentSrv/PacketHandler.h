@@ -20,9 +20,9 @@ public:
 
 public:
 	BOOL RegisterHandler();
-	void Register_AG();
+	void Register_AG(); // Register_GA
 	void Register_CA();
-	void Register_AL();
+	void Register_AL(); // Register_LA
 		
 	BOOL AddHandler_CA( WORD category, WORD protocol, fnHandler_c fnHandler);
 	BOOL AddHandler_AG( WORD category, WORD protocol, fnHandler fnHandler);

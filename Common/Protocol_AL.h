@@ -11,14 +11,17 @@ enum eAL_Connect_Protocol {
 };
 
 enum eAL_ClientLogin_Protocol {
-	AL_Prelogin_SYN, 				
-	AL_Prelogin_ANC,
-	AL_Relogin_SYN, 				
-	AL_ReLogin_ANC,
-	AL_Login_SYN,			
-	AL_Login_ANC,				
-	AL_Logout_SYN, 				
-	AL_Logout_ANC, 				
+	AL_PreLogin_REQ, 			// 预登陆 请求
+	AL_PreLogin_ANC, 			// 预登陆 回应
+	
+	AL_Login_REQ, 				// 正式登陆 请求
+	AL_Login_ANC, 				// 正式登陆 回应
+	
+	AL_ReLogin_REQ, 			// 再次登陆 请求
+	AL_ReLogin_ANC, 			// 再次登陆 回应
+		
+	AL_Logout_REQ, 				// 登出 请求 				
+	AL_Logout_ANC, 				// 登出 回应
 };
 
 

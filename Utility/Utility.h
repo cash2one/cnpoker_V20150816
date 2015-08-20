@@ -82,6 +82,8 @@ typedef unsigned long		ULONG;
 #define LOWORD(l)           ((WORD)((DWORD_PTR)(l) & 0xffff))
 #define HIWORD(l)           ((WORD)((DWORD_PTR)(l) >> 16))
 
+#define ASSERT(t) 	assert(t)
+
 #define Yond_Zero(ptr, size)		memset(ptr, 0x0, size);
 #define Yond_Strcat(ptr0, prt1)		strcat(ptr0, prt1);
 #define Yond_Memcpy(ptr0, prt1, s)	memcpy(ptr0, prt1, s);

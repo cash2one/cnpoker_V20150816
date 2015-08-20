@@ -11,14 +11,17 @@ enum eCA_Connect_Protocol {
 };
 
 enum eCA_ClientLogin_Protocol {
-	CA_Prelogin_REQ 		= 201,	// 登入请求：【临时Key值】
-	CA_Prelogin_ANC,				// 登入应答：【临时Key值】
-	CA_Prelogin_NAK,
+	CA_PreLogin_REQ 		= 201,	// 登入请求：【临时Key值】
+	CA_PreLogin_ANC,				// 登入应答：【临时Key值】
+	CA_PreLogin_NAK,
+	
 	CA_Login_REQ,					// 登入请求：【临时Key值】
 	CA_Login_ANC, 					// 登入应答：【临时Key值】
 	CA_Login_NAK,
-	CA_Relogin_REQ, 				// 登入转入或转出请求: 【临时Key值】
-	CA_Relogin_ANC, 				// 登入转入或转出请求: 【临时Key值】
+	
+	CA_ReLogin_REQ, 				// 登入转入或转出请求: 【临时Key值】
+	CA_ReLogin_ANC, 				// 登入转入或转出请求: 【临时Key值】
+	
 	CA_Logout_REQ, 					// 退出请求：【临时Key值】
 	CA_Logout_ANC, 					// 退出请求：【临时Key值】
 };

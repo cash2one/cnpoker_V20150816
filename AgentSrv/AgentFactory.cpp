@@ -33,9 +33,9 @@ void AgentFactory::Init()
 	m_pUserPool->Initialize(999,1);
 	m_pTempUserSessionPool->Initialize(9,1);
 	
-	m_pTempServerSessionPool->Initialize(5,1);
+	m_pTempServerSessionPool->Initialize(5,1); // ???
 	m_pGameServerSessionPool->Initialize(1,1);
-	m_pLoginServerSessionPool->Initialize(999,1);
+	m_pLoginServerSessionPool->Initialize(9,1); // ???
 }
 
 User * AgentFactory::AllocUser() {

@@ -10,9 +10,10 @@ enum eLD_Connect_Protocol {
 };
 
 enum eLD_ClientLogin_Protocol {
-	LD_Login_SYN, 					// 登入请求：【玩家ID】
+	LD_Login_REQ, 					// 登入请求：【玩家ID】
 	LD_Login_ANC, 					// 认证确认
-	LD_Logout_SYN, 					// 登入请求：【玩家ID】
+	
+	LD_Logout_REQ, 					// 登入请求：【玩家ID】
 	LD_Logout_ANC, 					// 清除缓存
 };
 

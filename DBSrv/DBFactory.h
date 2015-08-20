@@ -3,10 +3,12 @@
 
 #include <Network.h>
 #include <Utility.h>
-#include "PacketHandler.h"
+
 #include "ServerSession.h"
 #include "TempServerSession.h"
 #include "GameServerSession.h"
+#include "LoginServerSession.h"
+
 #include "DBUser.h"
 
 using namespace A;
@@ -20,8 +22,10 @@ public:
 
 private:	
 	MemoryFactory<DBUser> 				* m_pDBUserPool;
-	MemoryFactory<GameServerSession>	* m_pGameServerSessionPool; 
-	MemoryFactory<TempServerSession>	* m_pTempServerSessionPool; 
+	
+	MemoryFactory<TempServerSession>	* m_pTempServerSessionPool;
+	MemoryFactory<GameServerSession>	* m_pGameServerSessionPool;
+	MemoryFactory<LoginServerSession>	* m_pLoginServerSessionPool; 
 
 public:
 	void Init(void);
@@ -29,12 +33,16 @@ public:
 
 	DBUser * AllocDBUser();
 	void FreeDBUser(DBUser * pDBUser);
-		
+	
+	// Server
+	TempServerSession * AllocTempServerSession();
+	void FreeTempServerSession(TempServerSession * pServerSession);
+	
 	GameServerSession * AllocGameServerSession();
 	void FreeGameServerSession(GameServerSession * pServerSession);
 	
-	TempServerSession * AllocTempServerSession();
-	void FreeTempServerSession(TempServerSession * pServerSession);
+	LoginServerSession * AllocLoginServerSession();
+	void FreeLoginServerSession(LoginServerSession * pServerSession);
 };
 
 #endif

@@ -1,7 +1,10 @@
 #include "Handler_FromAgentServer.h"
-#include "LoginUserManager.h"
-#include <Network.h>
+
 #include "LoginServer.h"
+#include "LoginUserManager.h"
+
+#include <Network.h>
+
 
 Handler_FromAgentServer::Handler_FromAgentServer() 
 {
@@ -13,24 +16,24 @@ Handler_FromAgentServer::~Handler_FromAgentServer()
 	
 }
 
-HANDLER_IMPL( AL_Prelogin_SYN )
+HANDLER_IMPL( AL_PreLogin_REQ )
 {
-	printf("AL_Prelogin_SYN\n");
+	printf("<2> AL_PreLogin_REQ\n");
 	
-	MSG_AL_PRELOGIN_SYN * pRecvMsg = (MSG_AL_PRELOGIN_SYN *) pMsg;
+	MSG_AL_PRELOGIN_REQ * pRecvMsg = (MSG_AL_PRELOGIN_REQ *) pMsg;
 	
-	MSG_LD_LOGIN_SYN pSync;
-	pSync.netObj = (NetworkObject *) pServerSession;
+	MSG_LD_LOGIN_REQ msg2;
+	msg2.m_pNetObj = (NetworkObject *) pServerSession;
 	
-	memcpy(pSync.byUsername, pRecvMsg->byUsername, sizeof(pRecvMsg->byUsername) );
-	memcpy(pSync.byPassword, pRecvMsg->byPassword, sizeof(pRecvMsg->byPassword) );
+	memcpy(msg2.m_byUsername, pRecvMsg->m_byUsername, sizeof(pRecvMsg->m_byUsername) );
+	memcpy(msg2.m_byPassword, pRecvMsg->m_byPassword, sizeof(pRecvMsg->m_byPassword) );
 	
-	g_LoginServer->SendToDBServer( (BYTE *)&pSync, sizeof(MSG_LD_LOGIN_SYN) );
+	g_LoginServer->SendToDBServer( (BYTE *)&msg2, sizeof(MSG_LD_LOGIN_REQ) );
 }
 
-HANDLER_IMPL( AL_Relogin_SYN )
+HANDLER_IMPL( AL_ReLogin_REQ )
 {
-	printf("AL_Relogin_SYN\n");
+	printf("AL_ReLogin_REQ\n");
 	
 /*	
 	MSG_AL_RELOGIN_SYN * pRecvMsg = (MSG_AL_RELOGIN_SYN *) pMsg;
@@ -50,14 +53,14 @@ HANDLER_IMPL( AL_Relogin_SYN )
 */
 }
 
-HANDLER_IMPL( AL_Login_SYN )
+HANDLER_IMPL( AL_Login_REQ )
 {
-	printf("AL_Login_SYN\n");
+	printf("AL_Login_REQ\n");
 	
 	LoginUser * pLoginUser = NULL;
-	MSG_AL_LOGIN_SYN * pRecvMsg = (MSG_AL_LOGIN_SYN *) pMsg;
+	MSG_AL_LOGIN_REQ * pRecvMsg = (MSG_AL_LOGIN_REQ *) pMsg;
 	
-	pLoginUser = LoginUserManager::Instance()->POP(pRecvMsg->uiRootID);
+	pLoginUser = LoginUserManager::Instance()->POP(pRecvMsg->m_uiRootID);
 	if (pLoginUser != NULL) {
 		AgentServerSession * pSession = (AgentServerSession *)pServerSession;
 		if ( pSession != NULL ) {
@@ -65,7 +68,7 @@ HANDLER_IMPL( AL_Login_SYN )
 			LoginFactory::Instance()->FreeLoginUser(pLoginUser);
 			
 			MSG_AL_LOGIN_ANC pSendMsg;
-			pSendMsg.uiRootID = pRecvMsg->uiRootID;
+			pSendMsg.m_uiRootID = pRecvMsg->m_uiRootID;
 			pSession->Send( (BYTE *)&pSendMsg, sizeof(pSendMsg) );
 			return;
 		}
@@ -81,17 +84,17 @@ HANDLER_IMPL( AL_Login_SYN )
 }
 
 
-HANDLER_IMPL( AL_Logout_SYN )
+HANDLER_IMPL( AL_Logout_REQ )
 {
-	printf("AL_Logout_SYN\n");
+	printf("AL_Logout_REQ\n");
 	
 	AgentServerSession * pSession = (AgentServerSession *)pServerSession;
 	pSession->m_userCount--;
 	
-	MSG_AL_LOGOUT_SYN * pRecvMsg = (MSG_AL_LOGOUT_SYN *) pMsg;
+	MSG_AL_LOGOUT_REQ * pRecvMsg = (MSG_AL_LOGOUT_REQ *) pMsg;
 	
-	MSG_LD_LOGOUT_SYN pSendMsg;
-	pSendMsg.uiRootID = pRecvMsg->uiRootID;
+	MSG_LD_LOGOUT_REQ pSendMsg;
+	pSendMsg.m_uiRootID = pRecvMsg->m_uiRootID;
 	g_LoginServer->SendToDBServer( (BYTE *)&pSendMsg, sizeof(pSendMsg) );
 	
 	/*

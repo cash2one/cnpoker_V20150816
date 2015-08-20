@@ -1,12 +1,11 @@
 #ifndef __HYDATABAES_DEFINE_H_INCLUDED__
 #define __HYDATABAES_DEFINE_H_INCLUDED__
 
+#include <Common.h>
 #include <Utility.h>
 #include <mysql.h>
 
-#define ASSERT(a) assert(a)
 
-#define SAFE_DELETE(p)  { if( p ) { delete (p); (p) = NULL; } }
 
 #define __DISABLE_COPY(className)				\
 	private:						\

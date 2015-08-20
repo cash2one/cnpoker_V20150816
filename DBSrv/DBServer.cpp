@@ -8,7 +8,11 @@ DBServer * g_DBServer = NULL;
 
 DBServer::DBServer(void)
 {
+	m_bShutdown = FALSE;
 	m_pIOCPServer = NULL;
+	
+	m_pGameServer = NULL;
+	m_pLoginServer = NULL;
 }
 
 DBServer::~DBServer(void)
@@ -47,6 +51,19 @@ BOOL DBServer::Init()
 
 	StartServerSideListen();
 
+	m_pGameServer = DBFactory::Instance()->AllocGameServerSession();
+	if ( m_pGameServer == NULL) {
+		printf("[DBFactory::Instance()->AllocGameServerSession] fail\n");
+		return FALSE;
+	}
+	
+	m_pLoginServer = DBFactory::Instance()->AllocLoginServerSession();
+	if ( m_pLoginServer == NULL) {
+		printf("[DBFactory::Instance()->AllocLoginServerSession] fail\n");
+		return FALSE;
+	}
+	
+	
 	return TRUE;	
 }
 
@@ -54,7 +71,7 @@ void DBServer::StartServerSideListen()
 {
 	if( !m_pIOCPServer->IsListening( SERVER_SYNCHANDLER) ) {
 		
-		if ( !m_pIOCPServer->StartListen(SERVER_SYNCHANDLER, "127.0.0.1", 3456) ) 
+		if ( !m_pIOCPServer->StartListen(SERVER_SYNCHANDLER, "127.0.0.1", 7300) ) 	// DB Port 7300
 		{
 			return;
 		}
@@ -80,24 +97,62 @@ BOOL DBServer::Update( DWORD dwDeltaTick )
 	return TRUE;
 }
 
+BOOL DBServer::SendToGameServer( BYTE * pMsg, WORD wSize)
+{
+	printf("[DBServer::SendToGameServer]\n");
+	
+	if ( m_pGameServer ) {
+		return m_pGameServer->Send( pMsg, wSize );
+	}
+	return FALSE;
+}
+	
+BOOL DBServer::SendToLoginServer( BYTE * pMsg, WORD wSize)
+{
+	printf("[DBServer::SendToLoginServer]\n");
+	
+	if ( m_pLoginServer ) {
+		return m_pLoginServer->Send( pMsg, wSize );
+	}
+	return FALSE;
+}
+	
+ServerSession * DBServer::GetGameServerSession() const
+{
+	return m_pGameServer;
+}
+
+ServerSession * DBServer::GetLoginServerSession() const
+{
+	return m_pLoginServer;
+}
+
 ///////////////////////////////////////////////////////////////
 NetworkObject * CreateServerSideAcceptedObject() {
-	printf("[AgentServer::CreateServerSideAcceptedObject]: Alloc TempServerSession.\n");
-	TempServerSession * obj = DBFactory::Instance()->AllocTempServerSession();
-	if ( obj == NULL) {
-		printf("\nAgentFactory::Instance()->AllocTempServerSession() Fail.\n");
+	printf("[DBServer::CreateServerSideAcceptedObject]: Alloc TempServerSession.\n");
+	TempServerSession * pObj = DBFactory::Instance()->AllocTempServerSession();
+	if ( pObj == NULL) {
+		printf("\nDBServer::Instance()->AllocTempServerSession() Fail.\n");
 		return NULL;
 	}
-	return (NetworkObject *)(obj);
+	return (NetworkObject *)(pObj);
 }
 
 VOID DestroyServerSideAcceptedObject( NetworkObject *pObjs ) {
-	printf("[AgentServer::DestroyServerSideAcceptedObject]: Free GameServerSession.\n");
-	GameServerSession * obj = (GameServerSession *)pObjs;
-	if ( obj ) {
-		printf("AgemtFactory::Instance()->FreeGameServerSession()\n");
-		DBFactory::Instance()->FreeGameServerSession(obj);
+	printf("[DBServer::DestroyServerSideAcceptedObject] Function\n");
+	
+	ServerSession * pSession = (ServerSession *)pObjs;
+	eSERVER_TYPE eType = pSession->GetServerType();
+	if ( eType == LOGIN_SERVER ) {
+		printf(">>>FreeLoginServerSession()\n");
+		LoginServerSession * obj = (LoginServerSession *)pObjs;
+		DBFactory::Instance()->FreeLoginServerSession(obj);
 	}
+	else if ( eType == GAME_SERVER ) {
+		printf(">>>FreeGameServerSession()\n");
+		GameServerSession * obj = (GameServerSession *)pObjs;
+		DBFactory::Instance()->FreeGameServerSession(obj);
+	}	
 }
 
 VOID DestroyServerSideConnectedObject( NetworkObject *pNetworkObject ) {

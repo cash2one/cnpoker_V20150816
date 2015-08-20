@@ -33,10 +33,12 @@ void PacketHandler::Register_CA()
 {
 	AddHandler_CA(CA_Connect, CA_Heartbeat_SYN, Handler_FromClient::OnCA_Heartbeat_SYN);
 	
-	AddHandler_CA(CA_Client, CA_Prelogin_REQ, Handler_FromClient::OnCA_Prelogin_REQ);
+	AddHandler_CA(CA_Client, CA_PreLogin_REQ, Handler_FromClient::OnCA_PreLogin_REQ);
+	
 	AddHandler_CA(CA_Client, CA_Login_REQ, Handler_FromClient::OnCA_Login_REQ);
 	AddHandler_CA(CA_Client, CA_Login_ANC, Handler_FromClient::OnCA_Login_ANC);
-	AddHandler_CA(CA_Client, CA_Relogin_REQ, Handler_FromClient::OnCA_Relogin_REQ);
+	
+	AddHandler_CA(CA_Client, CA_ReLogin_REQ, Handler_FromClient::OnCA_ReLogin_REQ);
 	AddHandler_CA(CA_Client, CA_Logout_REQ, Handler_FromClient::OnCA_Logout_REQ);
 
 	AddHandler_CA(CA_Game, CA_StartGame_REQ, Handler_FromClient::OnCA_StartGame_REQ);
@@ -74,7 +76,7 @@ void PacketHandler::Register_AG()
 
 void PacketHandler::Register_AL()
 {
-	AddHandler_AL(AL_ClientLogin, AL_Prelogin_ANC, Handler_FromLoginServer::OnAL_Prelogin_ANC);
+	AddHandler_AL(AL_ClientLogin, AL_PreLogin_ANC, Handler_FromLoginServer::OnAL_PreLogin_ANC);
 	AddHandler_AL(AL_ClientLogin, AL_Login_ANC, Handler_FromLoginServer::OnAL_Login_ANC);
 }
 

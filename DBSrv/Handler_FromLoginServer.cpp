@@ -1,8 +1,10 @@
+#include "Handler_FromLoginServer.h"
+
 #include "DBUser.h"
 #include "DBFactory.h"
 #include "DBUserManager.h"
 #include "LoginServerQuery.h"
-#include "Handler_FromLoginServer.h"
+
 
 Handler_FromLoginServer::Handler_FromLoginServer() 
 {
@@ -15,9 +17,11 @@ Handler_FromLoginServer::~Handler_FromLoginServer()
 }
 
 
-HANDLER_IMPL( LD_Login_SYN )
+HANDLER_IMPL( LD_Login_REQ )
 {
-	MSG_LD_LOGIN_SYN * pLogin = (MSG_LD_LOGIN_SYN *)pMsg;
+	printf("<3> LD_Login_REQ\n");
+	
+	MSG_LD_LOGIN_REQ * pRecvMsg = (MSG_LD_LOGIN_REQ *)pMsg;
 
 	TCHAR szQueryBuff[1024];
 	snprintf(szQueryBuff, sizeof(szQueryBuff), "call p_Login_Select(?,?);");
@@ -31,20 +35,23 @@ HANDLER_IMPL( LD_Login_SYN )
 		int iSize = pQuery->vctRes.size();
 		if (iSize == 1) 
 		{
-			MSG_LD_LOGIN_ANC pANC;
-			pANC.m_dwParameter = pLogin->m_dwParameter;
-			
-			pANC.uiRootID = pQuery->vctRes[0].uiRootID;
-			pServerSession->Send( (BYTE*)&pANC, sizeof(pANC) );
+			// DB返回应答给 Login
+			MSG_LD_LOGIN_ANC msg2;
+			msg2.m_dwParameter = pRecvMsg->m_dwParameter; // UserKey
+						
+			msg2.m_uiRootID = pQuery->vctRes[0].uiRootID;
+			msg2.m_pNetObj = pRecvMsg->m_pNetObj;
+			//BYTE m_byUserKey[CODE_KEY_LEN + 1]; 	// 数据库获取方式??
+			pServerSession->Send( (BYTE*)&msg2, sizeof(msg2) );
 		}
 		
 		Query_Login_update::FREE( pQuery );
 		pQuery = NULL;		
 	}
-	
 }
 
-HANDLER_IMPL( LD_Logout_SYN )
+HANDLER_IMPL( LD_Logout_REQ )
 {
+	printf("LD_Logout_REQ\n");
 	
 }

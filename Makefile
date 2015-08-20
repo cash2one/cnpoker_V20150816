@@ -80,6 +80,7 @@ DBServerObjs 	= HyMysql/HyDatabase.o \
 				  DBSrv/Handler_FromGameServer.o \
 				  DBSrv/Handler_FromLoginServer.o \
 				  DBSrv/LoginServerQuery.o \
+				  DBSrv/LoginServerSession.o \
 				  DBSrv/PacketHandler.o \
 				  DBSrv/ServerSession.o \
 				  DBSrv/TempServerSession.o

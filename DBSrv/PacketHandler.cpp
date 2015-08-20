@@ -27,8 +27,8 @@ BOOL PacketHandler::RegisterHandler()
 
 void PacketHandler::Register_LD()
 {
-	AddHandler_LD(LD_ClientLogin, LD_Login_SYN, Handler_FromLoginServer::OnLD_Login_SYN);
-	AddHandler_LD(LD_ClientLogin, LD_Logout_SYN, Handler_FromLoginServer::OnLD_Logout_SYN);
+	AddHandler_LD(LD_ClientLogin, LD_Login_REQ, Handler_FromLoginServer::OnLD_Login_REQ);
+	AddHandler_LD(LD_ClientLogin, LD_Logout_REQ, Handler_FromLoginServer::OnLD_Logout_REQ);
 }
 
 void PacketHandler::Register_GD()
