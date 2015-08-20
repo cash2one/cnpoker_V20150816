@@ -54,6 +54,7 @@ struct TableInfo
 	uint m_uiLastMsg; // 最后一个有牌权的人
 	uint m_uiLastDis; // 上一个出牌的人
 	
+	ePK_TYPE m_ePkType; // 打出牌的类型
 	BYTE m_byCmpValue; // 比较的值
 	BYTE m_byCmpCount; // 比较的值 的 个数
 	

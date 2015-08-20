@@ -23,7 +23,7 @@ int Poker::Than(ePK_TYPE _my, char _myValue, char _myCount, ePK_TYPE _other, cha
 	return (PH_INVALID);
 }
 
-int Poker::Pick(char * PK_Group, char PK_Size, char & thanValue, char & thanCount)
+int Poker::Pick(unsigned char * PK_Group, unsigned int PK_Size, char & thanValue, char & thanCount)
 {
 	if ( PK_Size <= 0 || PK_Group == NULL ) {
 		return (PH_0);
@@ -198,17 +198,25 @@ int Poker::Pick(char * PK_Group, char PK_Size, char & thanValue, char & thanCoun
 	return (PH_0);	
 }
 
-int Poker::OneTimes(char * szPK1, char iSizePK1, char * szPK2, char iSizePK2)
+//int Poker::OneTimes(unsigned char * szPK1, char iSizePK1, unsigned char * szPK2, char iSizePK2)
+int Poker::OneTimes(unsigned char * szPK1, char iSizePK1, ePK_TYPE _other, char _otherValue, char _otherCount)
 {
 	char iThanValue1 = 0;
 	char iThanCount1 = 0;
 	char iThanValue2 = 0;
 	char iThanCount2 = 0;
 	
-	int e1, e2;
-	e1 = Pick(szPK1, iSizePK1, iThanValue1, iThanCount1);
-	e2 = Pick(szPK2, iSizePK2, iThanValue2, iThanCount2);
-	return Than((ePK_TYPE)e1, iThanValue1, iThanCount1, (ePK_TYPE)e2, iThanValue2, iThanCount2);
+	int e1 = Pick(szPK1, iSizePK1, iThanValue1, iThanCount1);
+	if ( e1 != PH_0 )
+	{
+		return Than((ePK_TYPE)e1, iThanValue1, iThanCount1, _other, _otherValue, _otherCount);
+	}
+	return PH_0;
+	
+	//int e1, e2;
+	//e1 = Pick(szPK1, iSizePK1, iThanValue1, iThanCount1);
+	//e2 = Pick(szPK2, iSizePK2, iThanValue2, iThanCount2);
+	//return Than((ePK_TYPE)e1, iThanValue1, iThanCount1, (ePK_TYPE)e2, iThanValue2, iThanCount2);
 }
 
 /**********  end of 出牌算法 **********/

@@ -167,8 +167,15 @@ void GameUser::GrabLandlord()
 
 void GameUser::GetExtraCards()
 {
+	printf("[GameUser::GetExtraCards] : User %d Get Extra Cards;\n", m_dwUserKey);
 	BYTE *pMove = GameUser::m_TableInfo[m_uiTableNumber].m_byExtraCards;
 	memcpy(m_szCards+17, pMove, 3);
+	
+	// 调试打印一下额外那三张牌
+	for(int i=0; i<3; ++i)
+	{
+		printf("Extra%d:%d\n", i, *pMove++);
+	}
 	
 	// 重新对牌进行排序
 	// ...
@@ -199,39 +206,51 @@ void GameUser::Discards(BYTE * pCards, unsigned int uiSize)
 {
 	printf("[Discards] : Table Number = %d\n", m_uiTableNumber);	
 
-	int iThanValue1, iThanCount1;
 	// 判断谁出牌
 	if (GameUser::m_TableInfo[m_uiTableNumber].m_uiLastDis == -1) {
 		GameUser::m_TableInfo[m_uiTableNumber].m_uiLastDis = m_uiSeat; // 第一次出牌
-		GameUser::m_TableInfo[m_uiTableNumber].m_uiLastMsg = m_uiSeat;
-		
-		// 判断出牌是否符合逻辑
-		int nRet = Poker::Pick(pCards, uiSize, iThanValue1, iThanCount1);		
-		if ( nRet == PH_0 ) {
+		GameUser::m_TableInfo[m_uiTableNumber].m_uiLastMsg = m_uiSeat;	
+	}
+	
+	int nRet = PH_0;
+	char cThanValue1, cThanCount1, cThanValue2, cThanCount2;
+	int eType1 = PH_0, eType2 = PH_0;
+	// 判断出牌是否符合逻辑
+	eType1 = Poker::Pick(pCards, uiSize, cThanValue1, cThanCount1);		
+	if ( eType1 == PH_0 ) {
+		MSG_AG_DISCARDS_INVALID msg2;
+		msg2.m_dwParameter = m_dwUserKey;
+		msg2.m_dwErrorCode = eType1; // 错误码
+		g_GameServer->SendToAgentServer( (BYTE *)&msg2, sizeof(msg2) );		
+		return;
+	}	
+	
+	// 如果 最后一个有牌权的人 不等于 上一次出牌的人， 则需要对出牌先做判断
+	if ( GameUser::m_TableInfo[m_uiTableNumber].m_uiLastMsg != GameUser::m_TableInfo[m_uiTableNumber].m_uiLastDis ) {
+		// 与之前打的牌比较
+		eType2 		= GameUser::m_TableInfo[m_uiTableNumber].m_ePkType;
+		cThanValue2 = GameUser::m_TableInfo[m_uiTableNumber].m_byCmpValue;
+		cThanCount2 = GameUser::m_TableInfo[m_uiTableNumber].m_byCmpCount;
+				
+		int nResult = Poker::Than((ePK_TYPE)eType1, cThanValue1, cThanCount1, (ePK_TYPE)eType2, cThanValue2, cThanCount2);
+		if ( nResult == PH_0 ) {
 			MSG_AG_DISCARDS_INVALID msg2;
 			msg2.m_dwParameter = m_dwUserKey;
-			msg2.m_dwErrorCode = nRet; // 错误码
+			//msg2.m_dwErrorCode = nResult; // 错误码
 			g_GameServer->SendToAgentServer( (BYTE *)&msg2, sizeof(msg2) );		
 			return;
 		}
 	}
 	
-	// 如果 最后一个有牌权的人 不等于 上一次出牌的人， 则需要对出牌先做判断
-	if ( GameUser::m_TableInfo[m_uiTableNumber].m_uiLastMsg != GameUser::m_TableInfo[m_uiTableNumber].m_uiLastDis ) {
-		// 与之前的牌比较
-	
-		//int nRet = Poker::OneTimes(pCards, uiSize, );
-	}
-	
 	// 此时可以直接出牌了
 	// 将打出的牌 1.自己手上的牌 设为 -1;  2.桌子上已打出的牌 设为 -1
-	int nRet = FigureOutDiscards(pCards, uiSize); // 传入 玩家打出的牌数组 和 个数
-	if ( nRet == -1) {
+	int nBack = FigureOutDiscards(pCards, uiSize); // 传入 玩家打出的牌数组 和 个数
+	if ( nBack == -1) {
 		// 正常来说是要发送一个 出牌无效 的消息返回给 Agent
 		printf("[GameUser::Discards] : FigureOutDiscards Invalid.\n");
 		MSG_AG_DISCARDS_INVALID msg2;
 		msg2.m_dwParameter = m_dwUserKey;
-		//msg2.m_dwErrorCode = nRet; // 错误码
+		//msg2.m_dwErrorCode = nBack; // 错误码
 		g_GameServer->SendToAgentServer( (BYTE *)&msg2, sizeof(msg2) );		
 		return;
 	}
@@ -256,9 +275,10 @@ void GameUser::Discards(BYTE * pCards, unsigned int uiSize)
 	GameUser::m_TableInfo[m_uiTableNumber].m_uiLastDis = m_uiSeat;
 	GameUser::m_TableInfo[m_uiTableNumber].m_uiLastMsg = (m_uiSeat + 1) % 3; // 牌权调到下一个人
 	
-	// 记录打出的最大的牌 及 张数
-	GameUser::m_TableInfo[m_uiTableNumber].m_byCmpValue = iThanValue1;
-	GameUser::m_TableInfo[m_uiTableNumber].m_byCmpCount = iThanCount1;
+	// 记录打出的最大的牌 及 张数 及 类型
+	GameUser::m_TableInfo[m_uiTableNumber].m_ePkType = (ePK_TYPE)nRet;
+	GameUser::m_TableInfo[m_uiTableNumber].m_byCmpValue = cThanValue1;
+	GameUser::m_TableInfo[m_uiTableNumber].m_byCmpCount = cThanCount1;
 }
 
 void GameUser::Pass()

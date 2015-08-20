@@ -130,7 +130,7 @@ HANDLER_IMPL( AG_CallLandlord_REQ )
 		printf("Can't find User %d\n", dwUserID);
 		return;
 	}
-	pUser->CallLandlord();
+	pUser->CallLandlord(pRecvMsg->m_byCall);
 	
 	// 返回 消息包 给 Agent
 	MSG_AG_CALLLANDLOARD_ANC msg2;
