@@ -2,7 +2,6 @@
 #define _COMMSTRUCT_H_INCLUDED_
 
 #include "Common.h"
-//#include "GameUser.h"
 
 struct PlayerInfo 
 {

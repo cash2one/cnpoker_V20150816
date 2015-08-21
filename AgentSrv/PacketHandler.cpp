@@ -55,14 +55,18 @@ void PacketHandler::Register_CA()
 
 void PacketHandler::Register_AG()
 {
+	AddHandler_AG(AG_Connect, AG_Login_ANC, Handler_FromGameServer::OnAG_Login_ANC);
+	AddHandler_AG(AG_Connect, AG_Logout_ANC, Handler_FromGameServer::OnAG_Logout_ANC);
+	
+	
 	AddHandler_AG(AG_Connect, AG_StartGame_ANC, Handler_FromGameServer::OnAG_StartGame_ANC);
 	
 #if 0
 	AddHandler_AG(AG_Connect_Protocol, AG_Heratbeat_ANC, Handler_FromGameServer::OnAG_Heratbeat_ANC);
 	
-	AddHandler_AG(AG_Client_Protocol, AG_Login_ANC, Handler_FromGameServer::OnAG_Login_ANC);
+	
 	AddHandler_AG(AG_Client_Protocol, AG_Relogin_ANC, Handler_FromGameServer::OnAG_Relogin_ANC);
-	AddHandler_AG(AG_Client_Protocol, AG_Logout_ANC, Handler_FromGameServer::OnAG_Logout_ANC);
+	
 	
 	AddHandler_AG(AG_Game_Protocol, AG_StartGame_ANC, Handler_FromGameServer::OnAG_StartGame_ANC);
 	AddHandler_AG(AG_Game_Protocol, AG_JoinRoom_ANC, Handler_FromGameServer::OnAG_JoinRoom_ANC);

@@ -3,7 +3,6 @@
 
 #include "PackageStruct.h"
 #include "Protocol_AL.h"
-#include "Define.h"
 
 #pragma pack(push, 1)
 

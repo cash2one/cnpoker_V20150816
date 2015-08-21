@@ -25,7 +25,7 @@ HANDLER_IMPL( GD_Login_REQ )
 	if ( pUser != NULL ) {		
 		pUser->SetHashKey( pLogin->m_dwParameter ); // dwUserID
 		pUser->SetRootID( pLogin->m_uiRootID );
-		pSession->AddUser( pUser ); // GameServer 对 DBUser 进行管理
+		pSession->AddUser( pUser ); // GameServerSession 对 DBUser 进行管理
 	
 		TCHAR szQueryBuff[1024];
 		snprintf(szQueryBuff, sizeof(szQueryBuff), "call p_GamePake_Query(?);");
@@ -39,21 +39,23 @@ HANDLER_IMPL( GD_Login_REQ )
 			
 			int iSize = pQuery->vctRes.size();
 			if (iSize == 1) {
+				// 返回应答消息给 Game
 				MSG_GD_LOGIN_ANC pANC;
 				pANC.m_dwParameter = pLogin->m_dwParameter;
 				
 				pANC.m_uiRootID 	= pLogin->m_uiRootID;
-				pANC.m_uiScore	= pQuery->vctRes[0].uiScore;
+				pANC.m_uiScore 		= pQuery->vctRes[0].uiScore;
 				pANC.m_uiFaileds	= pQuery->vctRes[0].uiFaileds;
 				pANC.m_uiWons		= pQuery->vctRes[0].uiWons;
-				pANC.m_uiEscape	= pQuery->vctRes[0].uiEscape;
+				pANC.m_uiEscape 	= pQuery->vctRes[0].uiEscape;
 				pServerSession->Send( (BYTE*)&pANC, sizeof(pANC) );
 				
-				pUser->GetGameInfo().m_uiRootID	= pANC.m_uiRootID ;
-				pUser->GetGameInfo().m_uiScore	= pANC.m_uiScore	;
-				pUser->GetGameInfo().m_uiFaileds	= pANC.m_uiFaileds;
-				pUser->GetGameInfo().m_uiWons		= pANC.m_uiWons	;
-				pUser->GetGameInfo().m_uiEscape	= pANC.m_uiEscape	;
+				// 同时更新 DBUser 里的 游戏信息
+				pUser->GetGameInfo().m_uiRootID 	= pANC.m_uiRootID ;
+				pUser->GetGameInfo().m_uiScore 		= pANC.m_uiScore;
+				pUser->GetGameInfo().m_uiFaileds 	= pANC.m_uiFaileds;
+				pUser->GetGameInfo().m_uiWons 		= pANC.m_uiWons;
+				pUser->GetGameInfo().m_uiEscape 	= pANC.m_uiEscape;
 			}
 			else {
 				printf("Error: Get Game User info fail\n");

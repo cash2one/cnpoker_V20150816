@@ -4,57 +4,9 @@
 #include "PackageStruct.h"
 #include "Protocol_CA.h"
 
+#include "CommStruct.h"
+
 #pragma pack(push, 1)
-
-
-struct MSG_CA_CONNECTION_ENTERSERVER_SYN : public MSG_BASE_FORWARD
-{
-	//DWORD   m_dwUserID;
-	
-	MSG_CA_CONNECTION_ENTERSERVER_SYN() 
-	{
-		memset( this, 0, sizeof(MSG_CA_CONNECTION_ENTERSERVER_SYN) );
-		
-		m_byCategory = CA_Connect;
-		m_byProtocol = CA_Login_REQ;
-		
-		m_dwParameter = 0; // dwUserID
-		m_byParameter = 0;
-	}
-};
-
-struct MSG_CA_CONNECTION_ENTERSERVER_NAK : public MSG_BASE_FORWARD
-{
-	DWORD   m_dwErrorCode;
-	
-	MSG_CA_CONNECTION_ENTERSERVER_NAK() 
-	{
-		memset( this, 0, sizeof(MSG_CA_CONNECTION_ENTERSERVER_NAK) );
-		
-		m_byCategory = CA_Connect;
-		m_byProtocol = CA_Login_NAK;
-		
-		m_dwParameter = 0; // dwUserID
-		m_byParameter = 0;
-	}
-};
-
-struct MSG_CA_CONNECTION_ENTERSERVER_ANC : public MSG_BASE_FORWARD
-{	
-	//DWORD   m_dwUserID;
-	//BYTE	m_byTicket[TICKET_LEN];
-	
-	MSG_CA_CONNECTION_ENTERSERVER_ANC() 
-	{
-		memset( this, 0, sizeof(MSG_CA_CONNECTION_ENTERSERVER_ANC) );
-		
-		m_byCategory = CA_Connect;
-		m_byProtocol = CA_Login_ANC;
-		
-		m_dwParameter = 0; // dwUserID
-		m_byParameter = 0;
-	}
-};
 
 // 预登陆 请求
 struct MSG_CA_PRELOGIN_REQ : public MSG_BASE_FORWARD
@@ -114,11 +66,12 @@ struct MSG_CA_LOGIN_REQ : public MSG_BASE_FORWARD
 	}
 };
 
-// 登陆 应答
+// 游戏登陆 应答
 struct MSG_CA_LOGIN_ANC : public MSG_BASE_FORWARD
 {
-	DWORD	m_uiRootID;
-	BYTE 	m_byUserKey[CODE_KEY_LEN + 1];
+	PlayerInfo m_playerInfo;
+	//DWORD	m_uiRootID;
+	//BYTE 	m_byUserKey[CODE_KEY_LEN + 1];
 	
 	MSG_CA_LOGIN_ANC() 
 	{

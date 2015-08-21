@@ -13,15 +13,44 @@ Handler_FromGameServer::~Handler_FromGameServer()
 	
 }
 
+HANDLER_IMPL( AG_Login_ANC )
+{
+	printf("Step2: <7> AG_Login_ANC\n");
+	MSG_AG_LOGIN_ANC * pRecvMsg = (MSG_AG_LOGIN_ANC *)pMsg;
+	
+	// 查找用户
+	User * pUser = g_UserManager.FindUser(pRecvMsg->m_dwParameter);
+	if ( pUser == NULL ) {
+		printf("g_UserManager.FindUser(%d) Fail\n", pRecvMsg->m_dwParameter);
+		return;
+	}
+	
+	// 返回应答消息给 Client
+	MSG_CA_LOGIN_ANC msg2;
+	msg2.m_playerInfo.m_dwUserKey 		= pRecvMsg->m_dwParameter;
+	msg2.m_playerInfo.m_uiDBUserID 		= pRecvMsg->m_playerInfo.m_uiDBUserID;
+	msg2.m_playerInfo.m_uiScore 		= pRecvMsg->m_playerInfo.m_uiScore;
+	msg2.m_playerInfo.m_uiFaileds 		= pRecvMsg->m_playerInfo.m_uiFaileds;
+	msg2.m_playerInfo.m_uiWons 			= pRecvMsg->m_playerInfo.m_uiWons;
+	msg2.m_playerInfo.m_uiEscape 		= pRecvMsg->m_playerInfo.m_uiEscape;
+		
+	pUser->SendPacket( (BYTE *)&msg2, wSize );
+}
+
+HANDLER_IMPL( AG_Logout_ANC )
+{
+	printf("Recv GameServer Msg --> AG_StartGame_ANC Success\n");
+}
+
 HANDLER_IMPL( AG_StartGame_ANC )
 {
 	printf("Recv GameServer Msg --> AG_StartGame_ANC Success\n");
-	MSG_AG_START_GAME_ANC * pRecv = (MSG_AG_START_GAME_ANC *)pMsg;
-	printf("%d ?= 40, %d ?= 2001, UserKey=%d\n", pRecv->m_byCategory, pRecv->m_byProtocol, pRecv->m_dwParameter);
+	MSG_AG_START_GAME_ANC * pRecvMsg = (MSG_AG_START_GAME_ANC *)pMsg;
+	printf("%d ?= 40, %d ?= 2001, UserKey=%d\n", pRecvMsg->m_byCategory, pRecvMsg->m_byProtocol, pRecvMsg->m_dwParameter);
 	
-	User * pUser = g_UserManager.FindUser(pRecv->m_dwParameter);
+	User * pUser = g_UserManager.FindUser(pRecvMsg->m_dwParameter);
 	if ( pUser == NULL ) {
-		printf("g_UserManager.FindUser(%d) Fail\n", pRecv->m_dwParameter);
+		printf("g_UserManager.FindUser(%d) Fail\n", pRecvMsg->m_dwParameter);
 		return;
 	}
 	

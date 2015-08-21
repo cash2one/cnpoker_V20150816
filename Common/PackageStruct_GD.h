@@ -3,7 +3,6 @@
 
 #include "PackageStruct.h"
 #include "Protocol_GD.h"
-#include "Define.h"
 
 #pragma pack(push, 1)
 

@@ -18,7 +18,7 @@ Handler_FromDBServer::~Handler_FromDBServer()
 
 HANDLER_IMPL( GD_Login_ANC )
 {
-	printf("GD_Login_ANC.\n");
+	printf("Step2: <6> GD_Login_ANC.\n");
 	
 	MSG_GD_LOGIN_ANC * pRecvMsg = (MSG_GD_LOGIN_ANC *)pMsg;
 	DWORD dwUserID = pRecvMsg->m_dwParameter;
@@ -41,6 +41,7 @@ HANDLER_IMPL( GD_Login_ANC )
 	msg2.m_playerInfo.m_uiEscape 		= pRecvMsg->m_uiEscape;
 	msg2.m_playerInfo.m_uiScore 		= pRecvMsg->m_uiScore;
 
+	// 保存GamePlayer 信息
 	pUser->SetPlayerInfo(msg2.m_playerInfo);
 	
 	g_GameServer->SendToAgentServer( (BYTE *)&msg2, sizeof(msg2) );
