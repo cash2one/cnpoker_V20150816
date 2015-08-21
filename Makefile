@@ -131,6 +131,16 @@ clean:
 	rm -f AgentSrv/*.o
 	rm -f $(BINDIR)/AgentServer
 
+cleanAll:
+	rm -f Network/*.o
+	rm -f Utility/*.o
+	rm -f Public/*.o
+	rm -f AgentSrv/*.o
+	rm -f $(BINDIR)/AgentServer
+	rm -f $(BINDIR)/GameServer
+	rm -f $(BINDIR)/LoginServer
+	rm -f $(BINDIR)/DBServer	
+	
 cleanGame:
 	rm -f Network/*.o
 	rm -f Utility/*.o

@@ -25,6 +25,51 @@ struct PlayerInfo
 	{
 		memset( this, 0, sizeof(PlayerInfo) );
 	}
+	
+	// 拷贝构造函数
+	PlayerInfo(const PlayerInfo & _other)
+	{
+		m_dwUserKey 	= _other.m_dwUserKey;
+		m_uiDBUserID 	= _other.m_uiDBUserID;
+		m_uiMoney 		= _other.m_uiMoney;
+		m_uiPrepaid 	= _other.m_uiPrepaid;
+		
+		m_uiFaileds 	= _other.m_uiFaileds;
+		m_uiWons 		= _other.m_uiWons;
+		m_uiEscape 		= _other.m_uiEscape;
+		m_uiScore 		= _other.m_uiScore;
+		
+		//m_uiRankList 	= _other.m_uiRankList;
+		//m_uiGoodsList[5];
+	
+		//m_fWonRate 	= _other.m_fWonRate;
+		//m_fEscapeRate = _other.m_fEscapeRate;
+	}
+	
+	// 赋值构造函数
+	PlayerInfo & operator =(const PlayerInfo & _other)
+	{
+		if ( this == &_other ) {
+			return *this;
+		}
+		
+		m_dwUserKey 	= _other.m_dwUserKey;
+		m_uiDBUserID 	= _other.m_uiDBUserID;
+		m_uiMoney 		= _other.m_uiMoney;
+		m_uiPrepaid 	= _other.m_uiPrepaid;
+		
+		m_uiFaileds 	= _other.m_uiFaileds;
+		m_uiWons 		= _other.m_uiWons;
+		m_uiEscape 		= _other.m_uiEscape;
+		m_uiScore 		= _other.m_uiScore;
+		
+		//m_uiRankList 	= _other.m_uiRankList;
+		//m_uiGoodsList[5];
+	
+		//m_fWonRate 	= _other.m_fWonRate;
+		//m_fEscapeRate = _other.m_fEscapeRate;
+		
+	}
 };
 
 /*	struct CardInfo
