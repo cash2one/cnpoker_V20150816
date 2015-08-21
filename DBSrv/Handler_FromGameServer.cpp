@@ -15,17 +15,17 @@ Handler_FromGameServer::~Handler_FromGameServer()
 }
 
 
-HANDLER_IMPL( GD_Login_SYN )
+HANDLER_IMPL( GD_Login_REQ )
 {
-	MSG_GD_LOGIN_SYN * pLogin = (MSG_GD_LOGIN_SYN *)pMsg;
+	printf("Step2: <5> GD_Login_REQ\n");
+	MSG_GD_LOGIN_REQ * pLogin = (MSG_GD_LOGIN_REQ *)pMsg;
 	
 	GameServerSession * pSession = (GameServerSession *) pServerSession;
-	DBUser * pUser = DBFactory::Instance()->AllocDBUser();
-	
-	if ( pUser != NULL ) {
-		pUser->SetHashKey( pLogin->m_dwParameter );
-		pUser->SetRootID( pLogin->uiRootID );
-		pSession->AddUser( pUser );
+	DBUser * pUser = DBFactory::Instance()->AllocDBUser(); // 分配 DBUser
+	if ( pUser != NULL ) {		
+		pUser->SetHashKey( pLogin->m_dwParameter ); // dwUserID
+		pUser->SetRootID( pLogin->m_uiRootID );
+		pSession->AddUser( pUser ); // GameServer 对 DBUser 进行管理
 	
 		TCHAR szQueryBuff[1024];
 		snprintf(szQueryBuff, sizeof(szQueryBuff), "call p_GamePake_Query(?);");
@@ -34,27 +34,31 @@ HANDLER_IMPL( GD_Login_SYN )
 		if (NULL != pQuery) 
 		{
 			pQuery->SetQuery( szQueryBuff );
-			pQuery->pParam[0].uiRootID = pLogin->uiRootID;
+			pQuery->pParam[0].uiRootID = pLogin->m_uiRootID;
 			Obj_db_passport.QueryDirect( pQuery );
 			
 			int iSize = pQuery->vctRes.size();
-			if (iSize == 1)
-			{
+			if (iSize == 1) {
 				MSG_GD_LOGIN_ANC pANC;
 				pANC.m_dwParameter = pLogin->m_dwParameter;
 				
-				pANC.uiRootID 	= pLogin->uiRootID;
-				pANC.uiScore	= pQuery->vctRes[0].uiScore;
-				pANC.uiFaileds	= pQuery->vctRes[0].uiFaileds;
-				pANC.uiWons		= pQuery->vctRes[0].uiWons;
-				pANC.uiEscape	= pQuery->vctRes[0].uiEscape;
+				pANC.m_uiRootID 	= pLogin->m_uiRootID;
+				pANC.m_uiScore	= pQuery->vctRes[0].uiScore;
+				pANC.m_uiFaileds	= pQuery->vctRes[0].uiFaileds;
+				pANC.m_uiWons		= pQuery->vctRes[0].uiWons;
+				pANC.m_uiEscape	= pQuery->vctRes[0].uiEscape;
 				pServerSession->Send( (BYTE*)&pANC, sizeof(pANC) );
 				
-				pUser->GetGameInfo().uiRootID	= pANC.uiRootID ;
-				pUser->GetGameInfo().uiScore	= pANC.uiScore	;
-				pUser->GetGameInfo().uiFaileds	= pANC.uiFaileds;
-				pUser->GetGameInfo().uiWons		= pANC.uiWons	;
-				pUser->GetGameInfo().uiEscape	= pANC.uiEscape	;
+				pUser->GetGameInfo().m_uiRootID	= pANC.m_uiRootID ;
+				pUser->GetGameInfo().m_uiScore	= pANC.m_uiScore	;
+				pUser->GetGameInfo().m_uiFaileds	= pANC.m_uiFaileds;
+				pUser->GetGameInfo().m_uiWons		= pANC.m_uiWons	;
+				pUser->GetGameInfo().m_uiEscape	= pANC.m_uiEscape	;
+			}
+			else {
+				printf("Error: Get Game User info fail\n");
+				// 发送错误消息
+				// MSG_
 			}
 			
 			Query_GamePackage_select::FREE( pQuery );
@@ -63,9 +67,9 @@ HANDLER_IMPL( GD_Login_SYN )
 	}
 }
 
-HANDLER_IMPL( GD_Logout_SYN )
+HANDLER_IMPL( GD_Logout_REQ )
 {
-	MSG_GD_LOGOUT_SYN * pLogout = (MSG_GD_LOGOUT_SYN *)pMsg;
+	MSG_GD_LOGOUT_REQ * pLogout = (MSG_GD_LOGOUT_REQ *)pMsg;
 	// pLogout->uiRootID;
 	
 	GameServerSession * pSession = (GameServerSession *) pServerSession;
@@ -85,10 +89,10 @@ HANDLER_IMPL( GD_Save_CMD )
 	
 	if (pUser != NULL) 
 	{
-		pUser->GetGameInfo().uiScore	= pSave->uiScore  ;
-		pUser->GetGameInfo().uiFaileds	= pSave->uiFaileds;
-		pUser->GetGameInfo().uiWons		= pSave->uiWons	  ;
-		pUser->GetGameInfo().uiEscape	= pSave->uiEscape ;
+		pUser->GetGameInfo().m_uiScore 		= pSave->uiScore  ;
+		pUser->GetGameInfo().m_uiFaileds 	= pSave->uiFaileds;
+		pUser->GetGameInfo().m_uiWons 		= pSave->uiWons	  ;
+		pUser->GetGameInfo().m_uiEscape 	= pSave->uiEscape ;
 		
 		MSG_GD_SAVE_ANC pANC; 
 		pANC.m_dwParameter = pSave->m_dwParameter;

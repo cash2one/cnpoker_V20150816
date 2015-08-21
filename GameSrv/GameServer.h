@@ -26,6 +26,7 @@ public:
 	
 	BOOL Update( DWORD dwDeltaTick );
 	
+	BOOL SendToDBServer( BYTE * pMsg, WORD wSize);
 	BOOL SendToAgentServer( BYTE * pMsg, WORD wSize);
 	
 private:
@@ -34,7 +35,9 @@ private:
 	IOCPServer * m_pIOCPServer;
 	
 	//
+	ServerSession * m_pDBServerSession;
 	ServerSession * m_pAgentServerSession;
+	
 };
 
 extern GameServer * g_GameServer;

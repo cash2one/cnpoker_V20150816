@@ -20,7 +20,7 @@ HANDLER_IMPL( CA_Heartbeat_SYN )
 
 HANDLER_IMPL( CA_PreLogin_REQ )
 {
-	printf("<1> CA_PreLogin_REQ\n");
+	printf("Step1: <1> CA_PreLogin_REQ\n");
 	MSG_CA_PRELOGIN_REQ *pRecvMsg = (MSG_CA_PRELOGIN_REQ *)pMsg;
 	
 	MSG_AL_PRELOGIN_REQ msg2;
@@ -32,7 +32,7 @@ HANDLER_IMPL( CA_PreLogin_REQ )
 
 HANDLER_IMPL( CA_Login_REQ)
 {
-	printf("CA_Login_REQ\n");
+	printf("Step2: <1> CA_Login_REQ\n");
 	MSG_CA_LOGIN_REQ * pRecvMsg = (MSG_CA_LOGIN_REQ *)pMsg;
 	unsigned int uiRootID = pRecvMsg->m_uiRootID;
 	printf("uiRootID = %d\n", uiRootID);
@@ -42,12 +42,6 @@ HANDLER_IMPL( CA_Login_REQ)
 	msg2.m_uiRootID = pRecvMsg->m_uiRootID;
 	memcpy(msg2.m_byUserKey, pRecvMsg->m_byUserKey, sizeof(pRecvMsg->m_byUserKey) );
 	g_AgentServer->SendToLoginServer( (BYTE *)&msg2, sizeof(msg2) );
-	
-	/*
-	MSG_AG_LOGIN_REQ msg2;
-	msg2.m_uiRootID = uiRootID;	
-	g_AgentServer->SendToGameServer( (BYTE *)&msg2, sizeof(msg2) );
-	*/
 }
 
 HANDLER_IMPL( CA_Login_ANC)

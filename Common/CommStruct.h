@@ -72,11 +72,11 @@ struct TableInfo
 
 struct GameInfo
 {
-	unsigned int uiRootID;
-	unsigned int uiScore;
-	unsigned int uiFaileds;
-	unsigned int uiWons;
-	unsigned int uiEscape;
+	unsigned int m_uiRootID;
+	unsigned int m_uiScore;
+	unsigned int m_uiFaileds;
+	unsigned int m_uiWons;
+	unsigned int m_uiEscape;
 	
 	GameInfo()
 	{

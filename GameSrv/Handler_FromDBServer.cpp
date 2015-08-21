@@ -35,11 +35,11 @@ HANDLER_IMPL( GD_Login_ANC )
 	
 	MSG_AG_LOGIN_ANC msg2;
 	msg2.m_playerInfo.m_dwUserKey 		= dwUserID;
-	msg2.m_playerInfo.m_uiDBUserID 		= pRecvMsg->uiRootID;
-	msg2.m_playerInfo.m_uiFaileds 		= pRecvMsg->uiFaileds;
-	msg2.m_playerInfo.m_uiWons 			= pRecvMsg->uiWons;
-	msg2.m_playerInfo.m_uiEscape 		= pRecvMsg->uiEscape;
-	msg2.m_playerInfo.m_uiScore 		= pRecvMsg->uiScore;
+	msg2.m_playerInfo.m_uiDBUserID 		= pRecvMsg->m_uiRootID;
+	msg2.m_playerInfo.m_uiFaileds 		= pRecvMsg->m_uiFaileds;
+	msg2.m_playerInfo.m_uiWons 			= pRecvMsg->m_uiWons;
+	msg2.m_playerInfo.m_uiEscape 		= pRecvMsg->m_uiEscape;
+	msg2.m_playerInfo.m_uiScore 		= pRecvMsg->m_uiScore;
 
 	pUser->SetPlayerInfo(msg2.m_playerInfo);
 	

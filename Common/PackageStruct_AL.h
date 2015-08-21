@@ -19,6 +19,9 @@ struct MSG_AL_PRELOGIN_REQ : public MSG_BASE_FORWARD
 		
 		m_byCategory = LD_ClientLogin;
 		m_byProtocol = AL_PreLogin_REQ;
+		
+		m_dwParameter = 0;
+		m_byParameter = 0;
 	}
 };
 
@@ -37,6 +40,9 @@ struct MSG_AL_PRELOGIN_ANC : public MSG_BASE_FORWARD
 		
 		m_byCategory = AL_ClientLogin;
 		m_byProtocol = AL_PreLogin_ANC;
+		
+		m_dwParameter = 0;
+		m_byParameter = 0;
 	}
 };
 
@@ -52,6 +58,9 @@ struct MSG_AL_LOGIN_REQ : public MSG_BASE_FORWARD
 		
 		m_byCategory = AL_ClientLogin;
 		m_byProtocol = AL_Login_REQ;
+		
+		m_dwParameter = 0;
+		m_byParameter = 0;
 	}
 };
 
@@ -66,6 +75,9 @@ struct MSG_AL_LOGIN_ANC : public MSG_BASE_FORWARD
 		
 		m_byCategory = AL_ClientLogin;
 		m_byProtocol = AL_Login_ANC;
+		
+		m_dwParameter = 0;
+		m_byParameter = 0;
 	}
 };
 
@@ -81,6 +93,9 @@ struct MSG_AL_RELOGIN_REQ : public MSG_BASE_FORWARD
 		
 		m_byCategory = LD_ClientLogin;
 		m_byProtocol = AL_ReLogin_REQ;
+		
+		m_dwParameter = 0;
+		m_byParameter = 0;
 	}
 };
 
@@ -96,6 +111,9 @@ struct MSG_AL_RELOGIN_ANC : public MSG_BASE_FORWARD
 		
 		m_byCategory = AL_ClientLogin;
 		m_byProtocol = AL_ReLogin_ANC;
+		
+		m_dwParameter = 0;
+		m_byParameter = 0;
 	}
 };
 
@@ -110,6 +128,9 @@ struct MSG_AL_LOGOUT_REQ : public MSG_BASE_FORWARD
 		
 		m_byCategory = AL_ClientLogin;
 		m_byProtocol = AL_Logout_REQ;
+		
+		m_dwParameter = 0;
+		m_byParameter = 0;
 	}
 };
 
@@ -122,6 +143,9 @@ struct MSG_AL_LOGOUT_ANC : public MSG_BASE_FORWARD
 		
 		m_byCategory = AL_ClientLogin;
 		m_byProtocol = AL_Logout_ANC;
+		
+		m_dwParameter = 0;
+		m_byParameter = 0;
 	}
 };
 

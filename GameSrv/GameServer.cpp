@@ -13,6 +13,9 @@ GameServer::GameServer(void)
 {
 	m_bShutdown = FALSE;
 	m_pIOCPServer = NULL;
+	
+	m_pDBServerSession = NULL;
+	m_pAgentServerSession = NULL;
 }
 
 GameServer::~GameServer(void)
@@ -52,10 +55,18 @@ BOOL GameServer::Init()
 		return FALSE;
 	}
 	
+	// 主动连接 Agent
 	m_pAgentServerSession = GameFactory::Instance()->AllocAgentServerSession();
 	if ( m_pAgentServerSession ) {
 		SERVER_INFO info = g_InfoParser.GetServerInfo( AGENT_SERVER );
 		m_pAgentServerSession->SetAddr( info.m_strIp, info.m_dwPort ); // Agent Port 7000
+	}
+	
+	// 主动连接 DB
+	m_pDBServerSession = GameFactory::Instance()->AllocDBServerSession();
+	if ( m_pDBServerSession ) {
+		SERVER_INFO info = g_InfoParser.GetServerInfo( DB_SERVER );
+		m_pDBServerSession->SetAddr( info.m_strIp, info.m_dwPort ); // DB Port 7300
 	}
 	
 	return TRUE;
@@ -107,6 +118,16 @@ BOOL GameServer::Update( DWORD dwDeltaTick )
 	MaintainConnection();
 	
 	return TRUE;
+}
+
+BOOL GameServer::SendToDBServer( BYTE * pMsg, WORD wSize)
+{
+	printf("[GameServer::SendToDBServer]\n");
+	
+	if ( m_pDBServerSession ) {
+		return m_pDBServerSession->Send( pMsg, wSize );
+	}
+	return FALSE;
 }
 
 BOOL GameServer::SendToAgentServer( BYTE * pMsg, WORD wSize)

@@ -30,8 +30,8 @@ void DBFactory::Init()
 	m_pDBUserPool->Initialize(999,1);
 	
 	m_pTempServerSessionPool->Initialize(10,1);
-	m_pGameServerSessionPool->Initialize(99,1);
-	m_pLoginServerSessionPool->Initialize(99,1); // ???
+	m_pGameServerSessionPool->Initialize(9,1);
+	m_pLoginServerSessionPool->Initialize(9,1); // ???
 }
 
 DBUser * DBFactory::AllocDBUser() {

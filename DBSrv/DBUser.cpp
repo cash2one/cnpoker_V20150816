@@ -29,11 +29,11 @@ BOOL DBUser::UpdateToDB()
 	if (NULL != pQuery) 
 	{
 		pQuery->SetQuery( szQueryBuff );
-		pQuery->pParam[0].uiRootID = m_sInfo.uiRootID;
-		pQuery->pParam[0].uiRootID = m_sInfo.uiScore;
-		pQuery->pParam[0].uiRootID = m_sInfo.uiFaileds;
-		pQuery->pParam[0].uiRootID = m_sInfo.uiWons;
-		pQuery->pParam[0].uiRootID = m_sInfo.uiEscape;
+		pQuery->pParam[0].uiRootID = m_sInfo.m_uiRootID;
+		pQuery->pParam[0].uiRootID = m_sInfo.m_uiScore;
+		pQuery->pParam[0].uiRootID = m_sInfo.m_uiFaileds;
+		pQuery->pParam[0].uiRootID = m_sInfo.m_uiWons;
+		pQuery->pParam[0].uiRootID = m_sInfo.m_uiEscape;
 		Obj_db_passport.QueryDirect( pQuery );
 		
 		int iSize = pQuery->vctRes.size();

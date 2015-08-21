@@ -33,8 +33,8 @@ void PacketHandler::Register_LD()
 
 void PacketHandler::Register_GD()
 {
-	AddHandler_GD(GD_ClientLogin, GD_Login_SYN, Handler_FromGameServer::OnGD_Login_SYN);
-	AddHandler_GD(GD_ClientLogin, GD_Logout_SYN, Handler_FromGameServer::OnGD_Logout_SYN);
+	AddHandler_GD(GD_ClientLogin, GD_Login_REQ, Handler_FromGameServer::OnGD_Login_REQ);
+	AddHandler_GD(GD_ClientLogin, GD_Logout_REQ, Handler_FromGameServer::OnGD_Logout_REQ);
 	AddHandler_GD(GD_ClientLogin, GD_Save_CMD, Handler_FromGameServer::OnGD_Save_CMD);
 	AddHandler_GD(GD_ClientLogin, GD_Update_CMD, Handler_FromGameServer::OnGD_Update_CMD);
 }

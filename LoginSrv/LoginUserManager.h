@@ -9,7 +9,7 @@
 #include "LoginUser.h"
 #include "ServerSession.h"
 
-typedef std::map<DWORD, LoginUser*> 	MAP_LOGINUSER;
+typedef std::map<DWORD, LoginUser * > 	MAP_LOGINUSER;
 typedef MAP_LOGINUSER::iterator       	MAP_LOGINUSER_ITER;
 
 class LoginUserManager : public A::Singleton<LoginUserManager>

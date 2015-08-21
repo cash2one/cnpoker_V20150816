@@ -29,8 +29,11 @@ void TempUserSession::OnRecv(BYTE *pMsg, WORD wSize)
 	printf(">>>> [TempUserSession::OnRecv]\n");
 	
 	assert( m_bFirst == TRUE );
-	if ( !m_bFirst )
+	if ( !m_bFirst ) {
+		printf("Debug m_bFirst != TRUE. So return.\n");
 		return;
+	}
+		
 	
 	
 	MSG_CA_CONNECTION_ENTERSERVER_SYN * pRecvMsg = (MSG_CA_CONNECTION_ENTERSERVER_SYN *) pMsg;

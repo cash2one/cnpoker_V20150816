@@ -11,7 +11,7 @@
 
 struct MSG_AG_LOGIN_REQ : public MSG_BASE_FORWARD
 {
-	unsigned int m_uiRootID;
+	DWORD m_uiRootID;
 	
 	MSG_AG_LOGIN_REQ() 
 	{
@@ -350,11 +350,7 @@ struct MSG_AG_DISCARDS_INVALID : public MSG_BASE_FORWARD
 
 // 要不起 请求
 struct MSG_AG_PASS_REQ : public MSG_BASE_FORWARD
-{
-	//DWORD m_dwUserKey;
-	//DWORD m_uiSize;
-	//BYTE m_byDiscards[CNPOKER_CARD_LEN_2]; // 最多20张
-	
+{	
 	MSG_AG_PASS_REQ() 
 	{
 		memset( this, 0, sizeof(MSG_AG_PASS_REQ) );

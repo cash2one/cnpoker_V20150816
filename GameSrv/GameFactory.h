@@ -20,9 +20,9 @@ public:
 
 private:
 	MemoryFactory<GameUser> 			* m_pGameUserPool;
-	MemoryFactory<AgentServerSession> 	* m_pAgentServerPool;
-	MemoryFactory<DBServerSession> 		* m_pDBServerPool;
 	
+	MemoryFactory<DBServerSession> 		* m_pDBServerPool;
+	MemoryFactory<AgentServerSession> 	* m_pAgentServerPool;
 public:
 	void Init(void);
 	void Release(void);
@@ -30,11 +30,12 @@ public:
 	GameUser * AllocGameUser();
 	void FreeGameUser(GameUser * pObjs);
 	
-	AgentServerSession * AllocAgentServerSession();
-	void FreeAgentServerSession(AgentServerSession * pObjs);
-	
+	// Server
 	DBServerSession * AllocDBServerSession();
 	void FreeDBServerSession(DBServerSession * pObjs);
+	
+	AgentServerSession * AllocAgentServerSession();
+	void FreeAgentServerSession(AgentServerSession * pObjs);
 };
 
 #endif

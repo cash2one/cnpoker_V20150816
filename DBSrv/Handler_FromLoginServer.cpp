@@ -19,10 +19,11 @@ Handler_FromLoginServer::~Handler_FromLoginServer()
 
 HANDLER_IMPL( LD_Login_REQ )
 {
-	printf("<3> LD_Login_REQ\n");
+	printf("Step1: <3> LD_Login_REQ\n");
 	
 	MSG_LD_LOGIN_REQ * pRecvMsg = (MSG_LD_LOGIN_REQ *)pMsg;
-
+	// 传入消息包包含: m_pNetObj, m_byUsername, m_byPassword
+	
 	TCHAR szQueryBuff[1024];
 	snprintf(szQueryBuff, sizeof(szQueryBuff), "call p_Login_Select(?,?);");
 	Query_Login_update * pQuery = Query_Login_update::ALLOC();

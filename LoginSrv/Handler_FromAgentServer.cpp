@@ -18,9 +18,9 @@ Handler_FromAgentServer::~Handler_FromAgentServer()
 
 HANDLER_IMPL( AL_PreLogin_REQ )
 {
-	printf("<2> AL_PreLogin_REQ\n");
+	printf("Step1: <2> AL_PreLogin_REQ\n");
 	
-	MSG_AL_PRELOGIN_REQ * pRecvMsg = (MSG_AL_PRELOGIN_REQ *) pMsg;
+	MSG_AL_PRELOGIN_REQ * pRecvMsg = (MSG_AL_PRELOGIN_REQ *)pMsg;
 	
 	MSG_LD_LOGIN_REQ msg2;
 	msg2.m_pNetObj = (NetworkObject *) pServerSession;
@@ -55,18 +55,27 @@ HANDLER_IMPL( AL_ReLogin_REQ )
 
 HANDLER_IMPL( AL_Login_REQ )
 {
-	printf("AL_Login_REQ\n");
+	printf("Step2: <2> AL_Login_REQ\n");
 	
-	LoginUser * pLoginUser = NULL;
-	MSG_AL_LOGIN_REQ * pRecvMsg = (MSG_AL_LOGIN_REQ *) pMsg;
+	MSG_AL_LOGIN_REQ * pRecvMsg = (MSG_AL_LOGIN_REQ *)pMsg;
 	
-	pLoginUser = LoginUserManager::Instance()->POP(pRecvMsg->m_uiRootID);
+	// 在LoginUserManager中查找用户
+	LoginUser * pLoginUser = LoginUserManager::Instance()->POP(pRecvMsg->m_uiRootID); // POP的时候已在 LoginUserManager Map中擦除
 	if (pLoginUser != NULL) {
+		// Login验证 m_byUserKey
+		BOOL bRet = pLoginUser->IsSameMD(pRecvMsg->m_byUserKey);
+		if ( !bRet ) {
+			printf("Error: Not the Same MD.\n");
+			// 返回登陆失败 消息包
+			// MSG_
+		}
+		
 		AgentServerSession * pSession = (AgentServerSession *)pServerSession;
 		if ( pSession != NULL ) {
-			pSession->m_userCount++;
-			LoginFactory::Instance()->FreeLoginUser(pLoginUser);
+			pSession->m_userCount++; // 用户数量+1;
+			LoginFactory::Instance()->FreeLoginUser(pLoginUser); // 释放 登陆用户
 			
+			// 返回消息包给Agent
 			MSG_AL_LOGIN_ANC pSendMsg;
 			pSendMsg.m_uiRootID = pRecvMsg->m_uiRootID;
 			pSession->Send( (BYTE *)&pSendMsg, sizeof(pSendMsg) );
@@ -80,6 +89,9 @@ HANDLER_IMPL( AL_Login_REQ )
 	else 
 	{
 		// 登录失败
+		printf("Error: AL_Login_REQ Fail\n");
+		// 返回登陆失败 消息包
+		// MSG_
 	}
 }
 

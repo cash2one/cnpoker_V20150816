@@ -7,16 +7,16 @@
 
 #pragma pack(push, 1)
 
-struct MSG_GD_LOGIN_SYN : public MSG_BASE_FORWARD
+struct MSG_GD_LOGIN_REQ : public MSG_BASE_FORWARD
 {
-	unsigned int uiRootID;
+	DWORD 	m_uiRootID;
 	
-	MSG_GD_LOGIN_SYN()
+	MSG_GD_LOGIN_REQ()
 	{
-		memset( this, 0, sizeof(MSG_GD_LOGIN_SYN) );
+		memset( this, 0, sizeof(MSG_GD_LOGIN_REQ) );
 		
 		m_byCategory = GD_ClientLogin;
-		m_byProtocol = GD_Login_SYN;
+		m_byProtocol = GD_Login_REQ;
 				
 		m_dwParameter = 0;
 		m_byParameter = 0;
@@ -25,11 +25,11 @@ struct MSG_GD_LOGIN_SYN : public MSG_BASE_FORWARD
 
 struct MSG_GD_LOGIN_ANC : public MSG_BASE_FORWARD
 {
-	unsigned int uiRootID;
-	unsigned int uiScore;
-	unsigned int uiFaileds;
-	unsigned int uiWons;
-	unsigned int uiEscape;
+	unsigned int m_uiRootID;
+	unsigned int m_uiScore;
+	unsigned int m_uiFaileds;
+	unsigned int m_uiWons;
+	unsigned int m_uiEscape;
 		
 	MSG_GD_LOGIN_ANC()
 	{
@@ -43,14 +43,14 @@ struct MSG_GD_LOGIN_ANC : public MSG_BASE_FORWARD
 	}
 };
 
-struct MSG_GD_LOGOUT_SYN : public MSG_BASE_FORWARD
+struct MSG_GD_LOGOUT_REQ : public MSG_BASE_FORWARD
 {
-	MSG_GD_LOGOUT_SYN()
+	MSG_GD_LOGOUT_REQ()
 	{
-		memset( this, 0, sizeof(MSG_GD_LOGOUT_SYN) );
+		memset( this, 0, sizeof(MSG_GD_LOGOUT_REQ) );
 		
 		m_byCategory = GD_ClientLogin;
-		m_byProtocol = GD_Logout_SYN;
+		m_byProtocol = GD_Logout_REQ;
 				
 		m_dwParameter = 0;
 		m_byParameter = 0;

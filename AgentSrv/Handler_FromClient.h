@@ -19,7 +19,7 @@ public:
 	
 	HANDLER_DECL( CA_PreLogin_REQ );
 	
-	HANDLER_DECL( CA_Login_REQ );
+	HANDLER_DECL( CA_Login_REQ ); // 正式登陆
 	HANDLER_DECL( CA_Login_ANC );
 	
 	HANDLER_DECL( CA_ReLogin_REQ );

@@ -15,7 +15,7 @@ Handler_FromLoginServer::~Handler_FromLoginServer()
 
 HANDLER_IMPL( AL_PreLogin_ANC )
 {
-	printf("AL_Prelogin_ANC\n");
+	printf("Step1: <5> AL_Prelogin_ANC\n");
 	MSG_AL_PRELOGIN_ANC * pRecvMsg = (MSG_AL_PRELOGIN_ANC *) pMsg;
 	
 	User * pUser = g_UserManager.FindUser(pRecvMsg->m_dwParameter);
@@ -24,6 +24,7 @@ HANDLER_IMPL( AL_PreLogin_ANC )
 		return;
 	}
 	
+	// 返回信息给 Client
 	MSG_CA_PRELOGIN_ANC msg2;
 	msg2.m_uiRootID = pRecvMsg->m_uiRootID;
 	memcpy(msg2.m_byUserKey, pRecvMsg->m_byUserKey, sizeof(pRecvMsg->m_byUserKey) );
@@ -34,6 +35,7 @@ HANDLER_IMPL( AL_PreLogin_ANC )
 
 HANDLER_IMPL( AL_Login_ANC )
 {
+	printf("Step2: <3> AL_Login_ANC\n");
 	MSG_AL_LOGIN_ANC * pRecvMsg = (MSG_AL_LOGIN_ANC *) pMsg;
 	
 	User * pUser = g_UserManager.FindUser(pRecvMsg->m_dwParameter);
@@ -42,6 +44,7 @@ HANDLER_IMPL( AL_Login_ANC )
 		return;
 	}
 	
+	// 连接到Game
 	MSG_AG_LOGIN_REQ msg2;
 	msg2.m_uiRootID = pRecvMsg->m_uiRootID;
 	g_AgentServer->SendToGameServer( (BYTE *)&msg2, sizeof(msg2) );

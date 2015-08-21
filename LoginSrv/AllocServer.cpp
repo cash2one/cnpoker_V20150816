@@ -3,7 +3,9 @@
 
 AllocServer::AllocServer()
 {
+	m_usMax = 0;
 	m_ucSize = 0;
+	//m_sortArray[FLOATSORT_ARRAY] = {0};
 	memset( m_sortArray, 0x0, FLOATSORT_ARRAY ); 
 }
 
@@ -34,7 +36,7 @@ AgentServerSession * AllocServer::POP()
 	
 void AllocServer::PUSH( AgentServerSession * pSession )
 {
-	if ( m_ucSize < FLOATSORT_ARRAY )
+	if ( m_ucSize < FLOATSORT_ARRAY ) // 256
 	{
 		++m_ucSize;
 		m_sortArray[m_ucSize] = pSession;
