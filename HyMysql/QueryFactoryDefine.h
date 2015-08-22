@@ -31,10 +31,6 @@
 
 
 
-
-
-
-
 template<class Type>
 class QUERY_POOL
 {

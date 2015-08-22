@@ -35,9 +35,6 @@ public:
 private:
 	HyDatabase &					m_psdb;
 
-#if defined(WIN32) || defined( WIN64 )
-	HANDLE							m_hEndThreadEvent;
-#endif
 	IDBCInterface *					m_pDBCInstance;
 
 	__DISABLE_COPY(QueryExecuteProcessor);

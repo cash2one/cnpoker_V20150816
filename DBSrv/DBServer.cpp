@@ -39,7 +39,7 @@ BOOL DBServer::Init()
 	desc[0].dwTimeOut					= 0;
 	desc[0].dwNumberOfAcceptThreads		= 1;
 	desc[0].dwNumberOfIoThreads			= 1;
-	desc[0].dwNumberOfConnectThreads	= 0; // Agent Server don't Active connect.
+	desc[0].dwNumberOfConnectThreads	= 0; // DB Server don't Active connect.
 	desc[0].dwMaxPacketSize				= 60000; //4096
 	desc[0].fnCreateAcceptedObject		= CreateServerSideAcceptedObject;
 	desc[0].fnDestroyAcceptedObject		= DestroyServerSideAcceptedObject;

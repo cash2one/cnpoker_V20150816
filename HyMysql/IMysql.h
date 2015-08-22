@@ -31,7 +31,6 @@ private:
 	void					TryConnect(void);
 
 	MYSQL*					m_pMySql;
-
 };
 
 

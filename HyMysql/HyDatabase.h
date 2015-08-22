@@ -51,6 +51,6 @@ private:
 };
 
 
-#endif // __HYDATABASE_H__
+#endif // __HYDATABASE_H_INCLUDED__
 	
 	

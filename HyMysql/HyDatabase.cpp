@@ -29,9 +29,6 @@ HyDatabase::HyDatabase(void)
 		m_dwDummy (	0 )
 		
 {
-#if defined(WIN32) || defined( WIN64 )
-	m_hQEPWakeupEvent = NULL ;
-#endif
 }
 
 HyDatabase::~HyDatabase(void)
@@ -44,20 +41,11 @@ VOID HyDatabase::Release()
 {
 	m_bEndProcess = TRUE;
 
-#if defined(WIN32) || defined( WIN64 )
-	SetEvent(m_hQEPWakeupEvent);
-#else
 	m_lockWakeup.Lock();
 	m_condWakeup.Broadcast();
 	m_lockWakeup.Unlock();
-#endif
 
 	SAFE_DELETE( m_pThreadPool );
-
-#if defined(WIN32) || defined( WIN64 )
-	CloseHandle( m_hQEPWakeupEvent );
-	m_hQEPWakeupEvent = NULL;
-#endif
 
 	SAFE_DELETE( m_pQueryList );
 	SAFE_DELETE( m_pQueryResultPushList );
@@ -152,10 +140,6 @@ BOOL HyDatabase::Initialize( HyDatabaseDesc & desc )
 		if( !m_ppDBCInstance[i]->Connect() )																									return FALSE;
 	}
 	
-#if defined(WIN32) || defined(WIN64)
-	m_hQEPWakeupEvent = CreateEvent( NULL, FALSE, FALSE, NULL );
-#endif
-
 	m_pQueryCS				= new Yond_mutex;
 	m_pQueryResultCS		= new Yond_mutex;
 
@@ -193,13 +177,9 @@ BOOL HyDatabase::DBQuery( QueryResult * pQuery )
 	m_pQueryList->AddTail( pQuery );
 	m_pQueryCS->Unlock();
 
-#if defined(WIN32) || defined( WIN64 )
-	SetEvent( m_hQEPWakeupEvent );
-#else
 	m_lockWakeup.Lock();
 	m_condWakeup.Signal();
 	m_lockWakeup.Unlock();
-#endif
 
 	return TRUE;
 }

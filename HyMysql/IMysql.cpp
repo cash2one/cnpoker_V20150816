@@ -83,7 +83,7 @@ BOOL IMysql::Connect()
 	return TRUE;
 }
 
-//panjy 2011-11-24 如果断开则重连
+// 如果断开则重连
 void IMysql::TryConnect(void)
 {
 	int nRet = mysql_ping(m_pMySql);
@@ -96,7 +96,7 @@ void IMysql::TryConnect(void)
 
 BOOL IMysql::ExecuteLargeData( QueryResult * pQuery )
 {
-	//panjy 2011-11-24 如果断开则重连
+	// 如果断开则重连
 	TryConnect();
 
 	MYSQL_STMT	*stmt			= NULL;
@@ -198,7 +198,6 @@ BOOL IMysql::ExecuteLargeData( QueryResult * pQuery )
 			}
 			
 		}
-
 	}
 
 	/* Execute the query */
@@ -324,7 +323,7 @@ CLEANUPFAIL:
 
 BOOL IMysql::Execute( QueryResult * pQuery )
 {
-	//panjy 2011-11-24 如果断开则重连
+	// 如果断开则重连
 	TryConnect();
 
 //	return ExecuteLargeData( pQuery );
@@ -339,7 +338,7 @@ BOOL IMysql::Execute( QueryResult * pQuery )
 	pQuery->SetResultColNum( 0 );
 	pQuery->SetResultRowNum( 0 );
 
-	//add by df
+	// 
 	pQuery->InitData();
 	//
 
@@ -383,11 +382,9 @@ BOOL IMysql::Execute( QueryResult * pQuery )
 
 		while ( (row = mysql_fetch_row(result)) ) 
 		{   
-			//删除by df
 			//if( ulRow == pQuery->GetMaxRowNum() ) 
 			//	break;
 
-			//add by df
 			pQuery->AllocData();
 			//
 

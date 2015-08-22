@@ -19,7 +19,7 @@ public:
 	QueryResult(){}
 	virtual ~QueryResult(){}
 
-	//add by df
+	//
 	virtual void					AllocData() {;}
 	virtual void					InitData() {;}
 	virtual void					dealData() {;}
