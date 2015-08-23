@@ -106,6 +106,12 @@ BOOL GameServer::MaintainConnection()
 			ConnectToServer( m_pAgentServerSession, (char *)m_pAgentServerSession->GetConnnectIP().c_str(), m_pAgentServerSession->GetConnnectPort() );
 		}
 	}
+	
+	if ( m_pDBServerSession ) {
+		if ( m_pDBServerSession->TryToConnect() ) {
+			ConnectToServer( m_pDBServerSession, (char *)m_pDBServerSession->GetConnnectIP().c_str(), m_pDBServerSession->GetConnnectPort() );
+		}
+	}
 }
 
 BOOL GameServer::Update( DWORD dwDeltaTick )

@@ -3,8 +3,8 @@
 #include "LoginServer.h"
 
 TempServerSession::TempServerSession()
+	: m_bFirst(TRUE)
 {
-	m_bFirst = TRUE;
 }
 
 TempServerSession::~TempServerSession()
@@ -12,10 +12,12 @@ TempServerSession::~TempServerSession()
 	
 }
 
-void TempServerSession::OnConnect( BOOL bSuccess, DWORD dwNetworkIndex )
+void TempServerSession::Clear()
 {
-
+	m_bFirst = TRUE;
+	ServerSession::Clear();
 }
+
 
 void TempServerSession::OnRecv(BYTE *pMsg, WORD wSize)
 {
@@ -43,4 +45,15 @@ void TempServerSession::OnRecv(BYTE *pMsg, WORD wSize)
 	}
 #endif
 }
+
+void TempServerSession::OnConnect( BOOL bSuccess, DWORD dwNetworkIndex )
+{
+
+}
+
+void TempServerSession::OnLogString( char * pszLog)
+{
+	
+}
+
 

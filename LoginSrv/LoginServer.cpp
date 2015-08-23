@@ -89,12 +89,14 @@ BOOL LoginServer::MaintainConnection()
 	if (m_bShutdown) {
 		return TRUE;
 	}
-	
+
+#if 1
 	if ( m_pAgentServerSession ) {
 		if ( m_pAgentServerSession->TryToConnect() ) {
 			ConnectToServer( m_pAgentServerSession, (char *)m_pAgentServerSession->GetConnnectIP().c_str(), m_pAgentServerSession->GetConnnectPort() );
 		}
 	}
+#endif	
 	
 	if ( m_pDBServerSession ) {
 		if ( m_pDBServerSession->TryToConnect() ) {

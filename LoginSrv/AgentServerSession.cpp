@@ -33,22 +33,25 @@ void AgentServerSession::OnRecv(BYTE *pMsg, WORD wSize)
 	g_PacketHandler.ParsePacket_AL( this, (MSG_BASE *)pMsg, wSize);
 }
 
+void AgentServerSession::OnConnect( BOOL bSuccess, DWORD dwNetworkIndex )
+{
+	printf("[LoginServer]: AgentServerSession::OnConnect\n");
+	ServerSession::OnConnect( bSuccess, dwNetworkIndex );
+	if ( bSuccess ) {
+		printf("[AgentServerSession::OnConnect] success.\n");
+		printf("Send Server Type.\n");
+		ServerSession::SendServerType();
+	}
+	else
+		printf("[LoginServer]: AgentServerSession::OnConnect Fail\n");
+}
+
 void AgentServerSession::OnDisconnect()
 {
 	printf("[AgentServerSession::OnDisconnect]\n");
 	ServerSession::OnDisconnect();
 }
 	
-void AgentServerSession::OnConnect( BOOL bSuccess, DWORD dwNetworkIndex )
-{
-	printf("LoginServer : AgentServerSession::OnConnect\n");
-	ServerSession::OnConnect( bSuccess, dwNetworkIndex );
-	if ( bSuccess ) {
-		printf("[AgentServerSession::OnConnect] -> ServerSession::SendServerType()\n");
-		ServerSession::SendServerType();
-	}	
-}
-
 void AgentServerSession::OnLogString( char * pszLog)
 {
 	

@@ -20,9 +20,9 @@ public:
 	virtual void    Update();
 	
 public:
-    virtual void    OnConnect( BOOL bSuccess, DWORD dwSessionIndex );
-	virtual void	OnDisconnect( );
 	virtual void	OnRecv( BYTE *pMsg, WORD wSize );
+    virtual void    OnConnect( BOOL bSuccess, DWORD dwSessionIndex );
+	virtual void	OnDisconnect();	
 	virtual void	OnLogString( char * pszLog );
 	
 public:

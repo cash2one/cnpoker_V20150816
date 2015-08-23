@@ -64,7 +64,6 @@ private:
 	SessionList * m_pConnectSuccessList;
 	SessionList * m_pConnectFailList;
 	SessionList * m_pTemplateList;
-	BOOL m_Shutdown;	
 
 	DWORD 		m_dwKey;
 	int 		m_epoll;

@@ -39,12 +39,15 @@ void AgentServerSession::OnDisconnect()
 	
 void AgentServerSession::OnConnect( BOOL bSuccess, DWORD dwNetworkIndex )
 {
-	printf("GameServer : AgentServerSession::OnConnect\n");
+	printf("[GameServer] : AgentServerSession::OnConnect\n");
 	ServerSession::OnConnect( bSuccess, dwNetworkIndex );
 	if ( bSuccess ) {
-		printf("[AgentServerSession::OnConnect] -> ServerSession::SendServerType()\n");
+		printf("[AgentServerSession::OnConnect] success.\n");
+		printf("Send Server Type.\n");
 		ServerSession::SendServerType();
-	}	
+	}
+	else
+		printf("[GameServer] : AgentServerSession::OnConnect fail\n");
 }
 
 void AgentServerSession::OnLogString( char * pszLog)

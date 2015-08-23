@@ -25,7 +25,8 @@ HANDLER_IMPL( LD_Login_REQ )
 	// 传入消息包包含: m_pNetObj, m_byUsername, m_byPassword
 	
 	TCHAR szQueryBuff[1024];
-	snprintf(szQueryBuff, sizeof(szQueryBuff), "call p_Login_Select(?,?);");
+	snprintf(szQueryBuff, sizeof(szQueryBuff), "call p_Login_Select(%s,%s);", pRecvMsg->m_byUsername, pRecvMsg->m_byPassword);
+	printf("Query: username = %s, password = %s\n", pRecvMsg->m_byUsername, pRecvMsg->m_byPassword);
 	Query_Login_update * pQuery = Query_Login_update::ALLOC();
 	
 	if (NULL != pQuery) 

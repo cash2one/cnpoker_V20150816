@@ -12,9 +12,24 @@ Session::Session(DWORD dwSendBufferSize, DWORD dwRecvBufferSize, DWORD dwMaxPack
 	m_pRecvBuffer->Clear();
 	
 	m_dwTimeOut 	= dwTimeOut;
-	m_socket 	= INVALID_SOCKET;
+	
+	m_socket 		= INVALID_SOCKET;
+	
+	m_bCanSend 		= TRUE;
 	m_bAcceptSocket = FALSE;
-	m_bCanSend 	= TRUE;
+	m_bDisconnectOrdered = FALSE;
+		
+	m_pNetworkObject = NULL;
+	
+	m_dwTotalRecvBytes 	= 0;
+	m_dwTotalSendBytes 	= 0;
+	m_dwLastSyncTick 	= 0;
+	m_bRemove = FALSE;
+	m_dwIndex = 0;
+
+	m_iCategory = 0;
+	m_iProtocol = 0;
+	m_iSize 	= 0;	
 }
 
 Session::~Session()

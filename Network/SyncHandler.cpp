@@ -88,10 +88,19 @@ void * io_thread( void * param )
 
 SyncHandler::SyncHandler()
 {
+	m_dwKey = 0;
+	m_epoll = 0;
+	m_numIoThreads = 0;
+	m_dwMaxPacketSize = 0;
+	m_numActiveSessions = 0;
+	m_dwMaxAcceptSession = 0;
+	
+	m_pIOCPServer 			= NULL;
+	
 	m_pAcceptSessionPool	= NULL;
 	m_pConnectSessionPool	= NULL;
-	m_pAcceptor		= NULL;
-	m_pConnector		= NULL;
+	m_pAcceptor 			= NULL;
+	m_pConnector 			= NULL;
 	
 	m_bShutdown = FALSE;
 	

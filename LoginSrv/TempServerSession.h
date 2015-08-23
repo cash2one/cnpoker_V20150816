@@ -16,8 +16,10 @@ public:
 	eSERVER_TYPE	GetServerType() {	return TEMP_SERVER;  }
 	
 protected:
-	virtual void	OnConnect( BOOL bSuccess, DWORD dwNetworkIndex );
+	virtual void    Clear();
 	virtual void	OnRecv(BYTE *pMsg, WORD wSize);
+	virtual void	OnConnect( BOOL bSuccess, DWORD dwNetworkIndex );
+	virtual void	OnLogString( char * pszLog);
 	
 private:
 	BOOL m_bFirst;
