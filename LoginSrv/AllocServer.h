@@ -20,6 +20,8 @@ public:
 	
 	unsigned char GetSize() const { return m_ucSize; }
 	
+	// 是否达到最大容纳值
+	BOOL IsReachMaxSize();
 public:
 	unsigned short m_usMax;
 	unsigned char  m_ucSize;

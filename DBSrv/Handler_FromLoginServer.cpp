@@ -21,12 +21,13 @@ HANDLER_IMPL( LD_Login_REQ )
 {
 	printf("Step1: <3> LD_Login_REQ\n");
 	
+	// 传入消息包 包含: m_pNetObj, m_byUsername, m_byPassword
 	MSG_LD_LOGIN_REQ * pRecvMsg = (MSG_LD_LOGIN_REQ *)pMsg;
-	// 传入消息包包含: m_pNetObj, m_byUsername, m_byPassword
+	
 	
 	TCHAR szQueryBuff[1024];
-	snprintf(szQueryBuff, sizeof(szQueryBuff), "call p_Login_Select(%s,%s);", pRecvMsg->m_byUsername, pRecvMsg->m_byPassword);
-	printf("Query: username = %s, password = %s\n", pRecvMsg->m_byUsername, pRecvMsg->m_byPassword);
+	snprintf(szQueryBuff, sizeof(szQueryBuff), "call g_Login_Select(\'%s\',\'%s\')", pRecvMsg->m_byUsername, pRecvMsg->m_byPassword);
+	printf("\nQuery: username = %s, password = %s\n", pRecvMsg->m_byUsername, pRecvMsg->m_byPassword);
 	Query_Login_update * pQuery = Query_Login_update::ALLOC();
 	
 	if (NULL != pQuery) 
@@ -43,6 +44,8 @@ HANDLER_IMPL( LD_Login_REQ )
 						
 			msg2.m_uiRootID = pQuery->vctRes[0].uiRootID;
 			msg2.m_pNetObj = pRecvMsg->m_pNetObj;
+			
+			memcpy(msg2.m_byUserKey, "slowfuck", sizeof("slowfuck")); // just test
 			//BYTE m_byUserKey[CODE_KEY_LEN + 1]; 	// 数据库获取方式??
 			pServerSession->Send( (BYTE*)&msg2, sizeof(msg2) );
 		}

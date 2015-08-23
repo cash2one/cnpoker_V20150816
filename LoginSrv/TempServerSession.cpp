@@ -22,11 +22,14 @@ void TempServerSession::Clear()
 void TempServerSession::OnRecv(BYTE *pMsg, WORD wSize)
 {
 	assert( m_bFirst == TRUE);
+	if ( !m_bFirst)
+		return;
+	
 	m_bFirst = FALSE;
 	
-	printf("[TempServerSession::OnRecv]\n");
+	printf("Enter TempServerSession::OnRecv.\n");
 	
-#if 0
+#if 0	
 	MSG_SERVER_TYPE * pRecvMsg = (MSG_SERVER_TYPE *)pMsg;
 	if ( pRecvMsg->m_byServerType == AGENT_SERVER ) {
 		

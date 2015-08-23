@@ -67,7 +67,7 @@ struct MSG_CA_PRELOGIN_REQ : public MSG_BASE_FORWARD
 	{
 		memset( this, 0, sizeof(MSG_CA_PRELOGIN_REQ) );
 		
-		m_byCategory = CA_Game; // 32
+		m_byCategory = CA_Client; // ???
 		m_byProtocol = CA_PreLogin_REQ; // ???
 		
 		m_dwParameter = 0; // dwUserID
@@ -89,7 +89,7 @@ struct MSG_CA_PRELOGIN_ANC : public MSG_BASE_FORWARD
 	{
 		memset( this, 0, sizeof(MSG_CA_PRELOGIN_ANC) );
 		
-		m_byCategory = CA_Game; // 32
+		m_byCategory = CA_Client; // 32
 		m_byProtocol = CA_PreLogin_ANC; // ???
 		
 		m_dwParameter = 0; // dwUserID
@@ -107,7 +107,7 @@ struct MSG_CA_LOGIN_REQ : public MSG_BASE_FORWARD
 	{
 		memset( this, 0, sizeof(MSG_CA_LOGIN_REQ) );
 		
-		m_byCategory = CA_Game; // 32
+		m_byCategory = CA_Client; // 32
 		m_byProtocol = CA_Login_REQ; // ???
 		
 		m_dwParameter = 0; // dwUserID
@@ -126,7 +126,7 @@ struct MSG_CA_LOGIN_ANC : public MSG_BASE_FORWARD
 	{
 		memset( this, 0, sizeof(MSG_CA_LOGIN_ANC) );
 		
-		m_byCategory = CA_Game; // 32
+		m_byCategory = CA_Client; // 32
 		m_byProtocol = CA_Login_ANC; // ???
 		
 		m_dwParameter = 0; // dwUserID

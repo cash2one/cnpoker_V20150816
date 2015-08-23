@@ -13,7 +13,7 @@ public:
 	AgentServerSession();
 	virtual ~AgentServerSession();
 	
-	eSERVER_TYPE    GetServerType() { return LOGIN_SERVER; }
+	eSERVER_TYPE    GetServerType() { return AGENT_SERVER; }
 	
 	virtual void    Init();
 	virtual void    Release();

@@ -41,9 +41,8 @@ void PacketHandler::Register_CA()
 	AddHandler_CA(CA_Client, CA_ReLogin_REQ, Handler_FromClient::OnCA_ReLogin_REQ);
 	AddHandler_CA(CA_Client, CA_Logout_REQ, Handler_FromClient::OnCA_Logout_REQ);
 
-	AddHandler_CA(CA_Game, CA_StartGame_REQ, Handler_FromClient::OnCA_StartGame_REQ);
-	
 	// sylar 2015-08-16
+	AddHandler_CA(CA_Game, CA_StartGame_REQ, Handler_FromClient::OnCA_StartGame_REQ);	
 	AddHandler_CA(CA_Game, CA_JoinRoom_REQ, Handler_FromClient::OnCA_JoinRoom_REQ);
 	AddHandler_CA(CA_Game, CA_JoinTable_REQ, Handler_FromClient::OnCA_JoinTable_REQ);
 	AddHandler_CA(CA_Game, CA_ShowCards_REQ, Handler_FromClient::OnCA_ShowCards_REQ);
@@ -87,9 +86,9 @@ void PacketHandler::Register_AL()
 BOOL PacketHandler::AddHandler_CA( WORD category, WORD protocol, fnHandler_c fnHandler)
 {
 	FUNC_CA * pFuncInfo	= new FUNC_CA;
-	printf("category:%d,protocol:%d\n", category, protocol);	
+	//printf("category:%d,protocol:%d\n", category, protocol);	
 	pFuncInfo->m_dwFunctionKey	= MAKELONG( category, protocol );
-	printf("m_dwFunctionKey:%d\n", pFuncInfo->m_dwFunctionKey);
+	//printf("m_dwFunctionKey:%d\n", pFuncInfo->m_dwFunctionKey);
 	pFuncInfo->m_fnHandler		= fnHandler;
 	
 	return m_pFuncMap_CA->Add( pFuncInfo );
@@ -141,7 +140,7 @@ VOID PacketHandler::ParsePacket_AG( ServerSession * pSession, MSG_BASE * pMsg, W
 VOID PacketHandler::ParsePacket_AL( ServerSession * pSession, MSG_BASE * pMsg, WORD wSize )
 {
 	assert(NULL != pMsg);
-	printf("PacketHandler::ParsePacket AG \n");
+	printf("PacketHandler::ParsePacket AL \n");
 	
 	FUNC_AL * pFuncInfo = (FUNC_AL *)m_pFuncMap_AL->Find( MAKELONG( pMsg->m_byCategory, pMsg->m_byProtocol ) );
 	pFuncInfo->m_fnHandler( pSession, pMsg, wSize );
@@ -149,13 +148,3 @@ VOID PacketHandler::ParsePacket_AL( ServerSession * pSession, MSG_BASE * pMsg, W
 	//AddLogMsg(LOG_OUT, "ParsePacket_AG Register Message:Category=%d, Protocol=%d\n", pMsg->m_byCategory, pMsg->m_byProtocol);
 }
 
-VOID PacketHandler::ParsePacket(NetworkObject * pNetwork, char * pMsg)
-{
-	assert(NULL != pMsg);
-	printf("PacketHandler::ParsePacket Function \n");
-
-	MSG_BASE * pBase = (MSG_BASE *)pMsg;
-	printf("Category:%d,Protocol:%d\n", pBase->m_byCategory, pBase->m_byProtocol);
-
-	//AddLogMsg(LOG_OUT, "ParsePacket_CA Register Message:Category=%d, Protocol=%d\n", pMsg->m_byCategory, pMsg->m_byProtocol);
-}

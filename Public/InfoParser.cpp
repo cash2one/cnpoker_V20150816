@@ -68,6 +68,8 @@ SERVER_INFO InfoParser::GetServerInfo(eSERVER_TYPE type)
 	mapSrvNameList[DB_SERVER]			= "DB_SERVER"; 		// 数据库服务器
 	mapSrvNameList[LOGIN_SERVER]		= "LOGIN_SERVER"; 	// 登陆服务器
 	mapSrvNameList[WORLD_SERVER]		= "WORLD_SERVER"; 	// 聊天服务器
+	
+	//mapSrvNameList[WORLD_SERVER]		= "EXTRA_AGENT_SERVER"; 	// 额外的 Agent 服务器
 
 	SERVER_INFO sInfo;
 	std::map<eSERVER_TYPE, std::string>::iterator itSrv = mapSrvNameList.find(type);

@@ -3,6 +3,8 @@
 #include "InfoParser.h"
 #include "LoginUserManager.h"
 
+#include "AllocServer.h"
+
 NetworkObject * CreateServerSideAcceptedObject();
 VOID DestroyServerSideAcceptedObject( NetworkObject *pNetworkObject );
 VOID DestroyServerSideConnectedObject( NetworkObject *pNetworkObject );
@@ -44,7 +46,7 @@ BOOL LoginServer::Init()
 	desc[0].dwRecvBufferSize		 	= 2000000;
 	desc[0].dwTimeOut					= 0;
 	desc[0].dwNumberOfAcceptThreads		= 0; // Acceot
-	desc[0].dwNumberOfIoThreads			= 1;
+	desc[0].dwNumberOfIoThreads			= 10; // 假如为1的话，Login连接了Agent与DB后，Agent发给Login的消息无法正常接收
 	desc[0].dwNumberOfConnectThreads	= 1; // Connect
 	desc[0].dwMaxPacketSize				= 60000; //4096
 	desc[0].fnCreateAcceptedObject		= CreateServerSideAcceptedObject;
@@ -71,6 +73,15 @@ BOOL LoginServer::Init()
 	
 	LoginUserManager::Instance()->Init(); 
 	
+	
+	AllocServer::Instance()->Init(300); // 一个代理服务器 最大只容纳300个人。 这里设置的300 与 AllocServer 里的宏256 有矛盾.
+	// 暂时分配1个 Agent 服务器, 用作测试用	。 暂时用 WORLD_SERVER 顶替
+	SERVER_INFO info = g_InfoParser.GetServerInfo( WORLD_SERVER ); //  EXTRA_AGENT_SERVER
+	AgentServerSession * pExtrAgentServerSession = LoginFactory::Instance()->AllocAgentServerSession();
+		
+	pExtrAgentServerSession->SetAddr(info.m_strIp, info.m_dwPort); // Extra Agent Server ;  Port 7500
+	AllocServer::Instance()->PUSH(pExtrAgentServerSession);
+	
 	return TRUE;	
 }
 
@@ -90,13 +101,11 @@ BOOL LoginServer::MaintainConnection()
 		return TRUE;
 	}
 
-#if 1
 	if ( m_pAgentServerSession ) {
 		if ( m_pAgentServerSession->TryToConnect() ) {
 			ConnectToServer( m_pAgentServerSession, (char *)m_pAgentServerSession->GetConnnectIP().c_str(), m_pAgentServerSession->GetConnnectPort() );
 		}
 	}
-#endif	
 	
 	if ( m_pDBServerSession ) {
 		if ( m_pDBServerSession->TryToConnect() ) {

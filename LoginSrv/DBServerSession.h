@@ -13,7 +13,7 @@ public:
 	DBServerSession();
 	virtual ~DBServerSession();
 	
-	eSERVER_TYPE    GetServerType() { return LOGIN_SERVER; }
+	eSERVER_TYPE    GetServerType() { return DB_SERVER; }
 	
 	virtual void    Init();
 	virtual void 	Release();

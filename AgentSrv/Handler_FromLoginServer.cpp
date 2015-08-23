@@ -27,8 +27,10 @@ HANDLER_IMPL( AL_PreLogin_ANC )
 	// 返回信息给 Client
 	MSG_CA_PRELOGIN_ANC msg2;
 	msg2.m_uiRootID = pRecvMsg->m_uiRootID;
+	msg2.m_dwPort = pRecvMsg->m_dwPort;
 	memcpy(msg2.m_byUserKey, pRecvMsg->m_byUserKey, sizeof(pRecvMsg->m_byUserKey) );
 	memcpy(msg2.m_byIP, pRecvMsg->m_byIP, sizeof(pRecvMsg->m_byIP) );
+	printf("m_byUserKey=%s, m_byIP=%s, m_dwPort = %d\n", msg2.m_byUserKey, msg2.m_byIP, msg2.m_dwPort);
 	msg2.m_dwPort = pRecvMsg->m_dwPort;
 	pUser->SendPacket( (BYTE *) &msg2, wSize );
 }

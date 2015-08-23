@@ -16,6 +16,6 @@
 #define CNPOKER_CARD_LEN_1 		( 54 )
 #define CNPOKER_CARD_LEN_2 		( 20 )
 
-#define BYTE_IP_LEN 			( 4 )
+#define BYTE_IP_LEN 			( 16 )
 
 #endif // DEFINE_H_INCLUDED_

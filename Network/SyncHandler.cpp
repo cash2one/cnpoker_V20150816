@@ -18,7 +18,7 @@ void * epoll_thread(void * param)
 		
 		for ( int i = 0; i < fd_count; i++ ) 
 		{
-			printf("\n==================== epoll_thread ============\n");
+			//printf("\n==================== epoll_thread ============\n");
 			Session * pSession = (Session *) events[i].data.ptr;
 			
 			if ( (events[i].events & EPOLLHUP) || (events[i].events & EPOLLERR) ) {
@@ -26,13 +26,13 @@ void * epoll_thread(void * param)
 				continue;
 			}
 			if ( events[i].events & EPOLLOUT ) {
-				printf("pSession->OnSend()\n");
+				//printf("pSession->OnSend()\n");
 				pSession->OnSend();
 				pSync->ModEpollEvent(pSession, EPOLLIN | EPOLLET | EPOLLERR | EPOLLHUP);
 			}
 
 			if ( events[i].events & EPOLLIN ) {
-				printf("\n*********** EPOLLIN ************* \n");
+				//printf("\n*********** EPOLLIN ************* \n");
 				pSync->AddIoEvent(&events[i]);
 			}
 		}
@@ -58,7 +58,7 @@ void * io_thread( void * param )
 		pSync->m_lockEvents.Lock();
 		pSync->m_condEvents.Wait(&pSync->m_lockEvents);
 	
-		printf("\n---------------- io thread condEvent ------------------ \n");
+		//printf("\n---------------- io thread condEvent ------------------ \n");
 		if ( pSync->m_bShutdown ) {
 			pSync->m_lockEvents.Unlock();
 			printf (" io_thread 0x%x exit \n ", pthread_self() );

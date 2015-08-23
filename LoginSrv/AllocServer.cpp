@@ -11,12 +11,30 @@ AllocServer::AllocServer()
 
 AllocServer::~AllocServer()
 {
-	
+	for ( int i=0; i<FLOATSORT_ARRAY; ++i)
+	{
+		delete m_sortArray[i];
+		m_sortArray[i] = NULL;
+	}
+	delete [] m_sortArray;
 }
 
 void AllocServer::Init(unsigned short _usMax)
 {
 	m_usMax = _usMax;
+	
+	for ( int i=0; i<FLOATSORT_ARRAY; ++i)
+	{
+		m_sortArray[i] = new AgentServerSession;
+	}
+	
+	//char * pArr[10];
+	//for(int i=0; i<10; ++i)
+	//{
+	//	pArr[0] = new char;
+	//}
+	//m_sortArray = (AgentServerSession *)malloc(FLOATSORT_ARRAY * sizeof(AgentServerSession));
+	
 }
 
 AgentServerSession * AllocServer::POP()
@@ -41,4 +59,12 @@ void AllocServer::PUSH( AgentServerSession * pSession )
 		++m_ucSize;
 		m_sortArray[m_ucSize] = pSession;
 	}
+}
+
+BOOL AllocServer::IsReachMaxSize()
+{
+	if ( m_ucSize >= m_usMax ) {
+		return TRUE;
+	}
+	return FALSE;
 }

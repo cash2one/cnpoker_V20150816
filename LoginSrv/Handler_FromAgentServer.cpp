@@ -23,6 +23,7 @@ HANDLER_IMPL( AL_PreLogin_REQ )
 	MSG_AL_PRELOGIN_REQ * pRecvMsg = (MSG_AL_PRELOGIN_REQ *)pMsg;
 	
 	MSG_LD_LOGIN_REQ msg2;
+	msg2.m_dwParameter = pRecvMsg->m_dwParameter;
 	msg2.m_pNetObj = (NetworkObject *) pServerSession;
 	
 	memcpy(msg2.m_byUsername, pRecvMsg->m_byUsername, sizeof(pRecvMsg->m_byUsername) );

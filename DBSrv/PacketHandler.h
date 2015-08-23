@@ -25,7 +25,6 @@ public:
 	BOOL AddHandler_LD( WORD category, WORD protocol, fnHandler fnHandler);
 	BOOL AddHandler_GD( WORD category, WORD protocol, fnHandler fnHandler);
 
-	void ParsePacket(NetworkObject * pNetwork, char * reMsg);
 	void ParsePacket_LD( ServerSession * pUserSession, MSG_BASE * pMsg, WORD wSize );
 	void ParsePacket_GD( ServerSession * pServerSession, MSG_BASE * pMsg, WORD wSize );
 

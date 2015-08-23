@@ -16,7 +16,7 @@ struct MSG_AL_PRELOGIN_REQ : public MSG_BASE_FORWARD
 	{
 		memset( this, 0, sizeof(MSG_AL_PRELOGIN_REQ) );
 		
-		m_byCategory = LD_ClientLogin;
+		m_byCategory = AL_ClientLogin;
 		m_byProtocol = AL_PreLogin_REQ;
 		
 		m_dwParameter = 0;
@@ -30,7 +30,7 @@ struct MSG_AL_PRELOGIN_ANC : public MSG_BASE_FORWARD
 	DWORD 	m_uiRootID;
 	BYTE 	m_byUserKey[CODE_KEY_LEN + 1];
 	
-	BYTE	m_byIP[BYTE_IP_LEN];
+	BYTE	m_byIP[BYTE_IP_LEN]; // 16
 	DWORD	m_dwPort;
 	
 	MSG_AL_PRELOGIN_ANC()
@@ -90,7 +90,7 @@ struct MSG_AL_RELOGIN_REQ : public MSG_BASE_FORWARD
 	{
 		memset( this, 0, sizeof(MSG_AL_RELOGIN_REQ) );
 		
-		m_byCategory = LD_ClientLogin;
+		m_byCategory = AL_ClientLogin;
 		m_byProtocol = AL_ReLogin_REQ;
 		
 		m_dwParameter = 0;

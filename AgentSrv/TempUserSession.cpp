@@ -45,7 +45,6 @@ void TempUserSession::OnRecv(BYTE *pMsg, WORD wSize)
 	}
 #endif
 
-
 	User * obj = AgentFactory::Instance()->AllocUser(); // TempUser UserSession  // 
 	if ( obj == NULL) {
 		printf("\nAgentFactory::Instance()->AllocUser() Fail.\n");
@@ -61,14 +60,17 @@ void TempUserSession::OnRecv(BYTE *pMsg, WORD wSize)
 		m_pSession->UnbindNetworkObject();
 		pSession->BindNetworkObject(obj);
 	}
-	printf("TempUserSession change to User Success.\n");
-
+	printf("TempUserSession ==> User Success.\n");
+	
 	printf("Send MSG_CA_CONNECTION_ENTERSERVER_ANC.\n");
 	printf("Msg size = %d\n", sizeof(MSG_CA_CONNECTION_ENTERSERVER_ANC));
 	
 	MSG_CA_CONNECTION_ENTERSERVER_ANC ancMsg;
 	ancMsg.m_dwParameter = dwKey; // User Key
 	pSession->Send( (BYTE *)&ancMsg, sizeof(MSG_CA_CONNECTION_ENTERSERVER_ANC) );
+	
+	printf("\n>>>> Free TempUserSesion <<<<\n");	
+	AgentFactory::Instance()->FreeTempUserSession(this);
 }
 
 void TempUserSession::OnLogString( char * pszLog)

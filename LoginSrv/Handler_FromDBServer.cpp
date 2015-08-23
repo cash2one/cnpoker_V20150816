@@ -1,8 +1,12 @@
 #include "Handler_FromDBServer.h"
-#include "LoginUserManager.h"
-#include "LoginFactory.h"
-#include "AllocServer.h"
+
+#include "LoginServer.h"
+
 #include "LoginUser.h"
+#include "LoginUserManager.h"
+
+#include "AllocServer.h"
+
 
 Handler_FromDBServer::Handler_FromDBServer() 
 {
@@ -37,10 +41,16 @@ HANDLER_IMPL( LD_Login_ANC )
 			
 			AgentServerSession * pSession = AllocServer::Instance()->POP(); // 什么时候PUSH 进去的???
 			// 我的理解是Login服务器在初始化时读配置文件， 然后AllocAgent, 把IP，Port存进去。
-			memcpy( msg2.m_byIP, pSession->GetConnnectIP().c_str(), pSession->GetConnnectIP().size() );
+					
+			memcpy( msg2.m_byIP, pSession->GetConnnectIP().c_str(), BYTE_IP_LEN ); // pSession->GetConnnectIP().size()
 			msg2.m_dwPort = pSession->GetConnnectPort();
-			pSession->Send( (BYTE *)&msg2, sizeof(msg2) );
 			
+			printf("IP = %s, Port = %d\n", msg2.m_byIP, msg2.m_dwPort);
+			
+			//pSession->Send( (BYTE *)&msg2, sizeof(msg2) ); // 这里发送， 没看明白是什么意思。 Agent是收不到的
+			
+			g_LoginServer->SendToAgentServer( (BYTE *)&msg2, sizeof(MSG_AL_PRELOGIN_ANC) );
+						
 			// 同时还要把这个LoginUser添加到LoginUserManager中管理
 			LoginUserManager::Instance()->PUSH(pLoginUser);
 		}

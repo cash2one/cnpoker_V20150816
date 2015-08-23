@@ -42,9 +42,9 @@ void PacketHandler::Register_GD()
 BOOL PacketHandler::AddHandler_LD( WORD category, WORD protocol, fnHandler fnHandler)
 {
 	FUNC_LD * pFuncInfo	= new FUNC_LD;
-	printf("category:%d,protocol:%d\n", category, protocol);	
+	//printf("category:%d,protocol:%d\n", category, protocol);	
 	pFuncInfo->m_dwFunctionKey	= MAKELONG( category, protocol );
-	printf("m_dwFunctionKey:%d\n", pFuncInfo->m_dwFunctionKey);
+	//printf("m_dwFunctionKey:%d\n", pFuncInfo->m_dwFunctionKey);
 	pFuncInfo->m_fnHandler		= fnHandler;
 	
 	return m_pFuncMap_LD->Add( pFuncInfo );
@@ -62,9 +62,8 @@ BOOL PacketHandler::AddHandler_GD( WORD category, WORD protocol, fnHandler fnHan
 
 VOID PacketHandler::ParsePacket_LD( ServerSession * pSession, MSG_BASE * pMsg, WORD wSize )
 {
-	//ASSERT(NULL != pMsg);
 	assert(NULL != pMsg);
-	printf("PacketHandler::ParsePacket GA \n");
+	printf("PacketHandler::ParsePacket LD \n");
 	
 	FUNC_LD * pFuncInfo = (FUNC_LD *)m_pFuncMap_LD->Find( MAKELONG( pMsg->m_byCategory, pMsg->m_byProtocol ) );
 	pFuncInfo->m_fnHandler( pSession, pMsg, wSize );
@@ -76,7 +75,7 @@ VOID PacketHandler::ParsePacket_GD( ServerSession * pSession, MSG_BASE * pMsg, W
 {
 	assert(NULL != pMsg);
 
-	printf("PacketHandler::ParsePacket GA \n");
+	printf("PacketHandler::ParsePacket GD \n");
 
 	FUNC_GD * pFuncInfo = (FUNC_GD *)m_pFuncMap_GD->Find( MAKELONG( pMsg->m_byCategory, pMsg->m_byProtocol ) );
 	pFuncInfo->m_fnHandler( pSession, pMsg, wSize );
@@ -84,27 +83,3 @@ VOID PacketHandler::ParsePacket_GD( ServerSession * pSession, MSG_BASE * pMsg, W
 	//AddLogMsg(LOG_OUT, "ParsePacket_GA Register Message:Category=%d, Protocol=%d\n", pMsg->m_byCategory, pMsg->m_byProtocol);
 }
 
-VOID PacketHandler::ParsePacket(NetworkObject * pNetwork, char * pMsg)
-{
-	//ASSERT(NULL != pMsg);
-	assert(NULL != pMsg);
-	printf("PacketHandler::ParsePacket Function \n");
-
-	MSG_BASE * pBase = (MSG_BASE *)pMsg;
-	printf("Category:%d,Protocol:%d\n", pBase->m_byCategory, pBase->m_byProtocol);
-
-#if 0
-	ServerSession * pSession = AgentServer::Instance()->FindSession(pNetwork);
-	if ( pSession == NULL ) {
-		pSession = DBServer::Instance()->AddSession(pNetwork);
-	}
-
-	if ( pBase->m_byCategory == CA_Client_Protocol ) {
-		ParsePacket_AD(pSession, pBase, sizeof(pBase)); // login relogin logout
-	}
-	else if ( pBase->m_byCategory == CA_Connect_Protocol ) {
-		ParsePacket_GD(pSession, pBase, sizeof(pBase)); // Heartbeat
-	}
-#endif	
-	
-}

@@ -28,7 +28,6 @@ public:
 	BOOL AddHandler_AG( WORD category, WORD protocol, fnHandler fnHandler);
 	BOOL AddHandler_AL( WORD category, WORD protocol, fnHandler fnHandler);
 	
-	void ParsePacket(NetworkObject * pNetwork, char * reMsg);
 	void ParsePacket_CA( UserSession * pUserSession, MSG_BASE * pMsg, WORD wSize );
 	void ParsePacket_AG( ServerSession * pServerSession, MSG_BASE * pMsg, WORD wSize );
 	void ParsePacket_AL( ServerSession * pServerSession, MSG_BASE * pMsg, WORD wSize );

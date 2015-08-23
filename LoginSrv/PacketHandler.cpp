@@ -43,9 +43,9 @@ void PacketHandler::Register_LD()
 BOOL PacketHandler::AddHandler_AL( WORD category, WORD protocol, fnHandler fnHandler)
 {
 	FUNC_AL * pFuncInfo	= new FUNC_AL;
-	printf("category:%d,protocol:%d\n", category, protocol);	
+	//printf("category:%d,protocol:%d\n", category, protocol);	
 	pFuncInfo->m_dwFunctionKey	= MAKELONG( category, protocol );
-	printf("m_dwFunctionKey:%d\n", pFuncInfo->m_dwFunctionKey);
+	//printf("m_dwFunctionKey:%d\n", pFuncInfo->m_dwFunctionKey);
 	pFuncInfo->m_fnHandler		= fnHandler;
 	
 	return m_pFuncMap_AL->Add( pFuncInfo );
@@ -63,9 +63,8 @@ BOOL PacketHandler::AddHandler_LD( WORD category, WORD protocol, fnHandler fnHan
 
 VOID PacketHandler::ParsePacket_AL( ServerSession * pSession, MSG_BASE * pMsg, WORD wSize )
 {
-	//ASSERT(NULL != pMsg);
 	assert(NULL != pMsg);
-	printf("PacketHandler::ParsePacket GA \n");
+	printf("PacketHandler::ParsePacket AL \n");
 	
 	FUNC_AL * pFuncInfo = (FUNC_AL *)m_pFuncMap_AL->Find( MAKELONG( pMsg->m_byCategory, pMsg->m_byProtocol ) );
 	pFuncInfo->m_fnHandler( pSession, pMsg, wSize );
@@ -77,15 +76,10 @@ VOID PacketHandler::ParsePacket_LD( ServerSession * pSession, MSG_BASE * pMsg, W
 {
 	assert(NULL != pMsg);
 
-	printf("PacketHandler::ParsePacket GA \n");
+	printf("PacketHandler::ParsePacket LD \n");
 
 	FUNC_LD * pFuncInfo = (FUNC_LD *)m_pFuncMap_LD->Find( MAKELONG( pMsg->m_byCategory, pMsg->m_byProtocol ) );
 	pFuncInfo->m_fnHandler( pSession, pMsg, wSize );
 
 	//AddLogMsg(LOG_OUT, "ParsePacket_GA Register Message:Category=%d, Protocol=%d\n", pMsg->m_byCategory, pMsg->m_byProtocol);
-}
-
-VOID PacketHandler::ParsePacket(NetworkObject * pNetwork, char * pMsg)
-{
-	
 }
