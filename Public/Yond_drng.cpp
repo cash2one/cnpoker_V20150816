@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <ctime>
+
 /* These are bits that are OR’d together */
 
 #define DRNG_NO_SUPPORT	0x0	/* For clarity */
@@ -179,9 +181,61 @@ bool is_support_drng()
 	return true;
 }
 
-uint32_t GetRandom()
+void GetRandom( char * _szRandom )
 {
-	return RDRandom();
+	static const int nMaxNum = 100000;	
+	static const int nCSize  = 17;		
+	static char nCharArray[nCSize + 1] = {0};
+
+	if ( _szRandom )
+	{
+		while(true)
+		{
+			for(int k = 0; k < nCSize; k++)
+			{
+				if ( (RDRandom() % 2) == 0)
+					nCharArray[k] = '0';
+				else
+					nCharArray[k] = '1';
+			}
+
+			unsigned int nRandom = (unsigned int) btd(nCharArray);
+
+			// 在合里区间内跳出；
+			if ( nRandom < nMaxNum )
+			{
+				// 把数据组合起来
+				sprintf( _szRandom, "%.5d", nRandom);
+				return;
+			}
+		}
+	}
 }
 
+void GetRandom_C( char * _szRandom )
+{
+	srand( (unsigned)time(0) );
+	
+	int nRandom = rand() % 100000; // 5位数
+
+	int i = 0, j;
+	char cTemp;
+
+	// 统计位数并存入字符数组ch
+	do {
+			_szRandom[i] = nRandom %10 + '0';
+			nRandom /= 10;
+			i++;
+	} while( nRandom != 0 );
+	
+	_szRandom[i]='\0';
+	
+	// 数组逆序存放
+	for( j = 0, i--;j <= i/2; j++, i--) 
+	{
+		cTemp = _szRandom[j];
+		_szRandom[j] = _szRandom[i];
+		_szRandom[i] = cTemp;
+	}
+}
 

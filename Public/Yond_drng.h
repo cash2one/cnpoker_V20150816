@@ -4,6 +4,8 @@
 
 bool is_support_drng();
 
-uint32_t GetRandom();
+void GetRandom( char * _szRandom );
+
+void GetRandom_C( char * _szRandom );
 
 #endif // _YOND_DRNG_H_INCLUDED_

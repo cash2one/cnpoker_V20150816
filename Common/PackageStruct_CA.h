@@ -67,8 +67,8 @@ struct MSG_CA_PRELOGIN_REQ : public MSG_BASE_FORWARD
 	{
 		memset( this, 0, sizeof(MSG_CA_PRELOGIN_REQ) );
 		
-		m_byCategory = CA_Client; // ???
-		m_byProtocol = CA_PreLogin_REQ; // ???
+		m_byCategory = CA_Client; // 
+		m_byProtocol = CA_PreLogin_REQ; // 
 		
 		m_dwParameter = 0; // dwUserID
 		m_byParameter = 0;
@@ -82,7 +82,7 @@ struct MSG_CA_PRELOGIN_ANC : public MSG_BASE_FORWARD
 	DWORD 	m_uiRootID;
 	BYTE 	m_byUserKey[CODE_KEY_LEN + 1];
 	
-	BYTE	m_byIP[BYTE_IP_LEN];
+	BYTE	m_byIP[IP_MAX_LEN]; // 32
 	DWORD	m_dwPort;
 	
 	MSG_CA_PRELOGIN_ANC() 
@@ -90,7 +90,7 @@ struct MSG_CA_PRELOGIN_ANC : public MSG_BASE_FORWARD
 		memset( this, 0, sizeof(MSG_CA_PRELOGIN_ANC) );
 		
 		m_byCategory = CA_Client; // 32
-		m_byProtocol = CA_PreLogin_ANC; // ???
+		m_byProtocol = CA_PreLogin_ANC; // 
 		
 		m_dwParameter = 0; // dwUserID
 		m_byParameter = 0;

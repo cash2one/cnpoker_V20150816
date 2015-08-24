@@ -22,7 +22,7 @@ public:
 private:
 	DWORD  m_dwKey;
 	DWORD  m_dwRootID;
-	BYTE   m_byMD5[TICKET_LEN + 1];
+	BYTE   m_byMD5[CODE_KEY_LEN + 1];
 };
 
 #endif

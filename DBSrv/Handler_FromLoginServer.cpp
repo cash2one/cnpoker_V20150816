@@ -5,6 +5,9 @@
 #include "DBUserManager.h"
 #include "LoginServerQuery.h"
 
+#include <Public.h>
+
+
 
 Handler_FromLoginServer::Handler_FromLoginServer() 
 {
@@ -45,8 +48,24 @@ HANDLER_IMPL( LD_Login_REQ )
 			msg2.m_uiRootID = pQuery->vctRes[0].uiRootID;
 			msg2.m_pNetObj = pRecvMsg->m_pNetObj;
 			
-			memcpy(msg2.m_byUserKey, "slowfuck", sizeof("slowfuck")); // just test
-			//BYTE m_byUserKey[CODE_KEY_LEN + 1]; 	// 数据库获取方式??
+			// 生成一个5位的随机值
+			char szRandom[11] = {0};
+			if ( is_support_drng() ) {
+				// 支持随机数
+				GetRandom(szRandom);				
+			}
+			else {
+				// 不支持随机数
+				GetRandom_C(szRandom);			
+			}
+			printf("Random = %s\n", szRandom);
+			
+			// MD5加密			
+			string tmpStr(szRandom);
+			string outMD5 = MD5(tmpStr).toString() ;	
+			sprintf( (char *)msg2.m_byUserKey, "%s", outMD5.c_str() );
+			printf("outMD5 = %s, m_byUserKey = %s\n", outMD5.c_str(), msg2.m_byUserKey);
+			//BYTE m_byUserKey[CODE_KEY_LEN + 1]; // 33
 			pServerSession->Send( (BYTE*)&msg2, sizeof(msg2) );
 		}
 		

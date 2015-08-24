@@ -1,5 +1,5 @@
-#ifndef _INFOPARSER_H_INCLUDED_
-#define _INFOPARSER_H_INCLUDED_
+#ifndef _AGENTINFO_H_INCLUDED_
+#define _AGENTINFO_H_INCLUDED_
 
 #include <Common.h>
 #include <Network.h>
@@ -7,11 +7,12 @@
 #include <Public.h>
 using namespace std;
 
-class InfoParser
+
+class AgentInfo
 {
 public:
-	InfoParser(void);
-	~InfoParser(void);
+	AgentInfo(void);
+	~AgentInfo(void);
 
 	// 初始化
 	BOOL	Init(char * strFileName);
@@ -19,13 +20,17 @@ public:
 	BOOL	GetString( char * strSection, char * szName, char * szDefault, char *pszValue);
 	int 	GetInt( char * strSection, char * szName, char * szDefault );
 
+	// 保存服务器端口信息
+	int SaveAgentInfo();
 	// 获取服务器端口信息
-	SERVER_INFO GetServerInfo(eSERVER_TYPE type);
+	SERVER_INFO GetAgentInfo( int nNum );
 
 private:
-	Yond_ini * pIniFile;	
+	Yond_ini * pIniFile;
+	
+	std::map<DWORD, std::string> m_mapAgentSrvList;
 };
 
-extern InfoParser g_InfoParser;
+extern AgentInfo g_AgentInfo;
 
-#endif // _INFOPARSER_H_INCLUDED_
+#endif // _AGENTINFO_H_INCLUDED_

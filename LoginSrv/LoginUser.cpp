@@ -2,7 +2,9 @@
 
 LoginUser::LoginUser()
 {
-	
+	m_dwKey = 0;
+	m_dwRootID = 0;
+	memset(m_byMD5, 0, CODE_KEY_LEN + 1);
 }
 
 LoginUser::~LoginUser()
@@ -14,7 +16,7 @@ void LoginUser::SetMD( BYTE * _md5 )
 {
 	assert( _md5 != NULL );
 	
-	for ( int i=0; i<TICKET_LEN; ++i )
+	for ( int i=0; i<CODE_KEY_LEN; ++i )
 	{
 		m_byMD5[i] = _md5[i];
 	}
@@ -24,7 +26,7 @@ BOOL LoginUser::IsSameMD( BYTE * _md5 )
 {
 	assert( _md5 != NULL );
 	
-	for ( int i=0; i<TICKET_LEN; ++i )
+	for ( int i=0; i<CODE_KEY_LEN; ++i )
 	{
 		if ( _md5[i] != m_byMD5[i] )
 		{

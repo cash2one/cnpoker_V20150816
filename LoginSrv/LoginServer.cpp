@@ -1,6 +1,8 @@
 #include "LoginServer.h"
 
 #include "InfoParser.h"
+#include "AgentInfo.h"
+
 #include "LoginUserManager.h"
 
 #include "AllocServer.h"
@@ -29,7 +31,7 @@ LoginServer::~LoginServer(void)
 BOOL LoginServer::Init()
 {
 	LoginFactory::Instance()->Init();
-	BOOL bRet = g_InfoParser.Init( "./ServerInfo.ini" );
+	BOOL bRet = g_InfoParser.Init( "./ServerInfo.ini" ); // LoginServerIni.
 	if ( !bRet ) {
 		printf("Parse Server Info fail\n");
 		return FALSE;
@@ -73,15 +75,25 @@ BOOL LoginServer::Init()
 	
 	LoginUserManager::Instance()->Init(); 
 	
+	// 设置代理服务器 最大容纳300个玩家
+	AllocServer::Instance()->Init(300); 
 	
-	AllocServer::Instance()->Init(300); // 一个代理服务器 最大只容纳300个人。 这里设置的300 与 AllocServer 里的宏256 有矛盾.
-	// 暂时分配1个 Agent 服务器, 用作测试用	。 暂时用 WORLD_SERVER 顶替
-	SERVER_INFO info = g_InfoParser.GetServerInfo( WORLD_SERVER ); //  EXTRA_AGENT_SERVER
-	AgentServerSession * pExtrAgentServerSession = LoginFactory::Instance()->AllocAgentServerSession();
-		
-	pExtrAgentServerSession->SetAddr(info.m_strIp, info.m_dwPort); // Extra Agent Server ;  Port 7500
-	AllocServer::Instance()->PUSH(pExtrAgentServerSession);
-	
+	// 解析 LoginServer.ini 文件
+	bRet = g_AgentInfo.Init( "./LoginInfo.ini" );
+	if ( !bRet ) {
+		printf("Parse LoginServer.ini fail\n");
+		return FALSE;
+	}
+	int nMax = g_AgentInfo.SaveAgentInfo();
+	for(int i=0; i<nMax; ++i)
+	{
+		SERVER_INFO info = g_AgentInfo.GetAgentInfo(i);
+		AgentServerSession * pExtrAgent = LoginFactory::Instance()->AllocAgentServerSession();
+		pExtrAgent->SetAddr(info.m_strIp, info.m_dwPort);
+		printf("AGENT_SERVER_%d: IP = %s, Port = %d\n", i+1, info.m_strIp, info.m_dwPort); // Port: 8100 8200 8300 8400 8500
+		AllocServer::Instance()->PUSH(pExtrAgent);
+	}
+
 	return TRUE;	
 }
 

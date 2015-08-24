@@ -31,24 +31,28 @@ HANDLER_IMPL( LD_Login_ANC )
 		AgentServerSession * pSession = (AgentServerSession *) pRecvMsg->m_pNetObj;
 		if ( pSession != NULL ) {
 			pLoginUser->SetRootID(pRecvMsg->m_uiRootID);
+			
+			printf("m_byUserKey = %s\n", pRecvMsg->m_byUserKey);			
 			pLoginUser->SetMD(pRecvMsg->m_byUserKey);
+			
 			LoginUserManager::Instance()->PUSH(pLoginUser); // 根据RootID来查找LoginUser，组成一个map
 			
 			MSG_AL_PRELOGIN_ANC msg2;
-			msg2.m_dwParameter 	= pRecvMsg->m_dwParameter; // dwUserKey
+			msg2.m_dwParameter 	= pRecvMsg->m_dwParameter; // dwUserID
 			msg2.m_uiRootID 	= pRecvMsg->m_uiRootID;
-			memcpy( msg2.m_byUserKey, pRecvMsg->m_byUserKey, CODE_KEY_LEN); // 
+			memcpy( msg2.m_byUserKey, pRecvMsg->m_byUserKey, CODE_KEY_LEN); // 动态生成的Key值
 			
-			AgentServerSession * pSession = AllocServer::Instance()->POP(); // 什么时候PUSH 进去的???
-			// 我的理解是Login服务器在初始化时读配置文件， 然后AllocAgent, 把IP，Port存进去。
-					
-			memcpy( msg2.m_byIP, pSession->GetConnnectIP().c_str(), BYTE_IP_LEN ); // pSession->GetConnnectIP().size()
+			AgentServerSession * pSession = AllocServer::Instance()->POP(); // Login服务器在初始化时读配置文件,然后AllocAgent把IP，Port存进去。
+			if ( pSession == NULL ) {
+				printf("AllocServer::Instance()->POP() Fail\n");
+				return;
+			}
+			
+			memcpy( msg2.m_byIP, pSession->GetConnnectIP().c_str(), IP_MAX_LEN ); // 32
 			msg2.m_dwPort = pSession->GetConnnectPort();
 			
 			printf("IP = %s, Port = %d\n", msg2.m_byIP, msg2.m_dwPort);
-			
-			//pSession->Send( (BYTE *)&msg2, sizeof(msg2) ); // 这里发送， 没看明白是什么意思。 Agent是收不到的
-			
+									
 			g_LoginServer->SendToAgentServer( (BYTE *)&msg2, sizeof(MSG_AL_PRELOGIN_ANC) );
 						
 			// 同时还要把这个LoginUser添加到LoginUserManager中管理

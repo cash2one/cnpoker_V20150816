@@ -30,7 +30,7 @@ struct MSG_AL_PRELOGIN_ANC : public MSG_BASE_FORWARD
 	DWORD 	m_uiRootID;
 	BYTE 	m_byUserKey[CODE_KEY_LEN + 1];
 	
-	BYTE	m_byIP[BYTE_IP_LEN]; // 16
+	BYTE	m_byIP[IP_MAX_LEN]; // 32
 	DWORD	m_dwPort;
 	
 	MSG_AL_PRELOGIN_ANC()
@@ -147,7 +147,6 @@ struct MSG_AL_LOGOUT_ANC : public MSG_BASE_FORWARD
 		m_byParameter = 0;
 	}
 };
-
 
 #pragma pack(pop)
 

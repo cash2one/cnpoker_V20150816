@@ -13,6 +13,5 @@ enum eSERVER_TYPE
 	TEMP_SERVER 		,		// 
 };
 
-#define IP_MAX_LEN 32
 
 #endif // _CONST_H_INCLUDED_

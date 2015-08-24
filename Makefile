@@ -17,7 +17,9 @@ INC = -I $(HOME)/Common  \
 
 PublicObjs 		= Public/Yond_drng.o \
 				  Public/InfoParser.o \
-				  Public/Poker.o
+				  Public/AgentInfo.o \
+				  Public/Poker.o \
+				  Public/Yond_md5.o
 	  
 UtilityObjs 	= Utility/Yond_mutex.o \
 				  Utility/Yond_ini.o \
