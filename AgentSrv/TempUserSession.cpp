@@ -52,7 +52,7 @@ void TempUserSession::OnRecv(BYTE *pMsg, WORD wSize)
 	}
 	
 	DWORD dwKey = g_UserManager.AddUser(obj);
-	printf("User Key = %d\n", dwKey);
+	printf("g_UserManager Alloc User Key = %d\n", dwKey);
 	obj->SetUserKey(dwKey); // 设置 User Key
 	
 	Session * pSession = this->m_pSession;

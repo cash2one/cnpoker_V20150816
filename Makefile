@@ -1,6 +1,6 @@
 CC = g++
 CFLAGS = -g -fPIC -D_FILELINE -Wno-deprecated 
-#HOME = /mnt/Shared/moche
+#HOME = /mnt/Shared/moche 
 HOME = /mnt/share/cnpoker_V20150816
 
 MYSQLINC = /usr/local/mysql/include

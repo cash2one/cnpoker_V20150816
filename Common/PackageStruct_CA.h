@@ -9,9 +9,7 @@
 #pragma pack(push, 1)
 
 struct MSG_CA_CONNECTION_ENTERSERVER_SYN : public MSG_BASE_FORWARD
-{
-	//DWORD   m_dwUserID;
-	
+{	
 	MSG_CA_CONNECTION_ENTERSERVER_SYN() 
 	{
 		memset( this, 0, sizeof(MSG_CA_CONNECTION_ENTERSERVER_SYN) );

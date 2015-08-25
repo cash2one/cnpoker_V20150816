@@ -51,10 +51,10 @@ BOOL AgentServer::Init()
 	desc[0].dwMaxConnectSession			= 9;
 	desc[0].dwSendBufferSize			= 2000000;
 	desc[0].dwRecvBufferSize		 	= 2000000;
-	desc[0].dwTimeOut					= 0;
-	desc[0].dwNumberOfAcceptThreads		= 1;
-	desc[0].dwNumberOfIoThreads			= 1;
-	desc[0].dwNumberOfConnectThreads	= 0; // Agent Server don't Active connect.
+	desc[0].dwTimeOut				= 0;
+	desc[0].dwNumberOfAcceptThreads			= 1;
+	desc[0].dwNumberOfIoThreads			= 8;
+	desc[0].dwNumberOfConnectThreads		= 0; // Agent Server don't Active connect.
 	desc[0].dwMaxPacketSize				= 60000; //4096
 	desc[0].fnCreateAcceptedObject		= CreateServerSideAcceptedObject;
 	desc[0].fnDestroyAcceptedObject		= DestroyServerSideAcceptedObject;
@@ -65,10 +65,10 @@ BOOL AgentServer::Init()
 	desc[1].dwMaxConnectSession			= 0;
 	desc[1].dwSendBufferSize			= 1024 * 60; //60000
 	desc[1].dwRecvBufferSize			= 1024 * 60; //60000
-	desc[1].dwTimeOut					= 0;
-	desc[1].dwNumberOfAcceptThreads		= 1;
-	desc[1].dwNumberOfIoThreads			= 1;
-	desc[1].dwNumberOfConnectThreads	= 0;
+	desc[1].dwTimeOut				= 0;
+	desc[1].dwNumberOfAcceptThreads			= 1;
+	desc[1].dwNumberOfIoThreads			= 8;
+	desc[1].dwNumberOfConnectThreads		= 0;
 	desc[1].dwMaxPacketSize				= 1024 * 10;	//4096
 	desc[1].fnCreateAcceptedObject		= CreateClientSideAcceptedObject;
 	desc[1].fnDestroyAcceptedObject		= DestroyClientSideAcceptedObject;
@@ -103,7 +103,7 @@ void AgentServer::StartServerSideListen()
 {
 	if( !m_pIOCPServer->IsListening( SERVER_SYNCHANDLER) ) {
 		
-		if ( !m_pIOCPServer->StartListen(SERVER_SYNCHANDLER, "127.0.0.1", 7000) ) // AGENT Port 7000
+		if ( !m_pIOCPServer->StartListen(SERVER_SYNCHANDLER, "", 9800) ) // AGENT Port 9800
 		{
 			return;
 		}
@@ -114,7 +114,7 @@ void AgentServer::StartClientSideListen()
 {
 	if ( !m_pIOCPServer->IsListening( CLIENT_SYNCHANDLER) ) {
 		
-		if ( !m_pIOCPServer->StartListen(CLIENT_SYNCHANDLER, "127.0.0.1", 1234) ) // Clinet Port 1234
+		if ( !m_pIOCPServer->StartListen(CLIENT_SYNCHANDLER, "", 8100) ) // Clinet Port 8100
 		{
 			return;
 		}
