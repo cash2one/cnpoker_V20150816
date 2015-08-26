@@ -45,7 +45,7 @@ HANDLER_IMPL( LD_Login_REQ )
 			MSG_LD_LOGIN_ANC msg2;
 			msg2.m_dwParameter = pRecvMsg->m_dwParameter; // UserKey
 						
-			msg2.m_uiRootID = pQuery->vctRes[0].uiRootID;
+			msg2.m_uiRootID = pQuery->vctRes[0].m_uiRootID;
 			msg2.m_pNetObj = pRecvMsg->m_pNetObj;
 			
 			// 生成一个5位的随机值

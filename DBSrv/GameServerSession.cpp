@@ -2,20 +2,21 @@
 #include "PacketHandler.h"
 
 GameServerSession::GameServerSession()
+	: m_hashDBUser(NULL)
 {
-	m_hashUser = new A::SolarHashTable<DBUser*>;
+	m_hashDBUser = new A::SolarHashTable<DBUser *>;
+	m_hashDBUser->Initialize(1024);
 }
 
 GameServerSession::~GameServerSession()
 {
-	m_hashUser->RemoveAll();
-	delete m_hashUser;
-	m_hashUser = NULL;
+	m_hashDBUser->RemoveAll();
+	delete m_hashDBUser;
+	m_hashDBUser = NULL;
 }
 
 void GameServerSession::Init()
-{
-	m_hashUser->Initialize(1024);
+{	
 }
 
 void GameServerSession::OnDisconnect()
@@ -39,23 +40,23 @@ void GameServerSession::OnLogString( char * pszLog)
 // @{ Save its after Login; }
 void GameServerSession::AddUser(DBUser * pNewUser)
 {
-	DBUser * pUser = m_hashUser->GetData( pNewUser->GetHashKey() );
+	DBUser * pUser = m_hashDBUser->GetData( pNewUser->GetHashKey() );
 	
 	assert( !pUser );
 	
-	m_hashUser->Add(pNewUser, pNewUser->GetHashKey() );
+	m_hashDBUser->Add(pNewUser, pNewUser->GetHashKey() );
 }
 
 DBUser * GameServerSession::FindUser(DWORD dwKey)
 {
-	return m_hashUser->GetData( dwKey );
+	return m_hashDBUser->GetData( dwKey );
 }
 
 void GameServerSession::RemoveUser(DWORD dwKey)
 {
-	DBUser * pUser = m_hashUser->GetData( dwKey );
+	DBUser * pUser = m_hashDBUser->GetData( dwKey );
 	if ( pUser ) 
 	{
-		m_hashUser->Remove( dwKey );
+		m_hashDBUser->Remove( dwKey );
 	}
 }

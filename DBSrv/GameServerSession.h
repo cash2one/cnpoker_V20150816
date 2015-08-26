@@ -18,7 +18,7 @@ public:
 	
 	virtual void    Init();
 	
-public:
+protected:
 
 	virtual void	OnDisconnect();
 	virtual void	OnRecv(BYTE *pMsg, WORD wSize);
@@ -31,7 +31,7 @@ public:
 	void RemoveUser(DWORD dwKey);
 
 private:
-	A::SolarHashTable<DBUser*> * m_hashUser;
+	A::SolarHashTable<DBUser*> * m_hashDBUser;
 };
 
 #endif // _GAMESERVERSESSION_H_INCLUDED_

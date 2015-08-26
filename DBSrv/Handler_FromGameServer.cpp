@@ -17,37 +17,37 @@ Handler_FromGameServer::~Handler_FromGameServer()
 
 HANDLER_IMPL( GD_Login_REQ )
 {
-	printf("Step2: <5> GD_Login_REQ\n");
-	MSG_GD_LOGIN_REQ * pLogin = (MSG_GD_LOGIN_REQ *)pMsg;
+	printf("Step2: <3> GD_Login_REQ\n");
+	MSG_GD_LOGIN_REQ * pRecvMsg = (MSG_GD_LOGIN_REQ *)pMsg;
 	
 	GameServerSession * pSession = (GameServerSession *) pServerSession;
 	DBUser * pUser = DBFactory::Instance()->AllocDBUser(); // 分配 DBUser
 	if ( pUser != NULL ) {		
-		pUser->SetHashKey( pLogin->m_dwParameter ); // dwUserID
-		pUser->SetRootID( pLogin->m_uiRootID );
+		pUser->SetHashKey( pRecvMsg->m_dwParameter ); // User ID
+		pUser->SetRootID( pRecvMsg->m_uiRootID );
 		pSession->AddUser( pUser ); // GameServerSession 对 DBUser 进行管理
 	
 		TCHAR szQueryBuff[1024];
-		snprintf(szQueryBuff, sizeof(szQueryBuff), "call p_GamePake_Query(?);");
-		Query_GamePackage_select * pQuery = Query_GamePackage_select::ALLOC();
+		snprintf(szQueryBuff, sizeof(szQueryBuff), "call g_GamePack_Query(%d)", pRecvMsg->m_uiRootID);
+		Query_GamePackage_select * pQuery = Query_GamePackage_select::ALLOC(); // Query_GamePackage_update
 		
 		if (NULL != pQuery) 
 		{
 			pQuery->SetQuery( szQueryBuff );
-			pQuery->pParam[0].uiRootID = pLogin->m_uiRootID;
+			pQuery->pParam[0].m_uiRootID = pRecvMsg->m_uiRootID;
 			Obj_db_passport.QueryDirect( pQuery );
 			
 			int iSize = pQuery->vctRes.size();
 			if (iSize == 1) {
 				// 返回应答消息给 Game
 				MSG_GD_LOGIN_ANC pANC;
-				pANC.m_dwParameter = pLogin->m_dwParameter;
+				pANC.m_dwParameter = pRecvMsg->m_dwParameter;
 				
-				pANC.m_uiRootID 	= pLogin->m_uiRootID;
-				pANC.m_uiScore 		= pQuery->vctRes[0].uiScore;
-				pANC.m_uiFaileds	= pQuery->vctRes[0].uiFaileds;
-				pANC.m_uiWons		= pQuery->vctRes[0].uiWons;
-				pANC.m_uiEscape 	= pQuery->vctRes[0].uiEscape;
+				pANC.m_uiRootID 	= pRecvMsg->m_uiRootID;
+				pANC.m_uiScore 		= pQuery->vctRes[0].m_uiScore;
+				pANC.m_uiFaileds	= pQuery->vctRes[0].m_uiFaileds;
+				pANC.m_uiWons		= pQuery->vctRes[0].m_uiWons;
+				pANC.m_uiEscape 	= pQuery->vctRes[0].m_uiEscape;
 				pServerSession->Send( (BYTE*)&pANC, sizeof(pANC) );
 				
 				// 同时更新 DBUser 里的 游戏信息
