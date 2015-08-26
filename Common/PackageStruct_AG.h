@@ -8,7 +8,7 @@
 
 #pragma pack(push, 1)
 
-
+// 登录 请求
 struct MSG_AG_LOGIN_REQ : public MSG_BASE_FORWARD
 {
 	DWORD m_uiRootID;
@@ -25,6 +25,7 @@ struct MSG_AG_LOGIN_REQ : public MSG_BASE_FORWARD
 	}
 };
 
+// 登录 应答
 struct MSG_AG_LOGIN_ANC : public MSG_BASE_FORWARD
 {
 	PlayerInfo m_playerInfo;
@@ -35,13 +36,44 @@ struct MSG_AG_LOGIN_ANC : public MSG_BASE_FORWARD
 		memset( this, 0, sizeof(MSG_AG_LOGIN_ANC) );
 		
 		m_byCategory = AG_Connect; // 10
-		m_byProtocol = AG_StartGame_ANC; // 2001
+		m_byProtocol = AG_Login_ANC; //
 		
 		m_dwParameter = 0; // dwUserID
 		m_byParameter = 0;
 	}
 };
 
+// 登出 请求
+struct MSG_AG_LOGOUT_REQ : public MSG_BASE_FORWARD
+{
+	DWORD m_uiRootID;
+	
+	MSG_AG_LOGOUT_REQ() 
+	{
+		memset( this, 0, sizeof(MSG_AG_LOGOUT_REQ) );
+		
+		m_byCategory = AG_Connect; // 10
+		m_byProtocol = AG_Logout_REQ; // 
+		
+		m_dwParameter = 0; // dwUserID
+		m_byParameter = 0;
+	}
+};
+
+// 登出 应答
+struct MSG_AG_LOGOUT_ANC : public MSG_BASE_FORWARD
+{	
+	MSG_AG_LOGOUT_ANC() 
+	{
+		memset( this, 0, sizeof(MSG_AG_LOGOUT_ANC) );
+		
+		m_byCategory = AG_Connect; // 10
+		m_byProtocol = AG_Logout_ANC; // 
+		
+		m_dwParameter = 0; // dwUserID
+		m_byParameter = 0;
+	}
+};
 
 struct MSG_AG_START_GAME_REQ : public MSG_BASE_FORWARD
 {
@@ -280,7 +312,7 @@ struct MSG_AG_SHOWCARDS_REQ : public MSG_BASE_FORWARD
 
 struct MSG_AG_SHOWCARDS_ANC : public MSG_BASE_FORWARD
 {
-	DWORD m_dwUserKey;
+	DWORD m_dwUserID;
 	BYTE  m_byCards[CNPOKER_CARD_LEN_2]; // 20
 	
 	MSG_AG_SHOWCARDS_ANC() 
@@ -315,7 +347,7 @@ struct MSG_AG_DISCARDS_REQ : public MSG_BASE_FORWARD
 
 struct MSG_AG_DISCARDS_ANC : public MSG_BASE_FORWARD
 {
-	DWORD m_dwUserKey;
+	DWORD m_dwUserID;
 	DWORD m_uiSize;
 	BYTE m_byDiscards[CNPOKER_CARD_LEN_2]; // 最多20张
 	

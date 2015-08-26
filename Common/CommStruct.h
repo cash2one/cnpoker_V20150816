@@ -5,7 +5,7 @@
 
 struct PlayerInfo 
 {
-	DWORD m_dwUserKey; 		// 用户的Key
+	DWORD m_dwUserID; 		// 用户的ID
 	uint m_uiDBUserID; 		// 用户数据库ID
 	uint m_uiMoney; 		// 拥有的钱
 	uint m_uiPrepaid; 		// 预付的钱
@@ -29,7 +29,7 @@ struct PlayerInfo
 	// 拷贝构造函数
 	PlayerInfo(const PlayerInfo & _other)
 	{
-		m_dwUserKey 	= _other.m_dwUserKey;
+		m_dwUserID 		= _other.m_dwUserID;
 		m_uiDBUserID 	= _other.m_uiDBUserID;
 		m_uiMoney 		= _other.m_uiMoney;
 		m_uiPrepaid 	= _other.m_uiPrepaid;
@@ -53,7 +53,7 @@ struct PlayerInfo
 			return *this;
 		}
 		
-		m_dwUserKey 	= _other.m_dwUserKey;
+		m_dwUserID 		= _other.m_dwUserID;
 		m_uiDBUserID 	= _other.m_uiDBUserID;
 		m_uiMoney 		= _other.m_uiMoney;
 		m_uiPrepaid 	= _other.m_uiPrepaid;

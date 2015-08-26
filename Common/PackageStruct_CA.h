@@ -152,6 +152,41 @@ struct MSG_CA_LOGIN_NAK : public MSG_BASE_FORWARD
 	}
 };
 
+// 登出 请求
+struct MSG_CA_LOGOUT_REQ : public MSG_BASE_FORWARD
+{
+	DWORD	m_uiRootID;
+	
+	MSG_CA_LOGOUT_REQ() 
+	{
+		memset( this, 0, sizeof(MSG_CA_LOGOUT_REQ) );
+		
+		m_byCategory = CA_Client; // 32
+		m_byProtocol = CA_Logout_REQ; // ???
+		
+		m_dwParameter = 0; // dwUserID
+		m_byParameter = 0;
+	}
+};
+
+// 登出 应答
+struct MSG_CA_LOGOUT_ANC : public MSG_BASE_FORWARD
+{
+	//DWORD	m_uiRootID;
+	
+	MSG_CA_LOGOUT_ANC() 
+	{
+		memset( this, 0, sizeof(MSG_CA_LOGOUT_ANC) );
+		
+		m_byCategory = CA_Client; // 32
+		m_byProtocol = CA_Logout_ANC; // ???
+		
+		m_dwParameter = 0; // dwUserID
+		m_byParameter = 0;
+	}
+};
+
+
 // 开始游戏 请求
 struct MSG_CA_START_GAME_REQ : public MSG_BASE_FORWARD
 {

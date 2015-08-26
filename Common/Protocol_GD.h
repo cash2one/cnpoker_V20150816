@@ -12,6 +12,8 @@ enum eGD_Connect_Protocol {
 enum eGD_ClientLogin_Protocol {
 	GD_Login_REQ, 				// 登入请求：【玩家ID】
 	GD_Login_ANC, 				// 登入请求：【玩家数据包】
+	GD_Login_NAK,
+	
 	GD_Logout_REQ, 				// 登入请求：【玩家ID】
 	GD_Logout_ANC, 				// 清除缓存
 };
