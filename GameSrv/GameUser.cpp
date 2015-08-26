@@ -26,7 +26,7 @@ int myRandom(BYTE i)
 
 GameUser::GameUser()
 {
-	m_dwUserKey = 0;
+	m_dwUserID = 0;
 	m_uiRoomNumber = 0;
 	m_uiTableNumber = 0;
 	
@@ -70,7 +70,7 @@ PlayerInfo & GameUser::GetPlayerInfo()
 
 void GameUser::SetPlayerInfo(PlayerInfo info)
 {	
-	m_pPlayer.m_dwUserKey 	= info.m_dwUserKey; 	// 用户的Key
+	m_pPlayer.m_dwUserID 	= info.m_dwUserID; 	// 用户的Key
 	m_pPlayer.m_uiDBUserID 	= info.m_uiDBUserID; 	// 用户数据库ID
 	m_pPlayer.m_uiFaileds 	= info.m_uiFaileds;
 	m_pPlayer.m_uiWons 		= info.m_uiWons;
@@ -154,20 +154,20 @@ void GameUser::AllocCards()
 
 void GameUser::CallLandlord(BYTE byCall)
 {
-	printf("[UserID = %d] : CallLandlord\n", m_dwUserKey);	
+	printf("[UserID = %d] : CallLandlord\n", m_dwUserID);	
 	GameUser::m_TableInfo[m_uiTableNumber].m_byCallLandlord = byCall;
 }
 
 void GameUser::GrabLandlord()
 {
-	printf("[UserID = %d] : GrabLandlord\n", m_dwUserKey);
+	printf("[UserID = %d] : GrabLandlord\n", m_dwUserID);
 	
 	GameUser::m_TableInfo[m_uiTableNumber].m_uiGrabTimes++; // 抢地主次数加1
 }
 
 void GameUser::GetExtraCards()
 {
-	printf("[GameUser::GetExtraCards] : User %d Get Extra Cards;\n", m_dwUserKey);
+	printf("[GameUser::GetExtraCards] : User %d Get Extra Cards;\n", m_dwUserID);
 	BYTE *pMove = GameUser::m_TableInfo[m_uiTableNumber].m_byExtraCards;
 	memcpy(m_szCards+17, pMove, 3);
 	
@@ -186,7 +186,7 @@ void GameUser::ShowCards()
 	printf("[ShowCards] : Table Number = %d\n", m_uiTableNumber);	
 	
 	MSG_AG_SHOWCARDS_ANC msg2;
-	msg2.m_dwUserKey = m_dwUserKey;
+	msg2.m_dwUserID = m_dwUserID;
 	memcpy(msg2.m_byCards, m_szCards, CNPOKER_CARD_LEN_2); // 将明牌玩家的牌复制进消息包中
 
 	// 发送给另外一个玩家
@@ -219,7 +219,7 @@ void GameUser::Discards(BYTE * pCards, unsigned int uiSize)
 	eType1 = Poker::Pick(pCards, uiSize, cThanValue1, cThanCount1);		
 	if ( eType1 == PH_0 ) {
 		MSG_AG_DISCARDS_INVALID msg2;
-		msg2.m_dwParameter = m_dwUserKey;
+		msg2.m_dwParameter = m_dwUserID;
 		msg2.m_dwErrorCode = eType1; // 错误码
 		g_GameServer->SendToAgentServer( (BYTE *)&msg2, sizeof(msg2) );		
 		return;
@@ -235,7 +235,7 @@ void GameUser::Discards(BYTE * pCards, unsigned int uiSize)
 		int nResult = Poker::Than((ePK_TYPE)eType1, cThanValue1, cThanCount1, (ePK_TYPE)eType2, cThanValue2, cThanCount2);
 		if ( nResult == PH_0 ) {
 			MSG_AG_DISCARDS_INVALID msg2;
-			msg2.m_dwParameter = m_dwUserKey;
+			msg2.m_dwParameter = m_dwUserID;
 			//msg2.m_dwErrorCode = nResult; // 错误码
 			g_GameServer->SendToAgentServer( (BYTE *)&msg2, sizeof(msg2) );		
 			return;
@@ -249,14 +249,14 @@ void GameUser::Discards(BYTE * pCards, unsigned int uiSize)
 		// 正常来说是要发送一个 出牌无效 的消息返回给 Agent
 		printf("[GameUser::Discards] : FigureOutDiscards Invalid.\n");
 		MSG_AG_DISCARDS_INVALID msg2;
-		msg2.m_dwParameter = m_dwUserKey;
+		msg2.m_dwParameter = m_dwUserID;
 		//msg2.m_dwErrorCode = nBack; // 错误码
 		g_GameServer->SendToAgentServer( (BYTE *)&msg2, sizeof(msg2) );		
 		return;
 	}
 
 	MSG_AG_DISCARDS_ANC msg2;
-	msg2.m_dwParameter = m_dwUserKey;
+	msg2.m_dwParameter = m_dwUserID;
 	msg2.m_uiSize = uiSize;
 	memcpy(msg2.m_byDiscards, pCards, uiSize);
 	
@@ -302,7 +302,7 @@ void GameUser::Broadcast(BYTE *pMsg, WORD wSize)
 	for ()
 	{
 		userkey= 	GameUser::m_TableInfo[m_uiTableNumber].m_szUserKey[i];
-		if user ！= m_dwUserKey
+		if user ！= m_dwUserID
 		{
 			send()
 		}

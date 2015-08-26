@@ -20,7 +20,8 @@ public:
 	HANDLER_DECL( AG_Logout_REQ );
 	HANDLER_DECL( AG_Relogin_SYN );	
 #endif
-	HANDLER_DECL( AG_Login_REQ );
+	HANDLER_DECL( AG_Login_REQ ); 	// 登录
+	HANDLER_DECL( AG_Logout_REQ ); 	// 登出
 
 	HANDLER_DECL( AG_StartGame_REQ ); // 开始游戏
 	

@@ -2,6 +2,7 @@
 #include "GameServer.h"
 #include "Handler_FromAgentServer.h"
 #include "Handler_FromDBServer.h"
+#include "Handler_FromGameServer.h"
 
 PacketHandler g_PacketHandler;
 
@@ -27,6 +28,9 @@ BOOL PacketHandler::RegisterHandler()
 
 void PacketHandler::Register_AG()
 {
+	AddHandler_AG( AG_Connect, AG_Login_REQ, Handler_FromAgentServer::OnAG_Login_REQ );
+	AddHandler_AG( AG_Connect, AG_Logout_REQ, Handler_FromAgentServer::OnAG_Logout_REQ );	
+	
 	AddHandler_AG( AG_Connect, AG_StartGame_REQ, Handler_FromAgentServer::OnAG_StartGame_REQ );	
 	AddHandler_AG( AG_Connect, AG_JoinRoom_REQ, Handler_FromAgentServer::OnAG_JoinRoom_REQ );
 	AddHandler_AG( AG_Connect, AG_JoinTable_REQ, Handler_FromAgentServer::OnAG_JoinTable_REQ );
@@ -39,9 +43,12 @@ void PacketHandler::Register_AG()
 
 void PacketHandler::Register_DG()
 {
-#if 0	
-	AddHandler_CA(CA_Game_Protocol, CA_StartGame_REQ, Handler_FromClient::OnCA_StartGame_REQ);
-#endif
+	AddHandler_DG(GD_ClientLogin, GD_Login_ANC, Handler_FromDBServer::OnGD_Login_ANC);
+	
+	AddHandler_DG(GD_ClientLogin, GD_Login_NAK, Handler_FromDBServer::OnGD_Login_NAK);
+	
+	AddHandler_DG(GD_ClientLogin, GD_Logout_ANC, Handler_FromDBServer::OnGD_Logout_ANC);
+	
 }
 
 BOOL PacketHandler::AddHandler_AG( WORD category, WORD protocol, fnHandler fnHandler)

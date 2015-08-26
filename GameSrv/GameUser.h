@@ -20,8 +20,8 @@ public:
 	void LoginTable(unsigned int _tableid);
 	void logoutTable();
 	
-	DWORD GetHashKey() const { return m_dwUserKey; }
-	void SetHashKey( DWORD dwKey ) { m_dwUserKey = dwKey; }
+	DWORD GetHashKey() const { return m_dwUserID; }
+	void SetHashKey( DWORD dwID ) { m_dwUserID = dwID; }
 	
 	unsigned int GetSeat() { return m_uiSeat; }
 	unsigned int GetRoomNumber() { return m_uiRoomNumber; }
@@ -73,7 +73,7 @@ public:
 	
 	static unsigned short GetRandom();
 private:
-	DWORD m_dwUserKey;
+	DWORD m_dwUserID;
 	
 	unsigned int m_uiRoomNumber; 	// 房间号
 	unsigned int m_uiTableNumber; 	// 桌子号

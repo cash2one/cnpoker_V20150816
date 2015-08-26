@@ -18,7 +18,7 @@ Handler_FromDBServer::~Handler_FromDBServer()
 
 HANDLER_IMPL( GD_Login_ANC )
 {
-	printf("Step2: <6> GD_Login_ANC.\n");
+	printf("Step2: <4> GD_Login_ANC.\n");
 	
 	MSG_GD_LOGIN_ANC * pRecvMsg = (MSG_GD_LOGIN_ANC *)pMsg;
 	DWORD dwUserID = pRecvMsg->m_dwParameter;
@@ -34,7 +34,8 @@ HANDLER_IMPL( GD_Login_ANC )
 	
 	
 	MSG_AG_LOGIN_ANC msg2;
-	msg2.m_playerInfo.m_dwUserKey 		= dwUserID;
+	msg2.m_dwParameter 					= pRecvMsg->m_dwParameter; // UserID
+	msg2.m_playerInfo.m_dwUserID 		= dwUserID;
 	msg2.m_playerInfo.m_uiDBUserID 		= pRecvMsg->m_uiRootID;
 	msg2.m_playerInfo.m_uiFaileds 		= pRecvMsg->m_uiFaileds;
 	msg2.m_playerInfo.m_uiWons 			= pRecvMsg->m_uiWons;
@@ -53,9 +54,9 @@ HANDLER_IMPL( GD_Login_NAK )
 	
 }
 
-HANDLER_IMPL( GD_Logout_REQ )
+HANDLER_IMPL( GD_Logout_ANC )
 {
-	printf("GD_Logout_REQ.\n");
+	printf("GD_Logout_ANC.\n");
 	
 	
 }

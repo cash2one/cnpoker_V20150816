@@ -44,7 +44,7 @@ BOOL GameServer::Init()
 	desc.dwRecvBufferSize		 		= 2000000;
 	desc.dwTimeOut						= 0;
 	desc.dwNumberOfAcceptThreads		= 1; // 0
-	desc.dwNumberOfIoThreads			= 1;
+	desc.dwNumberOfIoThreads			= 8; // 开辟8个线程
 	desc.dwNumberOfConnectThreads		= 1;
 	desc.dwMaxPacketSize				= 60000; // 4096
 	desc.fnCreateAcceptedObject			= CreateServerSideAcceptedObject;
@@ -59,7 +59,7 @@ BOOL GameServer::Init()
 	m_pAgentServerSession = GameFactory::Instance()->AllocAgentServerSession();
 	if ( m_pAgentServerSession ) {
 		SERVER_INFO info = g_InfoParser.GetServerInfo( AGENT_SERVER );
-		m_pAgentServerSession->SetAddr( info.m_strIp, info.m_dwPort ); // Agent Port 7000
+		m_pAgentServerSession->SetAddr( info.m_strIp, info.m_dwPort ); // Agent Port 8100
 	}
 	
 	// 主动连接 DB

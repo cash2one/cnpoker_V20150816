@@ -15,10 +15,10 @@ Handler_FromAgentServer::~Handler_FromAgentServer()
 
 HANDLER_IMPL( AG_Login_REQ )
 {
-	printf("Step2: <4> AG_Login_REQ\n");
+	printf("Step2: <2> AG_Login_REQ\n");
 	MSG_AG_LOGIN_REQ * pRecvMsg = (MSG_AG_LOGIN_REQ *)pMsg;
 	
-	unsigned int uiRootID = pRecvMsg->m_uiRootID;
+	DWORD uiRootID = pRecvMsg->m_uiRootID;
 	printf("uiRootID = %d\n", uiRootID);
 	
 	MSG_GD_LOGIN_REQ msg2;
@@ -26,6 +26,15 @@ HANDLER_IMPL( AG_Login_REQ )
 	msg2.m_uiRootID = uiRootID;
 	
 	g_GameServer->SendToDBServer( (BYTE *)&msg2, sizeof(msg2) );
+}
+
+HANDLER_IMPL( AG_Logout_REQ )
+{
+	printf("Logout: <2> AG_Logout_REQ\n");
+	MSG_AG_LOGOUT_REQ * pRecvMsg = (MSG_AG_LOGOUT_REQ *)pMsg;
+	
+	
+	
 }
 
 HANDLER_IMPL( AG_StartGame_REQ )

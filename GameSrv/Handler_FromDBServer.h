@@ -17,7 +17,7 @@ public:
 	HANDLER_DECL( GD_Login_ANC );
 	HANDLER_DECL( GD_Login_NAK );
 	
-	HANDLER_DECL( GD_Logout_REQ );
+	HANDLER_DECL( GD_Logout_ANC );
 };
 
 
