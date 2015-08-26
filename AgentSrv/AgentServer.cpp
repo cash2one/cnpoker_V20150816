@@ -2,6 +2,8 @@
 
 #include "UserManager.h"
 
+#include "RootidManager.h"
+
 NetworkObject * CreateServerSideAcceptedObject();
 VOID DestroyServerSideAcceptedObject( NetworkObject *pNetworkObject );
 VOID DestroyServerSideConnectedObject( NetworkObject *pNetworkObject );
@@ -79,6 +81,8 @@ BOOL AgentServer::Init()
 	}
 
 	g_UserManager.InitUserSize( MAX_PLAYER_NUM ); // 1000
+	//RootidManager::Instance()->Init(); // 保存临时的 RootID 和 UserKey
+	
 	
 	StartServerSideListen();
 	StartClientSideListen();
@@ -103,7 +107,7 @@ void AgentServer::StartServerSideListen()
 {
 	if( !m_pIOCPServer->IsListening( SERVER_SYNCHANDLER) ) {
 		
-		if ( !m_pIOCPServer->StartListen(SERVER_SYNCHANDLER, "", 9800) ) // AGENT Port 9800
+		if ( !m_pIOCPServer->StartListen(SERVER_SYNCHANDLER, "", 8100) ) // AGENT Port 8100
 		{
 			return;
 		}
@@ -114,7 +118,7 @@ void AgentServer::StartClientSideListen()
 {
 	if ( !m_pIOCPServer->IsListening( CLIENT_SYNCHANDLER) ) {
 		
-		if ( !m_pIOCPServer->StartListen(CLIENT_SYNCHANDLER, "", 8100) ) // Clinet Port 8100
+		if ( !m_pIOCPServer->StartListen(CLIENT_SYNCHANDLER, "", 1234) ) // Clinet Port 1234
 		{
 			return;
 		}
@@ -235,8 +239,8 @@ VOID DestroyClientSideAcceptedObject( NetworkObject * pObjs ) {
 	printf("[AgentServer::DestroyClientSideAcceptedObject]: Free User.\n");
 	User * obj = (User *)pObjs;
 	if ( obj ) {
-		printf("User Key:%d\n, Num counts =%d\n", obj->GetUserKey(), g_UserManager.GetUserNums());
-		g_UserManager.Remove(obj->GetUserKey());
+		printf("User ID:%d, Num counts =%d\n", obj->GetUserID(), g_UserManager.GetUserNums());
+		g_UserManager.Remove(obj->GetUserID());
 		printf("AgemtFactory::Instance()->FreeUser()\n");
 		AgentFactory::Instance()->FreeUser(obj);		
 	}

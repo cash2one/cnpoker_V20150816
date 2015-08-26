@@ -9,7 +9,10 @@
 #pragma pack(push, 1)
 
 struct MSG_CA_CONNECTION_ENTERSERVER_SYN : public MSG_BASE_FORWARD
-{	
+{
+	DWORD 	m_uiRootID;
+	BYTE 	m_byUserKey[CODE_KEY_LEN + 1];
+	
 	MSG_CA_CONNECTION_ENTERSERVER_SYN() 
 	{
 		memset( this, 0, sizeof(MSG_CA_CONNECTION_ENTERSERVER_SYN) );
@@ -132,6 +135,22 @@ struct MSG_CA_LOGIN_ANC : public MSG_BASE_FORWARD
 	}
 };
 
+// 登陆 失败
+struct MSG_CA_LOGIN_NAK : public MSG_BASE_FORWARD
+{
+	DWORD 	m_dwErrorCode;
+	
+	MSG_CA_LOGIN_NAK() 
+	{
+		memset( this, 0, sizeof(MSG_CA_LOGIN_NAK) );
+		
+		m_byCategory = CA_Client; // 32
+		m_byProtocol = CA_Login_NAK; //
+		
+		m_dwParameter = 0; // dwUserID
+		m_byParameter = 0;
+	}
+};
 
 // 开始游戏 请求
 struct MSG_CA_START_GAME_REQ : public MSG_BASE_FORWARD

@@ -23,20 +23,20 @@ void UserSession::SendGame(BYTE *pMsg, WORD wSize)
 	
 }
 
-DWORD UserSession::GetUserKey() const
+DWORD UserSession::GetUserID() const
 {
-	return m_dwUserKey;
+	return m_dwUserID;
 }
 
-void  UserSession::SetUserKey(DWORD dwKey)
+void  UserSession::SetUserID(DWORD dwID)
 {
-	m_dwUserKey = dwKey;
+	m_dwUserID = dwID;
 }
 
 /************ protected *************/
 void UserSession::Init()
 {
-	m_dwUserKey = 0;
+	m_dwUserID = 0;
 	m_pNetGame = NULL;
 }
 

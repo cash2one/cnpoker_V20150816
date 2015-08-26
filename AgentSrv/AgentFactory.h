@@ -13,6 +13,7 @@
 #include "UserSession.h"
 #include "TempUserSession.h"
 
+#include "RootID.h"
 
 using namespace A;
 
@@ -31,6 +32,9 @@ private:
 	MemoryFactory<GameServerSession>	* m_pGameServerSessionPool; 
 	MemoryFactory<LoginServerSession>	* m_pLoginServerSessionPool;
 
+	// Rootid
+	MemoryFactory<RootID> 				* m_pRootIDPool;
+	
 public:
 	void Init(void);
 	void Release(void);
@@ -51,6 +55,10 @@ public:
 	
 	LoginServerSession * AllocLoginServerSession();
 	void FreeLoginServerSession(LoginServerSession * pServerSession);
+	
+	// RootID
+	RootID * AllocRootID();
+	void FreeRootID(RootID * pRoot);
 };
 
 #endif

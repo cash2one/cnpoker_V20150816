@@ -14,7 +14,7 @@ public:
 	virtual ~TempServerSession();
 
 	eSERVER_TYPE	GetServerType() {	return TEMP_SERVER;  }
-	
+
 public:
 	virtual void    Clear();
 	virtual void	OnRecv(BYTE *pMsg, WORD wSize);

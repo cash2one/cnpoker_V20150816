@@ -21,8 +21,8 @@ public:
 
 	virtual eUSER_TYPE getUserType() { return m_eUserType; }
 	virtual void SetUserType(eUSER_TYPE eType) { m_eUserType = eType; }
-	DWORD GetUserKey() const;
-	void  SetUserKey(DWORD dwKey);
+	DWORD GetUserID() const;
+	void  SetUserID(DWORD dwID);
 	
 protected:
 	virtual void 	Init();
@@ -35,7 +35,7 @@ protected:
 
 private:
 	eUSER_TYPE 		m_eUserType;
-	DWORD 			m_dwUserKey;
+	DWORD 			m_dwUserID;
 	ServerSession * m_pNetGame;
 };
 

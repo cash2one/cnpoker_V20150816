@@ -10,8 +10,9 @@ enum eAG_Connect_Protocol {
 };
 
 enum eAG_ClientLogin_Protocol {
-	AG_Login_SYN, 				// 登入请求：【临时Key值，玩家ID】
+	AG_Login_REQ, 				// 登入请求：【临时Key值，玩家ID】
 	AG_Login_ANC, 				// 登入请求：【临时Key值，玩家游戏ID】
+	
 	AG_Logout_REQ, 				// 退出请求：【临时Key值】
 	AG_Logout_ANC, 				// 退出请求：【临时Key值】
 };

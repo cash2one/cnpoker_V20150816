@@ -16,6 +16,10 @@ public:
 
 	HANDLER_DECL( AL_PreLogin_ANC );
 	HANDLER_DECL( AL_Login_ANC );
+	
+	// add 2015-08-25
+	HANDLER_DECL( AL_SaveUserKey_SYN );
+	
 };
 
 #endif

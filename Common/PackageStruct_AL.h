@@ -148,6 +148,24 @@ struct MSG_AL_LOGOUT_ANC : public MSG_BASE_FORWARD
 	}
 };
 
+// 保存 UserKey 
+struct MSG_AL_SAVEUSERKEY_SYN : public MSG_BASE_FORWARD
+{
+	DWORD 	m_uiRootID;
+	BYTE	m_byUserKey[CODE_KEY_LEN + 1];
+	
+	MSG_AL_SAVEUSERKEY_SYN()
+	{
+		memset( this, 0, sizeof(MSG_AL_SAVEUSERKEY_SYN) );
+		
+		m_byCategory = AL_ClientLogin;
+		m_byProtocol = AL_SaveUserKey_SYN;
+		
+		m_dwParameter = 0;
+		m_byParameter = 0;
+	}
+};
+
 #pragma pack(pop)
 
 #endif // _PACKAGESTRUCT_AL_H_INCLUDED_

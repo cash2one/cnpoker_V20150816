@@ -6,7 +6,6 @@
 #include <Network.h>
 
 #include "UserSession.h"
-//#include "GameServerSession.h"
 
 class User : public UserSession
 {
@@ -19,13 +18,14 @@ public:
 	
 	BOOL IsOvertime();
 	void Update();
-	
+		
 	virtual void	OnAccept( DWORD dwNetworkIndex );
 	virtual void	OnDisconnect();
 	virtual void	OnRecv( BYTE *pMsg, WORD wSize );
 	virtual void	OnConnect( BOOL bSuccess, DWORD dwNetworkIndex );
 	
 	BOOL SendPacket( BYTE *pMsg, WORD wSize );
+	
 };
 
 #endif // _USER_H_INCLUDED_

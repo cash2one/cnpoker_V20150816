@@ -52,7 +52,9 @@ AgentServerObjs = AgentSrv/AgentMain.o \
 				  AgentSrv/Handler_FromLoginServer.o \
 				  AgentSrv/PacketHandler.o \
 				  AgentSrv/GameServerSession.o \
-				  AgentSrv/UserManager.o
+				  AgentSrv/UserManager.o \
+				  AgentSrv/RootID.o \
+				  AgentSrv/RootidManager.o
 		  
 GameServerObjs 	= GameSrv/AgentServerSession.o \
 				  GameSrv/DBServerSession.o \

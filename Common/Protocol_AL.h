@@ -22,6 +22,8 @@ enum eAL_ClientLogin_Protocol {
 		
 	AL_Logout_REQ, 				// 登出 请求 				
 	AL_Logout_ANC, 				// 登出 回应
+	
+	AL_SaveUserKey_SYN, 		// Login生成的UserKey发送给Agent保存(所有的SYN消息都不需要应答)
 };
 
 

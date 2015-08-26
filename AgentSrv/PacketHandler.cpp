@@ -81,6 +81,9 @@ void PacketHandler::Register_AL()
 {
 	AddHandler_AL(AL_ClientLogin, AL_PreLogin_ANC, Handler_FromLoginServer::OnAL_PreLogin_ANC);
 	AddHandler_AL(AL_ClientLogin, AL_Login_ANC, Handler_FromLoginServer::OnAL_Login_ANC);
+	
+	// add 2015-08-25
+	AddHandler_AL(AL_ClientLogin, AL_SaveUserKey_SYN, Handler_FromLoginServer::OnAL_SaveUserKey_SYN);
 }
 
 BOOL PacketHandler::AddHandler_CA( WORD category, WORD protocol, fnHandler_c fnHandler)

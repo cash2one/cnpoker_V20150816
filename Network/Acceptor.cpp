@@ -14,7 +14,7 @@ void * accept_thread(void * param)
 	
 		SOCKET sock = accept(pClass->m_listenSocket, (sockaddr *)&addr, (socklen_t*)&len );
 		//SOCKET sock = accept(pClass->m_listenSocket, NULL, NULL );
-		printf("eMsg = %s\n",strerror(errno));
+		//printf("eMsg = %s\n",strerror(errno));
 		if (sock == -1)
 			continue;
 	

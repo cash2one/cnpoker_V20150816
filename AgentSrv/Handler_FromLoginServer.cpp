@@ -3,6 +3,8 @@
 #include "User.h"
 #include "UserManager.h"
 
+#include "RootidManager.h"
+
 Handler_FromLoginServer::Handler_FromLoginServer() 
 {
 	
@@ -52,3 +54,25 @@ HANDLER_IMPL( AL_Login_ANC )
 	g_AgentServer->SendToGameServer( (BYTE *)&msg2, sizeof(msg2) );
 }
 
+HANDLER_IMPL( AL_SaveUserKey_SYN )
+{
+	printf("AL_SaveUserKey_SYN\n");
+	MSG_AL_SAVEUSERKEY_SYN * pRecvMsg = (MSG_AL_SAVEUSERKEY_SYN *)pMsg;
+	printf("RootID = %d, User Key = %s\n", pRecvMsg->m_uiRootID, pRecvMsg->m_byUserKey);
+	
+	RootID * pRoot = AgentFactory::Instance()->AllocRootID();
+	if ( pRoot == NULL ) {
+		printf("\nAgentFactory::Instance()->AllocRootID() Fail.\n");
+		return;
+	}
+	pRoot->SetRootID(pRecvMsg->m_uiRootID);
+	pRoot->SetUserKey(pRecvMsg->m_byUserKey);
+	
+	
+	BOOL bRet = RootidManager::Instance()->AddRootID(pRoot);
+	if ( !bRet ) {
+		printf("\n[RootidManager::Instance()->AddRootID] Fail.\n");
+		return;
+	}
+	printf("[RootidManager::Instance()->AddRootID] Success.\n");
+}
