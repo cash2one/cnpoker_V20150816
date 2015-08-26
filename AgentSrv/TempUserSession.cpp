@@ -1,6 +1,6 @@
 #include "TempUserSession.h"
 
-#include "AgentFactory.h"
+#include "AgentServer.h"
 
 #include "UserManager.h"
 #include "RootidManager.h"
@@ -25,33 +25,10 @@ void TempUserSession::Release()
 	m_bFirst = TRUE;
 }
 
-#if 0
-BOOL TempUserSession::IsSameRootID( BYTE * pUserKey1, BYTE * pUserKey2 )
-{
-	if ( ( pUserKey1 == NULL ) || ( pUserKey2 == NULL ) ) {
-		return FALSE;
-	}
-	
-	int nLen1 = strlen(pUserKey1);
-	int nLen2 = strlen(pUserKey2);
-	if ( nLen1 != nLen2 ) {
-		return FALSE;
-	}
-	printf("nLen1 = %d\n", nLen1);
-	for( int i=0; i<CODE_KEY_LEN; ++i )
-	{
-		if ( pUserKey1[i] != pUserKey2[i] ) {
-			return FALSE;
-		}
-	}
-
-	return TRUE;
-}	
-#endif
-
 void TempUserSession::OnRecv(BYTE *pMsg, WORD wSize)
 {
-	printf(">>>> [TempUserSession::OnRecv]\n");
+	printf(">>>>[TempUserSession::OnRecv]<<<<\n");
+	printf("Step2: <1> CA_Login_REQ\n");
 	
 	assert( m_bFirst == TRUE );
 	if ( !m_bFirst ) {
@@ -68,7 +45,7 @@ void TempUserSession::OnRecv(BYTE *pMsg, WORD wSize)
 		// 发送出错信息
 		MSG_CA_LOGIN_NAK msgError;
 		msgError.m_dwParameter = pRecvMsg->m_dwParameter; // User ID
-		msgError.m_dwErrorCode = 1234;
+		msgError.m_dwErrorCode = 1234; // ???
 
 		Session * pSession = this->m_pSession;
 		if ( pSession != NULL ) {
@@ -107,16 +84,18 @@ void TempUserSession::OnRecv(BYTE *pMsg, WORD wSize)
 	}
 	printf("TempUserSession ==> User Success.\n");
 	
-	printf("Send MSG_CA_CONNECTION_ENTERSERVER_ANC.\n");
-	printf("Msg size = %d\n", sizeof(MSG_CA_CONNECTION_ENTERSERVER_ANC));
+	printf("Send MSG_AG_LOGIN_REQ to [GameSrv].\n");
 	
-	MSG_CA_CONNECTION_ENTERSERVER_ANC ancMsg;
-	ancMsg.m_dwParameter = dwID; // User Key
-	pSession->Send( (BYTE *)&ancMsg, sizeof(MSG_CA_CONNECTION_ENTERSERVER_ANC) );
+	// 发送 AG_Login_REQ 消息包给 GameServer
+	MSG_AG_LOGIN_REQ msg2;
+	msg2.m_dwParameter = dwID; // User ID
+	msg2.m_uiRootID = pRecvMsg->m_uiRootID; // RootID
+	g_AgentServer->SendToGameServer( (BYTE *)&msg2, sizeof(msg2) );
 	
-	printf("\n>>>> Free TempUserSesion <<<<\n");	
+	//pSession->Send( (BYTE *)&ancMsg, sizeof( MSG_AG_LOGIN_REQ) );
+	
+	printf("\n>>>> Free TempUserSesion <<<<\n");
 	AgentFactory::Instance()->FreeTempUserSession(this);
-
 }
 
 void TempUserSession::OnLogString( char * pszLog)

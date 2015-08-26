@@ -18,12 +18,12 @@ public:
 	UserManager();
 	~UserManager();
 
-	void InitUserSize(DWORD dwUserSize);
-	DWORD AddUser(User * pUser); // UserSession -> key HashTable
+	void InitUserSize( DWORD dwUserSize );
+	DWORD AddUser( User * pUser ); // UserSession -> key HashTable
 	DWORD GetUserNums();
-	User * FindUser(DWORD dwKey); // 
-	void Remove(DWORD dwKey); // HashTable
-	void Remove(User * pUser); 
+	User * FindUser( DWORD dwKey ); // 
+	void Remove( DWORD dwKey ); // HashTable
+	void Remove( User * pUser ); 
 	// 分配一个用户KEY
 	DWORD AllocKey() {  return m_UserKey.GetKey(); }
 	

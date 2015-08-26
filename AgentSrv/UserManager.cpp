@@ -27,7 +27,7 @@ VOID UserManager::InitUserSize( DWORD dwUserSize )
 	assert( m_UserAuthIDs.empty() );
 }
 
-DWORD UserManager::AddUser(User * pUser)
+DWORD UserManager::AddUser( User * pUser )
 {
 	assert(pUser != NULL);
 	DWORD dwUserKey = AllocKey();
@@ -40,12 +40,12 @@ DWORD UserManager::GetUserNums()
 	return m_pUserHashTable->GetDataNum();
 }
 
-User * UserManager::FindUser(DWORD dwUserKey)
+User * UserManager::FindUser( DWORD dwUserKey )
 {
 	return m_pUserHashTable->GetData( dwUserKey );
 }
 
-void UserManager::Remove(DWORD dwUserKey)
+void UserManager::Remove( DWORD dwUserKey )
 {
 	User * pUser = m_pUserHashTable->GetData( dwUserKey );
 	assert( pUser != NULL );
@@ -58,7 +58,7 @@ void UserManager::Remove(DWORD dwUserKey)
 	m_UserKey.RestoreKey( dwUserKey );
 }
 
-void UserManager::Remove(User * pUser)
+void UserManager::Remove( User * pUser )
 {
 	printf("Do nothing\n");
 }

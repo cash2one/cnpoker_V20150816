@@ -93,6 +93,7 @@ BOOL AgentServer::Init()
 		return FALSE;
 	}
 	
+	// 其他Login 主动连接过来
 	m_pLoginServer = AgentFactory::Instance()->AllocLoginServerSession();
 	if ( m_pLoginServer == NULL) {
 		printf("[AgentFactory::Instance()->AllocLoginServerSession] fail\n");

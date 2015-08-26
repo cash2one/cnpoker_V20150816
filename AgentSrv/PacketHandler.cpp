@@ -36,9 +36,9 @@ void PacketHandler::Register_CA()
 	AddHandler_CA(CA_Client, CA_PreLogin_REQ, Handler_FromClient::OnCA_PreLogin_REQ);
 	
 	AddHandler_CA(CA_Client, CA_Login_REQ, Handler_FromClient::OnCA_Login_REQ);
-	AddHandler_CA(CA_Client, CA_Login_ANC, Handler_FromClient::OnCA_Login_ANC);
 	
 	AddHandler_CA(CA_Client, CA_ReLogin_REQ, Handler_FromClient::OnCA_ReLogin_REQ);
+	
 	AddHandler_CA(CA_Client, CA_Logout_REQ, Handler_FromClient::OnCA_Logout_REQ);
 
 	// sylar 2015-08-16

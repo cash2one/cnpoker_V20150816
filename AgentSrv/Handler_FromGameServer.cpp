@@ -15,7 +15,7 @@ Handler_FromGameServer::~Handler_FromGameServer()
 
 HANDLER_IMPL( AG_Login_ANC )
 {
-	printf("Step2: <7> AG_Login_ANC\n");
+	printf("Step2: <5> AG_Login_ANC\n");
 	MSG_AG_LOGIN_ANC * pRecvMsg = (MSG_AG_LOGIN_ANC *)pMsg;
 	
 	// 查找用户

@@ -44,11 +44,6 @@ HANDLER_IMPL( CA_Login_REQ)
 	g_AgentServer->SendToLoginServer( (BYTE *)&msg2, sizeof(msg2) );
 }
 
-HANDLER_IMPL( CA_Login_ANC)
-{
-	printf("CA_Login_ANC\n");
-}
-
 HANDLER_IMPL( CA_ReLogin_REQ )
 {
 	printf("CA_Relogin_REQ\n");
@@ -56,7 +51,14 @@ HANDLER_IMPL( CA_ReLogin_REQ )
 
 HANDLER_IMPL( CA_Logout_REQ)
 {
-	printf("CA_Logout_REQ\n");
+	printf("Logout: <1> CA_Logout_REQ\n");
+	MSG_CA_LOGOUT_REQ * pRecvMsg = (MSG_CA_LOGOUT_REQ *)pMsg;
+	
+	MSG_AG_LOGOUT_REQ msg2;
+	msg2.m_dwParameter = pRecvMsg->m_dwParameter;
+	msg2.m_uiRootID = pRecvMsg->m_uiRootID;
+	
+	g_AgentServer->SendToGameServer( (BYTE *)&msg2, sizeof(msg2) );
 }
 
 /************************************************/
