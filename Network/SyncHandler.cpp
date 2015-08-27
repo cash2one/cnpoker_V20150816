@@ -75,11 +75,11 @@ void * io_thread( void * param )
 		pSession = (Session *) event.data.ptr;
 		
 		if ( event.events == 0x800 ) {
-			printf("pSession->DoSend()\n");
+			//printf("pSession->DoSend()\n");
 			pSession->DoSend(pSync);
 		}
 		else {
-			printf("pSession->Recv()\n");
+			//printf("pSession->Recv()\n");
 			pSession->DoRecv(); 
 		} 
 	}

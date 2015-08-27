@@ -133,7 +133,7 @@ BOOL Session::PreSend(SyncHandler * pSync)
 		event.events = 0x800;
 		event.data.ptr = this;
 		pSync->AddIoEvent(&event);
-		printf("pSync->AddIoEvent():: Ready to send.\n");
+		//printf("pSync->AddIoEvent():: Ready to send.\n");
 	}
 	return TRUE;
 }

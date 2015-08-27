@@ -66,7 +66,7 @@ BOOL GameServer::Init()
 	m_pDBServerSession = GameFactory::Instance()->AllocDBServerSession();
 	if ( m_pDBServerSession ) {
 		SERVER_INFO info = g_InfoParser.GetServerInfo( DB_SERVER );
-		m_pDBServerSession->SetAddr( info.m_strIp, info.m_dwPort ); // DB Port 7300
+		m_pDBServerSession->SetAddr( info.m_strIp, info.m_dwPort ); // DB Port 7030
 	}
 	
 	return TRUE;
