@@ -24,7 +24,7 @@ DWORD CObjKeyGenerator::GetKey()
 {
 	DWORD key;
 
-	if (IsEmpty() == TRUE) { 
+	if ( IsEmpty() == TRUE ) { 
 		return NULL;
 	}
 
@@ -38,7 +38,7 @@ DWORD CObjKeyGenerator::GetKey()
 	return key;
 }
 
-BOOL CObjKeyGenerator::ReserveKey(DWORD key)
+BOOL CObjKeyGenerator::ReserveKey( DWORD key )
 {
 	BOOL bReserved = FALSE;
 
@@ -49,12 +49,13 @@ BOOL CObjKeyGenerator::ReserveKey(DWORD key)
 	m_cs.Lock();
 
 	deque<DWORD>::iterator itr = m_dequeKey.begin();
-	while (itr != m_dequeKey.end())
+	while ( itr != m_dequeKey.end() )
 	{
 		if ( *itr == key )
 		{
 			bReserved = TRUE;
 			m_dequeKey.erase(itr);
+			printf("m_dequeKey.erase(%d) Success\n", key);
 			break;
 		}
 	}
@@ -87,6 +88,7 @@ VOID CObjKeyGenerator::RestoreKey(DWORD key)
 {		 
 	Yond_guard sync_cs(m_cs);
 	m_dequeKey.push_back(key);
+	printf("[CObjKeyGenerator::RestoreKey] m_dequeKey.push_back(%d)\n", key);
 }
 
 size_t CObjKeyGenerator::GetSize()

@@ -62,7 +62,9 @@ struct MSG_AG_LOGOUT_REQ : public MSG_BASE_FORWARD
 
 // 登出 应答
 struct MSG_AG_LOGOUT_ANC : public MSG_BASE_FORWARD
-{	
+{
+	DWORD m_uiRootID;
+	
 	MSG_AG_LOGOUT_ANC() 
 	{
 		memset( this, 0, sizeof(MSG_AG_LOGOUT_ANC) );

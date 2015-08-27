@@ -44,6 +44,8 @@ struct MSG_GD_LOGIN_ANC : public MSG_BASE_FORWARD
 
 struct MSG_GD_LOGOUT_REQ : public MSG_BASE_FORWARD
 {
+	DWORD 	m_uiRootID;
+	
 	MSG_GD_LOGOUT_REQ()
 	{
 		memset( this, 0, sizeof(MSG_GD_LOGOUT_REQ) );
@@ -59,6 +61,8 @@ struct MSG_GD_LOGOUT_REQ : public MSG_BASE_FORWARD
 
 struct MSG_GD_LOGOUT_ANC : public MSG_BASE_FORWARD
 {
+	DWORD 	m_uiRootID;
+	
 	MSG_GD_LOGOUT_ANC()
 	{
 		memset( this, 0, sizeof(MSG_GD_LOGOUT_ANC) );
