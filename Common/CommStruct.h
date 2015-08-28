@@ -15,11 +15,11 @@ struct PlayerInfo
 	uint m_uiEscape; 		// 逃跑次数
 	uint m_uiScore; 		// 分数
 	
-	uint m_uiRankList; 		// 排行
-	uint m_uiGoodsList[5]; 	// 道具
+	//uint m_uiRankList; 		// 排行
+	//uint m_uiGoodsList[5]; 	// 道具
 	
-	float m_fWonRate; 		// 胜率
-	float m_fEscapeRate; 	// 逃跑率
+	//float m_fWonRate; 		// 胜率
+	//float m_fEscapeRate; 	// 逃跑率
 	
 	PlayerInfo()
 	{
