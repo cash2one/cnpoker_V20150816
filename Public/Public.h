@@ -26,6 +26,9 @@ struct SERVER_INFO
 
 #include "InfoParser.h"
 #include "AgentInfo.h"
+
+#include "MsgProcess.h"
+
 #include "PlayerGoods.h"
 #include "PlayerTasks.h"
 
