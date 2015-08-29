@@ -20,9 +20,9 @@ public:
 	
 	void Release();
 	
-	BOOL AddUser(GameUser * pUser);
-	GameUser * Find(const DWORD dwKey);
-	BOOL Remove(DWORD dwKey);
+	BOOL AddUser( GameUser * pUser );
+	GameUser * Find( const DWORD dwKey );
+	BOOL Remove( DWORD dwKey );
 	
 private:
 	MAP_GAMEUSER		m_mapGameUser;

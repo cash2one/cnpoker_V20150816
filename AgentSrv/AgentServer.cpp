@@ -208,6 +208,7 @@ NetworkObject * CreateServerSideAcceptedObject() {
 
 VOID DestroyServerSideAcceptedObject( NetworkObject *pObjs ) {
 	printf("[AgentServer::DestroyServerSideAcceptedObject] Function\n");
+	
 	ServerSession * pSession = (ServerSession *)pObjs;
 	eSERVER_TYPE eType = pSession->GetServerType();
 	if ( eType == LOGIN_SERVER ) {
@@ -237,14 +238,17 @@ NetworkObject * CreateClientSideAcceptedObject() {
 }
 
 VOID DestroyClientSideAcceptedObject( NetworkObject * pObjs ) {
-	printf("[AgentServer::DestroyClientSideAcceptedObject]: Free User.\n");
-	User * obj = (User *)pObjs;
-	if ( obj ) {
-		printf("User ID:%d, Num counts =%d\n", obj->GetUserID(), g_UserManager.GetUserNums());
-		g_UserManager.Remove(obj->GetUserID());
-		printf("AgemtFactory::Instance()->FreeUser()\n");
-		AgentFactory::Instance()->FreeUser(obj);		
+	printf("[AgentServer::DestroyClientSideAcceptedObject]: Free User or TempUser.\n");
+	UserSession * pSession = (UserSession *)pObjs;
+	eUSER_TYPE eType = pSession->GetUserType();
+	if ( eType == UT_USER ) {
+		pSession->Release();		
 	}
+	else if ( eType == UT_TEMP_USER ) {
+		pSession->Release();
+	}
+	
+	
 }
 
 VOID DestroyClientSideConnectedObject( NetworkObject * pNetworkObject ) {

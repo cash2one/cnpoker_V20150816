@@ -63,12 +63,13 @@ TempUserSession * AgentFactory::AllocTempUserSession() {
 	if (m_pTempUserSessionPool == NULL) {
 		return NULL;
 	}
-	TempUserSession * pSession = m_pTempUserSessionPool->Alloc();
-	if ( pSession != NULL ) {
-		pSession->Release();
-	}
+	return m_pTempUserSessionPool->Alloc();
+	//TempUserSession * pSession = m_pTempUserSessionPool->Alloc();
+	//if ( pSession != NULL ) {
+	//	pSession->Release();
+	//}
 		
-	return pSession;
+	//return pSession;
 }
 void AgentFactory::FreeTempUserSession(TempUserSession * pUser) {
 	return m_pTempUserSessionPool->Free(pUser);

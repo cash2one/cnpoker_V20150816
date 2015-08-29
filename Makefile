@@ -19,7 +19,8 @@ PublicObjs 		= Public/Yond_drng.o \
 				  Public/InfoParser.o \
 				  Public/AgentInfo.o \
 				  Public/Poker.o \
-				  Public/Yond_md5.o
+				  Public/Yond_md5.o \
+				  Public/MsgProcess.o
 	  
 UtilityObjs 	= Utility/Yond_mutex.o \
 				  Utility/Yond_ini.o \
@@ -105,7 +106,8 @@ DBServerObjs 	= HyMysql/HyDatabase.o \
 				  
 BINDIR = bin
 
-all: checkbin $(BINDIR)/AgentServer $(BINDIR)/GameServer $(BINDIR)/DBServer 
+all: checkbin $(BINDIR)/AgentServer $(BINDIR)/GameServer 
+#$(BINDIR)/DBServer 
 #$(BINDIR)/LoginServer
 
 $(BINDIR)/AgentServer: $(UtilityObjs) $(PublicObjs) $(NetworkObjs) $(AgentServerObjs)
@@ -114,8 +116,8 @@ $(BINDIR)/AgentServer: $(UtilityObjs) $(PublicObjs) $(NetworkObjs) $(AgentServer
 $(BINDIR)/GameServer: $(UtilityObjs) $(PublicObjs) $(NetworkObjs) $(GameServerObjs)
 	$(CC) -g $^ -o $@ -pthread
 
-$(BINDIR)/DBServer: $(UtilityObjs) $(PublicObjs) $(NetworkObjs) $(DBServerObjs)
-	$(CC) -g $(MYSQLLIB) $^ -o $@ -pthread
+#$(BINDIR)/DBServer: $(UtilityObjs) $(PublicObjs) $(NetworkObjs) $(DBServerObjs)
+#	$(CC) -g $(MYSQLLIB) $^ -o $@ -pthread
 
 #$(BINDIR)/LoginServer: $(UtilityObjs) $(PublicObjs) $(NetworkObjs) $(LoginServerObjs)
 #	$(CC) -g $^ -o $@ -pthread
@@ -145,7 +147,7 @@ cleanAll:
 	rm -f DBSrv/*.o
 	rm -f $(BINDIR)/AgentServer
 	rm -f $(BINDIR)/GameServer
-	rm -f $(BINDIR)/DBServer	
+#	rm -f $(BINDIR)/DBServer	
 #	rm -f $(BINDIR)/LoginServer
 	
 cleanGame:
@@ -158,7 +160,7 @@ cleanGame:
 #	rm -f LoginSrv/*.o
 #	rm -f $(BINDIR)/LoginServer
 
-cleanDB:
-	rm -f HyMysql/*.o
-	rm -f DBSrv/*.o
-	rm -f $(BINDIR)/DBServer	
+#cleanDB:
+#	rm -f HyMysql/*.o
+#	rm -f DBSrv/*.o
+#	rm -f $(BINDIR)/DBServer	

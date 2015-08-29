@@ -29,7 +29,7 @@ VOID UserManager::InitUserSize( DWORD dwUserSize )
 
 DWORD UserManager::AddUser( User * pUser )
 {
-	assert(pUser != NULL);
+	assert( pUser != NULL );
 	DWORD dwUserKey = AllocKey();
 	m_pUserHashTable->Add( pUser, dwUserKey );
 	return dwUserKey;
@@ -53,9 +53,10 @@ void UserManager::Remove( DWORD dwUserKey )
 	{
 		printf("[UserManager::Remove] User[%d] is NULL!!", dwUserKey);
 		return;
-	}
+	}	
 	m_pUserHashTable->Remove( dwUserKey );	
 	m_UserKey.RestoreKey( dwUserKey );
+	printf("[UserManager::Remove] User Key : %d\n", dwUserKey);
 }
 
 void UserManager::Remove( User * pUser )

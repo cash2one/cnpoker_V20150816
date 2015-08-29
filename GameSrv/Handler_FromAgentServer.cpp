@@ -22,7 +22,7 @@ HANDLER_IMPL( AG_Login_REQ )
 	printf("uiRootID = %d\n", uiRootID);
 	
 	MSG_GD_LOGIN_REQ msg2;
-	msg2.m_dwParameter = pRecvMsg->m_dwParameter;
+	msg2.m_dwParameter = pRecvMsg->m_dwParameter; // User ID
 	msg2.m_uiRootID = uiRootID;
 	
 	g_GameServer->SendToDBServer( (BYTE *)&msg2, sizeof(msg2) );
@@ -31,10 +31,16 @@ HANDLER_IMPL( AG_Login_REQ )
 HANDLER_IMPL( AG_Logout_REQ )
 {
 	printf("Logout: <2> AG_Logout_REQ\n");
+
 	MSG_AG_LOGOUT_REQ * pRecvMsg = (MSG_AG_LOGOUT_REQ *)pMsg;
 	
+	DWORD uiRootID = pRecvMsg->m_uiRootID;
+	printf("uiRootID = %d\n", uiRootID);
 	
-	
+	MSG_GD_LOGOUT_REQ msg2;
+	msg2.m_dwParameter = pRecvMsg->m_dwParameter; // User ID
+	msg2.m_uiRootID = uiRootID;
+	g_GameServer->SendToDBServer( (BYTE *)&msg2, sizeof(msg2) );	
 }
 
 HANDLER_IMPL( AG_StartGame_REQ )

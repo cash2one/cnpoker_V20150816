@@ -12,10 +12,14 @@ public:
 	TempUserSession();
 	virtual ~TempUserSession();
 	
+	virtual eUSER_TYPE GetUserType() { return UT_TEMP_USER; }
+	
 	virtual void Init();
-	virtual void Release();
+	virtual void Release(); // 释放函数
 	
 	BOOL DeCode( BYTE * pMsg, WORD wSize );
+	
+	
 	
 protected:
 	virtual void	OnRecv( BYTE *pMsg, WORD wSize );

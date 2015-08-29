@@ -54,9 +54,9 @@ void PacketHandler::Register_DG()
 BOOL PacketHandler::AddHandler_AG( WORD category, WORD protocol, fnHandler fnHandler)
 {
 	FUNC_AG * pFuncInfo	= new FUNC_AG;
-	printf("category:%d,protocol:%d\n", category, protocol);	
+	//printf("category:%d,protocol:%d\n", category, protocol);	
 	pFuncInfo->m_dwFunctionKey	= MAKELONG( category, protocol );
-	printf("m_dwFunctionKey:%d\n", pFuncInfo->m_dwFunctionKey);
+	//printf("m_dwFunctionKey:%d\n", pFuncInfo->m_dwFunctionKey);
 	pFuncInfo->m_fnHandler		= fnHandler;
 	
 	return m_pFuncMap_AG->Add( pFuncInfo );

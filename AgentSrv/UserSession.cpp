@@ -8,32 +8,6 @@ UserSession::~UserSession()
 {
 }
 
-BOOL UserSession::SendPacket(BYTE *pMsg, WORD wSize)
-{
-	return Send( (BYTE *)pMsg, wSize );
-}
-
-void UserSession::SendClient(BYTE *pMsg, WORD wSize)
-{
-
-}
-	
-void UserSession::SendGame(BYTE *pMsg, WORD wSize)
-{
-	
-}
-
-DWORD UserSession::GetUserID() const
-{
-	return m_dwUserID;
-}
-
-void  UserSession::SetUserID(DWORD dwID)
-{
-	m_dwUserID = dwID;
-}
-
-/************ protected *************/
 void UserSession::Init()
 {
 	m_dwUserID = 0;
@@ -45,6 +19,34 @@ void UserSession::Release()
 	
 }
 
+BOOL UserSession::SendPacket( BYTE *pMsg, WORD wSize )
+{
+	return Send( (BYTE *)pMsg, wSize );
+}
+
+#if 0
+void UserSession::SendClient( BYTE *pMsg, WORD wSize )
+{
+
+}
+	
+void UserSession::SendGame( BYTE *pMsg, WORD wSize )
+{
+	
+}
+#endif
+
+DWORD UserSession::GetUserID() const
+{
+	return m_dwUserID;
+}
+
+void  UserSession::SetUserID( DWORD dwUserID )
+{
+	m_dwUserID = dwUserID;
+}
+
+/************ protected *************/
 void UserSession::OnAccept( DWORD dwNetworkIndex )
 {
 	

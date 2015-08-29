@@ -19,7 +19,7 @@ HANDLER_IMPL( AG_Login_ANC )
 	MSG_AG_LOGIN_ANC * pRecvMsg = (MSG_AG_LOGIN_ANC *)pMsg;
 	
 	// 查找用户
-	User * pUser = g_UserManager.FindUser(pRecvMsg->m_dwParameter);
+	User * pUser = g_UserManager.FindUser( pRecvMsg->m_dwParameter );
 	if ( pUser == NULL ) {
 		printf("g_UserManager.FindUser(%d) Fail\n", pRecvMsg->m_dwParameter);
 		return;
@@ -35,14 +35,31 @@ HANDLER_IMPL( AG_Login_ANC )
 
 HANDLER_IMPL( AG_Logout_ANC )
 {
-	printf("Recv GameServer Msg --> AG_StartGame_ANC Success\n");
+	printf("Logout: <5> AG_Logout_ANC\n");
+	MSG_AG_LOGOUT_ANC * pRecvMsg = (MSG_AG_LOGOUT_ANC *)pMsg;
+	DWORD dwUserID = pRecvMsg->m_dwParameter;
+	printf("UserID = %d\n", dwUserID);
+	
+	// 查找用户
+	User * pUser = g_UserManager.FindUser( pRecvMsg->m_dwParameter );
+	if ( pUser == NULL ) {
+		printf("g_UserManager.FindUser(%d) Fail\n", pRecvMsg->m_dwParameter);
+		return;
+	}
+	
+	// 此处不释放。 在 DestroyClientSide 时释放
+	
+	// 返回应答消息给 Client
+	MSG_CA_LOGOUT_ANC msg2;
+	msg2.m_dwParameter = dwUserID;
+	pUser->SendPacket( (BYTE *)&msg2, wSize );	
 }
 
 HANDLER_IMPL( AG_StartGame_ANC )
 {
 	printf("Recv GameServer Msg --> AG_StartGame_ANC Success\n");
 	MSG_AG_START_GAME_ANC * pRecvMsg = (MSG_AG_START_GAME_ANC *)pMsg;
-	printf("%d ?= 40, %d ?= 2001, UserKey=%d\n", pRecvMsg->m_byCategory, pRecvMsg->m_byProtocol, pRecvMsg->m_dwParameter);
+	//printf("%d ?= 40, %d ?= 2001, UserKey=%d\n", pRecvMsg->m_byCategory, pRecvMsg->m_byProtocol, pRecvMsg->m_dwParameter);
 	
 	User * pUser = g_UserManager.FindUser(pRecvMsg->m_dwParameter);
 	if ( pUser == NULL ) {
